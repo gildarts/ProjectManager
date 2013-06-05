@@ -1,0 +1,942 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CF7445F4-081C-4ACF-965F-EB8CFDCD3197}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProjectManager</RootNamespace>
+    <AssemblyName>ProjectManager</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>applescript_utility.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ActiproSoftware.Shared.Net20, Version=1.0.93.0, Culture=neutral, PublicKeyToken=36ff2196ab5654b9">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ActiproSoftware.SyntaxEditor.Addons.Web.Net20, Version=4.0.262.0, Culture=neutral, PublicKeyToken=21a821480e210563">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ActiproSoftware.SyntaxEditor.Net20, Version=4.0.262.0, Culture=neutral, PublicKeyToken=21a821480e210563">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ActiproSoftware.WinUICore.Net20, Version=1.0.102.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Common Files\Actipro Software\WindowsForms\WinUICore\v1.0.0093\ActiproSoftware.WinUICore.Net20.dll</HintPath>
+    </Reference>
+    <Reference Include="FISCA.Core">
+      <HintPath>D:\develop_apps\AutoUpdateExample\lib\FISCA.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FISCA.DSAClient">
+      <HintPath>..\..\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\FISCA.DSAClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Script">
+      <HintPath>D:\develop_apps\AutoUpdateExample\lib\Script.exe</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\AbstractUIEditable.cs" />
+    <Compile Include="ActionHandler\AbstractXmlEditable.cs" />
+    <Compile Include="ActionHandler\DeleteProjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\DeleteProjectForm.Designer.cs">
+      <DependentUpon>DeleteProjectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\DeployForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\DeployForm.Designer.cs">
+      <DependentUpon>DeployForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\EditAllCmdForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\EditAllCmdForm.Designer.cs">
+      <DependentUpon>EditAllCmdForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\EditMatchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\EditMatchForm.Designer.cs">
+      <DependentUpon>EditMatchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\Files\DownloadForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\Files\DownloadForm.Designer.cs">
+      <DependentUpon>DownloadForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\Files\FileEditable.cs" />
+    <Compile Include="ActionHandler\Files\FileNodeHandler.cs" />
+    <Compile Include="ActionHandler\Files\FileUIEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\Files\FileUIEditor.Designer.cs">
+      <DependentUpon>FileUIEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\Files\Modifier.cs" />
+    <Compile Include="ActionHandler\Files\ModifierCollection.cs" />
+    <Compile Include="ActionHandler\Files\ModuleHandler.cs" />
+    <Compile Include="ActionHandler\Files\ProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\Files\ProgressForm.Designer.cs">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\Files\UploadFile.cs" />
+    <Compile Include="ActionHandler\INodeHandler.cs" />
+    <Compile Include="ActionHandler\IAddable.cs" />
+    <Compile Include="ActionHandler\IDeleteable.cs" />
+    <Compile Include="ActionHandler\IDeployable.cs" />
+    <Compile Include="ActionHandler\IDeployToPhysical.cs" />
+    <Compile Include="ActionHandler\IEditable.cs" />
+    <Compile Include="ActionHandler\IEditorManager.cs" />
+    <Compile Include="ActionHandler\IExportable.cs" />
+    <Compile Include="ActionHandler\IImportable.cs" />
+    <Compile Include="ActionHandler\IImportFromPhysical.cs" />
+    <Compile Include="ActionHandler\IJoinProject.cs" />
+    <Compile Include="ActionHandler\ILeaveProject.cs" />
+    <Compile Include="ActionHandler\IReloadable.cs" />
+    <Compile Include="ActionHandler\IRenameable.cs" />
+    <Compile Include="ActionHandler\ISetupable.cs" />
+    <Compile Include="ActionHandler\ISyncDownload.cs" />
+    <Compile Include="ActionHandler\ISyncUpload.cs" />
+    <Compile Include="ActionHandler\ITestable.cs" />
+    <Compile Include="ActionHandler\IXmlEditable.cs" />
+    <Compile Include="ActionHandler\ProjectNodeHandler.cs" />
+    <Compile Include="ActionHandler\UDS\Contract\AddContractForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\AddContractForm.Designer.cs">
+      <DependentUpon>AddContractForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\AuthEditors\AddExtPropForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\AuthEditors\AddExtPropForm.Designer.cs">
+      <DependentUpon>AddExtPropForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\AuthEditors\AddRestrictForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\AuthEditors\AddRestrictForm.Designer.cs">
+      <DependentUpon>AddRestrictForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\AuthEditors\AdvAuthEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\AuthEditors\AdvAuthEditor.Designer.cs">
+      <DependentUpon>AdvAuthEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\AuthEditors\ExtendAuthEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\AuthEditors\ExtendAuthEditor.Designer.cs">
+      <DependentUpon>ExtendAuthEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\AuthEditors\ExtPropForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\AuthEditors\ExtPropForm.Designer.cs">
+      <DependentUpon>ExtPropForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\AuthEditors\IResultGetter.cs" />
+    <Compile Include="ActionHandler\UDS\Contract\AuthEditors\PublicAuthEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\AuthEditors\PublicAuthEditor.Designer.cs">
+      <DependentUpon>PublicAuthEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\ContractEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\ContractEditor.Designer.cs">
+      <DependentUpon>ContractEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\ContractTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\ContractTestForm.Designer.cs">
+      <DependentUpon>ContractTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Contract\ContractUIEditable.cs" />
+    <Compile Include="ActionHandler\UDS\Contract\ContractXmlEditable.cs" />
+    <Compile Include="ActionHandler\UDS\Contract\ExtendType.cs" />
+    <Compile Include="ActionHandler\UDS\Contract\ContractNodeHandler.cs" />
+    <Compile Include="ActionHandler\UDS\Contract\IContractEditor.cs" />
+    <Compile Include="ActionHandler\UDS\Contract\JoinableContractNodeHandler.cs" />
+    <Compile Include="ActionHandler\UDS\Contract\LeaveableContractNodeHandler.cs" />
+    <Compile Include="ActionHandler\UDS\DeployToPhysicalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\DeployToPhysicalForm.Designer.cs">
+      <DependentUpon>DeployToPhysicalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\ImportFromPhysicalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\ImportFromPhysicalForm.Designer.cs">
+      <DependentUpon>ImportFromPhysicalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Package\AddPackageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Package\AddPackageForm.Designer.cs">
+      <DependentUpon>AddPackageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Package\PackageNodeHandler.cs" />
+    <Compile Include="ActionHandler\UDS\Service\AddServiceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\AddServiceForm.Designer.cs">
+      <DependentUpon>AddServiceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Editable\Delete\DeleteServiceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Editable\Delete\DeleteServiceEditor.Designer.cs">
+      <DependentUpon>DeleteServiceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Editable\Insert\InsertServiceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Editable\Insert\InsertServiceEditor.Designer.cs">
+      <DependentUpon>InsertServiceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Editable\IServiceUI.cs" />
+    <Compile Include="ActionHandler\UDS\Service\Editable\Select\SelectServiceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Editable\Select\SelectServiceEditor.Designer.cs">
+      <DependentUpon>SelectServiceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Editable\Set\SetServiceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Editable\Set\SetServiceEditor.Designer.cs">
+      <DependentUpon>SetServiceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Editable\Set\SetServiceEntity.cs" />
+    <Compile Include="ActionHandler\UDS\Service\Editable\Update\UpdateServiceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Editable\Update\UpdateServiceEditor.Designer.cs">
+      <DependentUpon>UpdateServiceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Editable\Xml\XmlServiceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Editable\Xml\XmlServiceEditor.Designer.cs">
+      <DependentUpon>XmlServiceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\EditConditionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\EditConditionForm.Designer.cs">
+      <DependentUpon>EditConditionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\EditConverterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\EditConverterForm.Designer.cs">
+      <DependentUpon>EditConverterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\EditFieldForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\EditFieldForm.Designer.cs">
+      <DependentUpon>EditFieldForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\EditProcessorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\EditProcessorForm.Designer.cs">
+      <DependentUpon>EditProcessorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\EditVariableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\EditVariableForm.Designer.cs">
+      <DependentUpon>EditVariableForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\DAL\ServiceDAL.cs" />
+    <Compile Include="ActionHandler\UDS\Service\PreviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\PreviewForm.Designer.cs">
+      <DependentUpon>PreviewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\ServiceFactory.cs" />
+    <Compile Include="ActionHandler\UDS\Service\Editable\ServiceUIEditable.cs" />
+    <Compile Include="ActionHandler\UDS\Service\Editable\ServiceXmlEditable.cs" />
+    <Compile Include="ActionHandler\UDS\Service\Test\TempGenerator\DeleteTempGenerator.cs" />
+    <Compile Include="ActionHandler\UDS\Service\Test\TempGenerator\InsertTempGenerator.cs" />
+    <Compile Include="ActionHandler\UDS\Service\Test\TempGenerator\ITempGenerator.cs" />
+    <Compile Include="ActionHandler\UDS\Service\Test\PassportSecurityToken.cs" />
+    <Compile Include="ActionHandler\UDS\Service\Test\SecurityTokenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Test\SecurityTokenForm.Designer.cs">
+      <DependentUpon>SecurityTokenForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Test\TempGenerator\SelectTempGenerator.cs" />
+    <Compile Include="ActionHandler\UDS\Service\Test\TempGenerator\TempGenProvider.cs" />
+    <Compile Include="ActionHandler\UDS\Service\Test\TempGenerator\UpdateTempGenerator.cs" />
+    <Compile Include="ActionHandler\UDS\Service\Test\TestServiceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Test\TestServiceForm.Designer.cs">
+      <DependentUpon>TestServiceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\UDSImportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\UDSImportForm.Designer.cs">
+      <DependentUpon>UDSImportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\UDSNodeEditable.cs" />
+    <Compile Include="ActionHandler\UDS\UDSUIEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\UDSUIEditor.Designer.cs">
+      <DependentUpon>UDSUIEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\BatchImportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\BatchImportForm.Designer.cs">
+      <DependentUpon>BatchImportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\Command\AddFieldCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\AddForeignKeyCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\AlterFieldAllowNullCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\AlterFieldDataTypeCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\AlterFieldDropDefaultCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\AlterFieldIndexedCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\AlterFieldSetDefaultCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\CmdEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\Command\CmdEditorForm.Designer.cs">
+      <DependentUpon>CmdEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\Command\CreateTableCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\DropTableCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\ImportTableCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\IUDTCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\RemoveFieldCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\RemoveForeignKeyCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\RemoveUniqueCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\RenameFieldCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\RenameTableCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\SetUniqueCommand.cs" />
+    <Compile Include="ActionHandler\UDT\Command\UDTCmdProvider.cs" />
+    <Compile Include="ActionHandler\UDT\CompressExportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\CompressExportForm.Designer.cs">
+      <DependentUpon>CompressExportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\DecompressImportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\DecompressImportForm.Designer.cs">
+      <DependentUpon>DecompressImportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\EditDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\EditDataForm.Designer.cs">
+      <DependentUpon>EditDataForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\FilterConditionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\FilterConditionForm.Designer.cs">
+      <DependentUpon>FilterConditionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\FKForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\FKForm.Designer.cs">
+      <DependentUpon>FKForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\JoinableTableNodeHandler.cs" />
+    <Compile Include="ActionHandler\UDT\LeaveableTableNodeHandler.cs" />
+    <Compile Include="ActionHandler\UDT\TableUIEditable.cs" />
+    <Compile Include="ActionHandler\UDT\TableXmlEditable.cs" />
+    <Compile Include="ActionHandler\UDT\TextViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\TextViewForm.Designer.cs">
+      <DependentUpon>TextViewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\UDTImportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\UDTImportForm.Designer.cs">
+      <DependentUpon>UDTImportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\UDTNodeEditable.cs" />
+    <Compile Include="ActionHandler\UDT\UDTTableEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\UDTTableEditor.Designer.cs">
+      <DependentUpon>UDTTableEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\UDTTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\UDTTestForm.Designer.cs">
+      <DependentUpon>UDTTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\XmlEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\XmlEditor.Designer.cs">
+      <DependentUpon>XmlEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckVersionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckVersionForm.Designer.cs">
+      <DependentUpon>CheckVersionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editor\SQLText.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editor\SQLText.Designer.cs">
+      <DependentUpon>SQLText.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Downloader\DownloadFile.cs" />
+    <Compile Include="Downloader\HttpDownloader.cs" />
+    <Compile Include="Editor\XmlEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editor\XmlEditor.Designer.cs">
+      <DependentUpon>XmlEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoadProjectFromFileForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadProjectFromFileForm.Designer.cs">
+      <DependentUpon>LoadProjectFromFileForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\ResetDevSiteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\ResetDevSiteForm.Designer.cs">
+      <DependentUpon>ResetDevSiteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\Security\PublicSecurityToken.cs" />
+    <Compile Include="ProjectPreferenceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProjectPreferenceForm.Designer.cs">
+      <DependentUpon>ProjectPreferenceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Project\Proxy\EditProxyDeployForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Project\Proxy\EditProxyDeployForm.Designer.cs">
+      <DependentUpon>EditProxyDeployForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Project\SetLocalPathForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Project\SetLocalPathForm.Designer.cs">
+      <DependentUpon>SetLocalPathForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Condition.cs" />
+    <Compile Include="Project\UDS\Service\ConditionList.cs" />
+    <Compile Include="Project\UDS\Service\ConverterType.cs" />
+    <Compile Include="Project\UDS\Service\Converter\ConverterProvider.cs" />
+    <Compile Include="Project\UDS\Service\Converter\DateFormatConverter.cs" />
+    <Compile Include="Project\UDS\Service\Converter\DecodeConverter.cs" />
+    <Compile Include="Project\UDS\Service\Converter\EncodeConverter.cs" />
+    <Compile Include="Project\UDS\Service\Converter\IConverter.cs" />
+    <Compile Include="Project\UDS\Service\Field.cs" />
+    <Compile Include="Project\UDS\Service\FieldList.cs" />
+    <Compile Include="ActionHandler\UDS\Service\ServiceNodeHandler.cs" />
+    <Compile Include="ActionHandler\UDS\UDSNodeHandler.cs" />
+    <Compile Include="ActionHandler\UDS\UDSEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDS\UDSEditor.Designer.cs">
+      <DependentUpon>UDSEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\AddUDTForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\AddUDTForm.Designer.cs">
+      <DependentUpon>AddUDTForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\AddUniqForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\AddUniqForm.Designer.cs">
+      <DependentUpon>AddUniqForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\TableEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\TableEditor.Designer.cs">
+      <DependentUpon>TableEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionHandler\UDT\TableNodeHandler.cs" />
+    <Compile Include="ActionHandler\UDT\UDTNodeHandler.cs" />
+    <Compile Include="AddProjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddProjectForm.Designer.cs">
+      <DependentUpon>AddProjectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\DevSiteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\DevSiteForm.Designer.cs">
+      <DependentUpon>DevSiteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\DevSiteLoginInfo.cs" />
+    <Compile Include="Login\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\LoginEventArgs.cs" />
+    <Compile Include="Login\Security\LocalStorage.cs" />
+    <Compile Include="Login\Security\PassportSecurityToken.cs" />
+    <Compile Include="Login\Security\TripleDESHelper.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Project\ProjectCollection.cs" />
+    <Compile Include="Project\ProjectHandler.cs" />
+    <Compile Include="Project\UDS\Contract\ContractHandler.cs" />
+    <Compile Include="Project\UDS\Package\PackageHandler.cs" />
+    <Compile Include="Project\UDS\Service\Converter\MappingConverter.cs" />
+    <Compile Include="Project\UDS\Service\Order.cs" />
+    <Compile Include="Project\UDS\Service\OrderList.cs" />
+    <Compile Include="Project\UDS\Service\Pagination.cs" />
+    <Compile Include="Project\UDS\Service\Preprocess.cs" />
+    <Compile Include="Project\UDS\Service\ServiceEntity.cs" />
+    <Compile Include="Project\UDS\Service\Variable\ClientInfoVariable.cs" />
+    <Compile Include="Project\UDS\Service\Variable\ClientInfoVariableEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Variable\ClientInfoVariableEditor.Designer.cs">
+      <DependentUpon>ClientInfoVariableEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Variable\IVariable.cs" />
+    <Compile Include="Project\UDS\Service\Variable\LiteralVariable.cs" />
+    <Compile Include="Project\UDS\Service\Variable\LiteralVariableEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Variable\LiteralVariableEditor.Designer.cs">
+      <DependentUpon>LiteralVariableEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Variable\RequestVariable.cs" />
+    <Compile Include="Project\UDS\Service\Variable\RequestVariableEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Variable\RequestVariableEditor.Designer.cs">
+      <DependentUpon>RequestVariableEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Variable\ResourceVariable.cs" />
+    <Compile Include="Project\UDS\Service\Variable\ResourceVariableEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Variable\ResourceVariableEditor.Designer.cs">
+      <DependentUpon>ResourceVariableEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Variable\SQLVariable.cs" />
+    <Compile Include="Project\UDS\Service\Variable\SQLVariableEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Variable\SQLVariableEditor.Designer.cs">
+      <DependentUpon>SQLVariableEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Variable\UserInfoVariable.cs" />
+    <Compile Include="Project\UDS\Service\Variable\UserInfoVariableEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Variable\UserInfoVariableEditor.Designer.cs">
+      <DependentUpon>UserInfoVariableEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Variable\UUIDVariable.cs" />
+    <Compile Include="Project\UDS\Service\Variable\UUIDVariableEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Variable\UUIDVariableEditor.Designer.cs">
+      <DependentUpon>UUIDVariableEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Project\UDS\Service\Variable\VariableFactory.cs" />
+    <Compile Include="Project\UDS\UDSHandler.cs" />
+    <Compile Include="Project\UDT\UDTHandler.cs" />
+    <Compile Include="Project\UDT\UDTTable.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Project\Proxy\ProxyDeployForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Project\Proxy\ProxyDeployForm.Designer.cs">
+      <DependentUpon>ProxyDeployForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupConfigForm.Designer.cs">
+      <DependentUpon>SetupConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SqlDynamicSyntaxLanguage.cs" />
+    <Compile Include="Uploader\FtpUploader.cs" />
+    <Compile Include="Uploader\IUploader.cs" />
+    <Compile Include="Uploader\ProgressEventArgs.cs" />
+    <Compile Include="Uploader\UploaderFactory.cs" />
+    <Compile Include="Util\AESHelper.cs" />
+    <Compile Include="Util\BatchHelper.cs" />
+    <Compile Include="Util\CalcUtil.cs" />
+    <Compile Include="Util\CompressUtil.cs" />
+    <Compile Include="Util\Converter\ComponentConverter.cs" />
+    <Compile Include="Util\Converter\DBHelperConverter.cs" />
+    <Compile Include="Util\Converter\DeployConverter.cs" />
+    <Compile Include="Util\Converter\IServiceConverter.cs" />
+    <Compile Include="Util\Converter\RemoteComponentConverter.cs" />
+    <Compile Include="Util\Converter\ServiceConverterFactory.cs" />
+    <Compile Include="Util\Converter\UI\ConvertToPhysicalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Util\Converter\UI\ConvertToPhysicalForm.Designer.cs">
+      <DependentUpon>ConvertToPhysicalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Util\Converter\UI\ConvertToUDSForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Util\Converter\UI\ConvertToUDSForm.Designer.cs">
+      <DependentUpon>ConvertToUDSForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Util\PathHelper.cs" />
+    <Compile Include="Util\StringUtil.cs" />
+    <EmbeddedResource Include="AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\DeleteProjectForm.resx">
+      <DependentUpon>DeleteProjectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\DeployForm.resx">
+      <DependentUpon>DeployForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\EditAllCmdForm.resx">
+      <DependentUpon>EditAllCmdForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\EditMatchForm.resx">
+      <DependentUpon>EditMatchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\Files\DownloadForm.resx">
+      <DependentUpon>DownloadForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\Files\FileUIEditor.resx">
+      <DependentUpon>FileUIEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\Files\ProgressForm.resx">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Contract\AddContractForm.resx">
+      <DependentUpon>AddContractForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Contract\AuthEditors\AddExtPropForm.resx">
+      <DependentUpon>AddExtPropForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Contract\AuthEditors\AddRestrictForm.resx">
+      <DependentUpon>AddRestrictForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Contract\AuthEditors\AdvAuthEditor.resx">
+      <DependentUpon>AdvAuthEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Contract\AuthEditors\ExtendAuthEditor.resx">
+      <DependentUpon>ExtendAuthEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Contract\AuthEditors\ExtPropForm.resx">
+      <DependentUpon>ExtPropForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Contract\ContractEditor.resx">
+      <DependentUpon>ContractEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Contract\ContractTestForm.resx">
+      <DependentUpon>ContractTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\DeployToPhysicalForm.resx">
+      <DependentUpon>DeployToPhysicalForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\ImportFromPhysicalForm.resx">
+      <DependentUpon>ImportFromPhysicalForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Package\AddPackageForm.resx">
+      <DependentUpon>AddPackageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\AddServiceForm.resx">
+      <DependentUpon>AddServiceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\Editable\Delete\DeleteServiceEditor.resx">
+      <DependentUpon>DeleteServiceEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\Editable\Insert\InsertServiceEditor.resx">
+      <DependentUpon>InsertServiceEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\Editable\Select\SelectServiceEditor.resx">
+      <DependentUpon>SelectServiceEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\Editable\Set\SetServiceEditor.resx">
+      <DependentUpon>SetServiceEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\Editable\Update\UpdateServiceEditor.resx">
+      <DependentUpon>UpdateServiceEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\Editable\Xml\XmlServiceEditor.resx">
+      <DependentUpon>XmlServiceEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\EditConditionForm.resx">
+      <DependentUpon>EditConditionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\EditConverterForm.resx">
+      <DependentUpon>EditConverterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\EditFieldForm.resx">
+      <DependentUpon>EditFieldForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\EditProcessorForm.resx">
+      <DependentUpon>EditProcessorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\EditVariableForm.resx">
+      <DependentUpon>EditVariableForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\PreviewForm.resx">
+      <DependentUpon>PreviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\Test\SecurityTokenForm.resx">
+      <DependentUpon>SecurityTokenForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\Service\Test\TestServiceForm.resx">
+      <DependentUpon>TestServiceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\UDSEditor.resx">
+      <DependentUpon>UDSEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\UDSImportForm.resx">
+      <DependentUpon>UDSImportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDS\UDSUIEditor.resx">
+      <DependentUpon>UDSUIEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDT\AddUDTForm.resx">
+      <DependentUpon>AddUDTForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDT\AddUniqForm.resx">
+      <DependentUpon>AddUniqForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDT\BatchImportForm.resx">
+      <DependentUpon>BatchImportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDT\Command\CmdEditorForm.resx">
+      <DependentUpon>CmdEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDT\CompressExportForm.resx">
+      <DependentUpon>CompressExportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDT\DecompressImportForm.resx">
+      <DependentUpon>DecompressImportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDT\EditDataForm.resx">
+      <DependentUpon>EditDataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDT\FilterConditionForm.resx">
+      <DependentUpon>FilterConditionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDT\FKForm.resx">
+      <DependentUpon>FKForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDT\TableEditor.resx">
+      <DependentUpon>TableEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDT\TextViewForm.resx">
+      <DependentUpon>TextViewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDT\UDTImportForm.resx">
+      <DependentUpon>UDTImportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDT\UDTTableEditor.resx">
+      <DependentUpon>UDTTableEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\UDT\UDTTestForm.resx">
+      <DependentUpon>UDTTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\XmlEditor.resx">
+      <DependentUpon>XmlEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddProjectForm.resx">
+      <DependentUpon>AddProjectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckVersionForm.resx">
+      <DependentUpon>CheckVersionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editor\SQLText.resx">
+      <DependentUpon>SQLText.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editor\XmlEditor.resx">
+      <DependentUpon>XmlEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadProjectFromFileForm.resx">
+      <DependentUpon>LoadProjectFromFileForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\DevSiteForm.resx">
+      <DependentUpon>DevSiteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\ResetDevSiteForm.resx">
+      <DependentUpon>ResetDevSiteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectPreferenceForm.resx">
+      <DependentUpon>ProjectPreferenceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\Proxy\EditProxyDeployForm.resx">
+      <DependentUpon>EditProxyDeployForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\SetLocalPathForm.resx">
+      <DependentUpon>SetLocalPathForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\UDS\Service\Variable\ClientInfoVariableEditor.resx">
+      <DependentUpon>ClientInfoVariableEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\UDS\Service\Variable\LiteralVariableEditor.resx">
+      <DependentUpon>LiteralVariableEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\UDS\Service\Variable\RequestVariableEditor.resx">
+      <DependentUpon>RequestVariableEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\UDS\Service\Variable\ResourceVariableEditor.resx">
+      <DependentUpon>ResourceVariableEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\UDS\Service\Variable\SQLVariableEditor.resx">
+      <DependentUpon>SQLVariableEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\UDS\Service\Variable\UserInfoVariableEditor.resx">
+      <DependentUpon>UserInfoVariableEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\UDS\Service\Variable\UUIDVariableEditor.resx">
+      <DependentUpon>UUIDVariableEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Project\Proxy\ProxyDeployForm.resx">
+      <DependentUpon>ProxyDeployForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupConfigForm.resx">
+      <DependentUpon>SetupConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Util\Converter\UI\ConvertToPhysicalForm.resx">
+      <DependentUpon>ConvertToPhysicalForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Util\Converter\UI\ConvertToUDSForm.resx">
+      <DependentUpon>ConvertToUDSForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ActiproSoftware.SQL.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="applescript_utility.ico" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

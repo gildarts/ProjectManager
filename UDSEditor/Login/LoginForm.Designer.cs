@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.lnkSetup = new System.Windows.Forms.LinkLabel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.chkRemember = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -42,7 +41,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblInfo = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,18 +48,18 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.Controls.Add(this.lnkSetup);
-            this.panel1.Controls.Add(this.pictureBox2);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(331, 74);
-            this.panel1.TabIndex = 0;
+            this.panel1.Size = new System.Drawing.Size(414, 86);
+            this.panel1.TabIndex = 4;
             // 
             // lnkSetup
             // 
+            this.lnkSetup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkSetup.AutoSize = true;
-            this.lnkSetup.Location = new System.Drawing.Point(272, 55);
+            this.lnkSetup.Location = new System.Drawing.Point(331, 60);
             this.lnkSetup.Name = "lnkSetup";
             this.lnkSetup.Size = new System.Drawing.Size(56, 16);
             this.lnkSetup.TabIndex = 0;
@@ -69,108 +67,106 @@
             this.lnkSetup.Text = "登入設定";
             this.lnkSetup.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSetup_LinkClicked);
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox2.InitialImage")));
-            this.pictureBox2.Location = new System.Drawing.Point(242, 47);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(24, 24);
-            this.pictureBox2.TabIndex = 16;
-            this.pictureBox2.TabStop = false;
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Left;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(159, 74);
+            this.pictureBox1.Size = new System.Drawing.Size(204, 86);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
             // chkRemember
             // 
+            this.chkRemember.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkRemember.AutoSize = true;
-            this.chkRemember.Location = new System.Drawing.Point(121, 176);
+            this.chkRemember.Location = new System.Drawing.Point(71, 215);
             this.chkRemember.Name = "chkRemember";
             this.chkRemember.Size = new System.Drawing.Size(75, 20);
-            this.chkRemember.TabIndex = 6;
+            this.chkRemember.TabIndex = 1;
             this.chkRemember.Text = "記住密碼";
             this.chkRemember.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(253, 175);
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(308, 213);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(50, 23);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "關閉";
+            this.button2.Size = new System.Drawing.Size(79, 25);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "關閉 (&X)";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(197, 175);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(223, 213);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(50, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "登入";
+            this.button1.Size = new System.Drawing.Size(79, 25);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "登入 (&L)";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(59, 143);
+            this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPassword.Location = new System.Drawing.Point(71, 165);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '●';
-            this.txtPassword.Size = new System.Drawing.Size(244, 23);
-            this.txtPassword.TabIndex = 5;
+            this.txtPassword.Size = new System.Drawing.Size(316, 23);
+            this.txtPassword.TabIndex = 0;
             this.txtPassword.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtUser_KeyUp);
             // 
             // txtUser
             // 
+            this.txtUser.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUser.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.txtUser.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.txtUser.Location = new System.Drawing.Point(59, 114);
+            this.txtUser.Location = new System.Drawing.Point(71, 130);
             this.txtUser.Name = "txtUser";
-            this.txtUser.Size = new System.Drawing.Size(244, 23);
-            this.txtUser.TabIndex = 3;
+            this.txtUser.Size = new System.Drawing.Size(316, 23);
+            this.txtUser.TabIndex = 7;
             this.txtUser.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtUser_KeyUp);
             this.txtUser.Leave += new System.EventHandler(this.txtUser_Leave);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 146);
+            this.label2.Location = new System.Drawing.Point(21, 168);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 16);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "密碼";
+            this.label2.Size = new System.Drawing.Size(44, 16);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "密　碼";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 117);
+            this.label1.Location = new System.Drawing.Point(21, 133);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 16);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "帳號";
+            this.label1.Size = new System.Drawing.Size(44, 16);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "帳　號";
             // 
             // lblInfo
             // 
             this.lblInfo.AutoSize = true;
-            this.lblInfo.Location = new System.Drawing.Point(58, 94);
+            this.lblInfo.Location = new System.Drawing.Point(68, 107);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(160, 16);
-            this.lblInfo.TabIndex = 1;
-            this.lblInfo.Text = "※請輸入 Greening 帳號密碼";
+            this.lblInfo.Size = new System.Drawing.Size(136, 16);
+            this.lblInfo.TabIndex = 5;
+            this.lblInfo.Text = "請輸入 ischool Account";
             // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(331, 212);
+            this.ClientSize = new System.Drawing.Size(414, 251);
             this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.chkRemember);
@@ -191,7 +187,6 @@
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -210,7 +205,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.LinkLabel lnkSetup;
-        private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label lblInfo;
     }
 }

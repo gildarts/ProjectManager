@@ -42,7 +42,7 @@
             this.syntaxEditor1.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.syntaxEditor1.Location = new System.Drawing.Point(0, 0);
             this.syntaxEditor1.Name = "syntaxEditor1";
-            this.syntaxEditor1.Size = new System.Drawing.Size(310, 173);
+            this.syntaxEditor1.Size = new System.Drawing.Size(693, 440);
             this.syntaxEditor1.TabIndex = 0;
             this.syntaxEditor1.KeyTyped += new ActiproSoftware.SyntaxEditor.KeyTypedEventHandler(this.syntaxEditor1_KeyTyped);
             this.syntaxEditor1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.syntaxEditor1_KeyUp);
@@ -53,7 +53,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.syntaxEditor1);
             this.Name = "XmlEditor";
-            this.Size = new System.Drawing.Size(310, 173);
+            this.Size = new System.Drawing.Size(693, 440);
             this.ResumeLayout(false);
 
         }

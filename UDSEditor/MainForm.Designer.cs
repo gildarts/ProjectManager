@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("我的專案");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("我的專案");
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.帳號AToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmLogin = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,13 +79,13 @@
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tvProjects = new System.Windows.Forms.TreeView();
-            this.tsEditMode = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.cmUpload = new System.Windows.Forms.ToolStripButton();
             this.cmDownload = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.cmSetup = new System.Windows.Forms.ToolStripButton();
+            this.tsEditMode = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -94,8 +94,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.tsEditMode.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            this.tsEditMode.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -108,7 +108,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
-            this.menuStrip1.Size = new System.Drawing.Size(950, 26);
+            this.menuStrip1.Size = new System.Drawing.Size(1029, 26);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -298,7 +298,7 @@
             this.actImgs.Images.SetKeyName(12, "sql");
             this.actImgs.Images.SetKeyName(13, "test");
             this.actImgs.Images.SetKeyName(14, "table");
-            this.actImgs.Images.SetKeyName(15, "exec");
+            this.actImgs.Images.SetKeyName(15, "exec_old");
             this.actImgs.Images.SetKeyName(16, "join");
             this.actImgs.Images.SetKeyName(17, "leave");
             this.actImgs.Images.SetKeyName(18, "download");
@@ -307,6 +307,8 @@
             this.actImgs.Images.SetKeyName(21, "deploy");
             this.actImgs.Images.SetKeyName(22, "deployToPhysical");
             this.actImgs.Images.SetKeyName(23, "importFromPhysical");
+            this.actImgs.Images.SetKeyName(24, "exec");
+            this.actImgs.Images.SetKeyName(25, "jseditor");
             // 
             // BottomToolStripPanel
             // 
@@ -541,11 +543,11 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(950, 666);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1029, 594);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 26);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(950, 716);
+            this.toolStripContainer1.Size = new System.Drawing.Size(1029, 644);
             this.toolStripContainer1.TabIndex = 2;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -565,8 +567,8 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.tvProjects);
-            this.splitContainer1.Size = new System.Drawing.Size(950, 666);
-            this.splitContainer1.SplitterDistance = 316;
+            this.splitContainer1.Size = new System.Drawing.Size(1029, 594);
+            this.splitContainer1.SplitterDistance = 314;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -580,36 +582,19 @@
             this.tvProjects.Location = new System.Drawing.Point(0, 0);
             this.tvProjects.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tvProjects.Name = "tvProjects";
-            treeNode2.ImageKey = "project";
-            treeNode2.Name = "Node0";
-            treeNode2.Text = "我的專案";
+            treeNode1.ImageKey = "project";
+            treeNode1.Name = "Node0";
+            treeNode1.Text = "我的專案";
             this.tvProjects.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode1});
             this.tvProjects.SelectedImageIndex = 0;
             this.tvProjects.ShowNodeToolTips = true;
-            this.tvProjects.Size = new System.Drawing.Size(316, 666);
+            this.tvProjects.Size = new System.Drawing.Size(314, 594);
             this.tvProjects.TabIndex = 0;
             this.tvProjects.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvProjects_BeforeSelect);
             this.tvProjects.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvProjects_AfterSelect);
             this.tvProjects.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvProjects_NodeMouseClick);
             this.tvProjects.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tvProjects_MouseDoubleClick);
-            // 
-            // tsEditMode
-            // 
-            this.tsEditMode.CanOverflow = false;
-            this.tsEditMode.Dock = System.Windows.Forms.DockStyle.None;
-            this.tsEditMode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel2});
-            this.tsEditMode.Location = new System.Drawing.Point(82, 0);
-            this.tsEditMode.Name = "tsEditMode";
-            this.tsEditMode.Size = new System.Drawing.Size(68, 25);
-            this.tsEditMode.TabIndex = 2;
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(56, 22);
-            this.toolStripLabel2.Text = "編輯模式";
             // 
             // toolStrip2
             // 
@@ -659,10 +644,27 @@
             this.cmSetup.Text = "設定";
             this.cmSetup.Click += new System.EventHandler(this.cmSetup_Click);
             // 
+            // tsEditMode
+            // 
+            this.tsEditMode.CanOverflow = false;
+            this.tsEditMode.Dock = System.Windows.Forms.DockStyle.None;
+            this.tsEditMode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel2});
+            this.tsEditMode.Location = new System.Drawing.Point(82, 0);
+            this.tsEditMode.Name = "tsEditMode";
+            this.tsEditMode.Size = new System.Drawing.Size(68, 25);
+            this.tsEditMode.TabIndex = 2;
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(56, 22);
+            this.toolStripLabel2.Text = "編輯模式";
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(950, 742);
+            this.ClientSize = new System.Drawing.Size(1029, 670);
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
@@ -670,6 +672,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "模組開發管理";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -685,10 +688,10 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.tsEditMode.ResumeLayout(false);
-            this.tsEditMode.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            this.tsEditMode.ResumeLayout(false);
+            this.tsEditMode.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

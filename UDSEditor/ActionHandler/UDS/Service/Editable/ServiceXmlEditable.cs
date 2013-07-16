@@ -19,7 +19,7 @@ namespace ProjectManager.ActionHandler.UDS.Service
             this.DocumentName = documentName;
             this.ServiceNodeHandler = serviceNode;          
         }
-            
+
         public override void Save()
         {
             XmlEditor xe = this.Editor as XmlEditor;

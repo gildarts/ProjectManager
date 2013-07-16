@@ -12,7 +12,7 @@ namespace ProjectManager
 {
     static class Program
     {
-        public static string UpdateURL = "http://dl.dropbox.com/u/16912340/ProjectManager/app.xml";
+        public static string UpdateURL = "http://module.ischool.com.tw/module/148/ProjectManager/app.xml";
         /// <summary>
         /// 應用程式的主要進入點。
         /// </summary>

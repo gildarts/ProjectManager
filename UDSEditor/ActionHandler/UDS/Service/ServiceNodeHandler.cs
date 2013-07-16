@@ -51,6 +51,7 @@ namespace ProjectManager.ActionHandler.UDS.Service
         {
             XmlElement sd = ServiceDAL.GetServiceDefinition(this.ContractName, this.PackageName, this.ServiceName);
             bool isDBHelperService = sd.GetAttribute("Type").ToLower() == "dbhelper";
+            bool isJavascriptService = sd.GetAttribute("Type").ToLower() == "javascript";
 
             this.Editors = new List<IEditable>();
             IEditable editable = null;
@@ -59,6 +60,12 @@ namespace ProjectManager.ActionHandler.UDS.Service
                 editable = new ServiceUIEditable("Service - " + this.ServiceName, this);
                 this.Editors.Add(editable);
             }
+            if (isJavascriptService)
+            {
+                editable = new ServiceJSEditable(ServiceName, this);
+                this.Editors.Add(editable);
+            }
+
             IEditable xmlEditable = new ServiceXmlEditable("Service - " + this.ServiceName, this);
             this.Editors.Add(xmlEditable);
 

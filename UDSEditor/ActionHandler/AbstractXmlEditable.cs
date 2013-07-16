@@ -21,7 +21,7 @@ namespace ProjectManager.ActionHandler
 
         public virtual string ModeTitle
         {
-            get { return "XML 編輯"; }
+            get { return "RAW 編輯"; }
         }
 
         public virtual string ImageKey
@@ -31,7 +31,7 @@ namespace ProjectManager.ActionHandler
 
         public virtual string DocumentTitle
         {
-            get { return "XML 編輯 「" + DocumentName + "」(&X)"; }
+            get { return "RAW 編輯 「" + DocumentName + "」(&X)"; }
         }
 
         public virtual System.Windows.Forms.Control Editor

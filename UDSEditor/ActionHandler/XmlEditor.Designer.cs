@@ -71,13 +71,14 @@
             // 
             // txtXML
             // 
-            this.txtXML.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtXML.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             document1.Language = this.xmlSyntaxLanguage1;
             document1.Text = "<XmlDocument/>";
             this.txtXML.Document = document1;
             this.txtXML.Font = new System.Drawing.Font("微軟正黑體", 11F);
+            this.txtXML.LineNumberMarginVisible = true;
             this.txtXML.Location = new System.Drawing.Point(6, 49);
             this.txtXML.Name = "txtXML";
             this.txtXML.Size = new System.Drawing.Size(639, 405);

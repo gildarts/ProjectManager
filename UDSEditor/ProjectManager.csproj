@@ -159,6 +159,12 @@
     <Compile Include="ActionHandler\ISyncUpload.cs" />
     <Compile Include="ActionHandler\ITestable.cs" />
     <Compile Include="ActionHandler\IXmlEditable.cs" />
+    <Compile Include="ActionHandler\JSEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionHandler\JSEditor.Designer.cs">
+      <DependentUpon>JSEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="ActionHandler\ProjectNodeHandler.cs" />
     <Compile Include="ActionHandler\UDS\Contract\AddContractForm.cs">
       <SubType>Form</SubType>
@@ -266,6 +272,7 @@
     <Compile Include="ActionHandler\UDS\Service\Editable\Select\SelectServiceEditor.Designer.cs">
       <DependentUpon>SelectServiceEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="ActionHandler\UDS\Service\Editable\ServiceJSEditable.cs" />
     <Compile Include="ActionHandler\UDS\Service\Editable\Set\SetServiceEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -472,6 +479,7 @@
     <Compile Include="Editor\XmlEditor.Designer.cs">
       <DependentUpon>XmlEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="JSBeautify.cs" />
     <Compile Include="LoadProjectFromFileForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -649,6 +657,7 @@
       <DependentUpon>SetupConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SqlDynamicSyntaxLanguage.cs" />
+    <Compile Include="SyntaxLanguage\JScriptDynamicSyntaxLanguage.cs" />
     <Compile Include="Uploader\FtpUploader.cs" />
     <Compile Include="Uploader\IUploader.cs" />
     <Compile Include="Uploader\ProgressEventArgs.cs" />
@@ -700,6 +709,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ActionHandler\Files\ProgressForm.resx">
       <DependentUpon>ProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionHandler\JSEditor.resx">
+      <DependentUpon>JSEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ActionHandler\UDS\Contract\AddContractForm.resx">
       <DependentUpon>AddContractForm.cs</DependentUpon>
@@ -929,6 +941,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="applescript_utility.ico" />
+    <EmbeddedResource Include="SyntaxLanguage\ActiproSoftware.JScript.xml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

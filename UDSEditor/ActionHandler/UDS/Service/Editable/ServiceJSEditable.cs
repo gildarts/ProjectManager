@@ -88,7 +88,17 @@ namespace ProjectManager.ActionHandler.UDS.Service
                 ServiceNodeHandler.PackageName,
                 ServiceNodeHandler.ServiceName);
 
-            ((JSEditor)Editor).JavaScriptCode = Source.SelectSingleNode("Code").InnerText;
+            if (Source.SelectSingleNode("Code") != null)
+            {
+                ((JSEditor)Editor).JavaScriptCode = Source.SelectSingleNode("Code").InnerText;
+                ((JSEditor)Editor).Unlocked();
+            }
+            else
+            {
+                MessageBox.Show("找不到 <Code/>，請使用 RAW 編輯加入。");
+                ((JSEditor)Editor).JavaScriptCode = "//禁用編輯...";
+                ((JSEditor)Editor).Locked();
+            }
 
             if (ChangeRecovered != null)
                 ChangeRecovered(this, EventArgs.Empty);

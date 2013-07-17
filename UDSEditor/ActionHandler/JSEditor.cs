@@ -93,7 +93,7 @@ namespace ProjectManager.ActionHandler
                 File.WriteAllText(file, jsEditor1.Text, Encoding.UTF8);
 
                 ProcessStartInfo psi = new ProcessStartInfo(sublime);
-                psi.Arguments = "-w " + file;
+                psi.Arguments = "-w \"" + file + "\"";
 
                 Process pro = new Process();
                 pro.StartInfo = psi;
@@ -130,6 +130,16 @@ namespace ProjectManager.ActionHandler
             }
 
             return path;
+        }
+
+        public void Locked()
+        {
+            Enabled = false;
+        }
+
+        public void Unlocked()
+        {
+            Enabled = true;
         }
     }
 }

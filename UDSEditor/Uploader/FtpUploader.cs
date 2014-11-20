@@ -7,7 +7,7 @@ using System.Threading;
 using System.Net;
 using System.Windows.Forms;
 
-namespace ProjectManager.Uploader 
+namespace ProjectManager.Uploader
 {
     public class FtpState
     {
@@ -91,6 +91,15 @@ namespace ProjectManager.Uploader
             request.Method = WebRequestMethods.Ftp.UploadFile;
             request.EnableSsl = true;
 
+            string file = Path.Combine(Application.StartupPath, "Passive.txt");
+            if (File.Exists(file))
+            {
+                string content = File.ReadAllText(file);
+                bool passive;
+
+                if (Boolean.TryParse(content, out passive))
+                    request.UsePassive = passive;
+            }
             // This example uses anonymous logon.
             // The request is anonymous by default; the credential does not have to be specified. 
             // The example specifies the credential only to

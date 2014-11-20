@@ -60,13 +60,16 @@
       <HintPath>C:\Program Files (x86)\Common Files\Actipro Software\WindowsForms\WinUICore\v1.0.0093\ActiproSoftware.WinUICore.Net20.dll</HintPath>
     </Reference>
     <Reference Include="FISCA.Core">
-      <HintPath>D:\develop_apps\AutoUpdateExample\lib\FISCA.Core.dll</HintPath>
+      <HintPath>C:\Tools\ProjectManager\FISCA.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="FISCA.DSAClient">
-      <HintPath>..\..\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\FISCA.DSAClient.dll</HintPath>
+      <HintPath>C:\Tools\ProjectManager\FISCA.DSAClient.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Script">
-      <HintPath>D:\develop_apps\AutoUpdateExample\lib\Script.exe</HintPath>
+      <HintPath>C:\Tools\ProjectManager\Script.exe</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

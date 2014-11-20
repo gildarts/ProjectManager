@@ -91,6 +91,7 @@ namespace ProjectManager.ActionHandler.UDS.Service
             if (Source.SelectSingleNode("Code") != null)
             {
                 ((JSEditor)Editor).JavaScriptCode = Source.SelectSingleNode("Code").InnerText;
+                ;
                 ((JSEditor)Editor).Unlocked();
             }
             else
@@ -126,7 +127,7 @@ namespace ProjectManager.ActionHandler.UDS.Service
                 xh.AddElement("Code");
             }
 
-            Source.SelectSingleNode("Code").InnerText = ((JSEditor)Editor).JavaScriptCode;
+            Source.SelectSingleNode("Code").InnerXml =((JSEditor)Editor).JavaScriptCode;
 
             return Source;
         }

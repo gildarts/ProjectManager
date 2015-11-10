@@ -72,8 +72,8 @@
             // 
             // txtUser
             // 
-            this.txtUser.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUser.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUser.Location = new System.Drawing.Point(99, 38);
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(139, 23);
@@ -90,14 +90,14 @@
             // 
             // txtProvider
             // 
-            this.txtProvider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtProvider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtProvider.Enabled = false;
             this.txtProvider.Location = new System.Drawing.Point(110, 98);
             this.txtProvider.Name = "txtProvider";
             this.txtProvider.Size = new System.Drawing.Size(402, 23);
             this.txtProvider.TabIndex = 5;
-            this.txtProvider.Text = "http://new.iteacher.tw/service/shared/user";
+            this.txtProvider.Text = "https://auth.ischool.com.tw/dsa/greening";
             // 
             // label3
             // 
@@ -129,8 +129,8 @@
             // 
             // txtSiteURL
             // 
-            this.txtSiteURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSiteURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSiteURL.Location = new System.Drawing.Point(97, 12);
             this.txtSiteURL.Name = "txtSiteURL";
             this.txtSiteURL.ReadOnly = true;
@@ -148,8 +148,8 @@
             // 
             // txtContract
             // 
-            this.txtContract.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtContract.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtContract.Location = new System.Drawing.Point(373, 12);
             this.txtContract.Name = "txtContract";
             this.txtContract.ReadOnly = true;
@@ -178,9 +178,9 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tpInfo);
             this.tabControl1.Controls.Add(this.tpUserInfo);
             this.tabControl1.Controls.Add(this.tpPassport);
@@ -215,10 +215,10 @@
             // tpUserInfo
             // 
             this.tpUserInfo.Controls.Add(this.txtUserInfo);
-            this.tpUserInfo.Location = new System.Drawing.Point(4, 25);
+            this.tpUserInfo.Location = new System.Drawing.Point(4, 22);
             this.tpUserInfo.Name = "tpUserInfo";
             this.tpUserInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUserInfo.Size = new System.Drawing.Size(492, 281);
+            this.tpUserInfo.Size = new System.Drawing.Size(492, 284);
             this.tpUserInfo.TabIndex = 1;
             this.tpUserInfo.Text = "使用者屬性";
             this.tpUserInfo.UseVisualStyleBackColor = true;
@@ -232,15 +232,15 @@
             this.txtUserInfo.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUserInfo.Location = new System.Drawing.Point(3, 3);
             this.txtUserInfo.Name = "txtUserInfo";
-            this.txtUserInfo.Size = new System.Drawing.Size(486, 275);
+            this.txtUserInfo.Size = new System.Drawing.Size(486, 278);
             this.txtUserInfo.TabIndex = 2;
             // 
             // tpPassport
             // 
             this.tpPassport.Controls.Add(this.txtPassport);
-            this.tpPassport.Location = new System.Drawing.Point(4, 25);
+            this.tpPassport.Location = new System.Drawing.Point(4, 22);
             this.tpPassport.Name = "tpPassport";
-            this.tpPassport.Size = new System.Drawing.Size(492, 281);
+            this.tpPassport.Size = new System.Drawing.Size(492, 284);
             this.tpPassport.TabIndex = 2;
             this.tpPassport.Text = "Passport";
             this.tpPassport.UseVisualStyleBackColor = true;
@@ -254,7 +254,7 @@
             this.txtPassport.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPassport.Location = new System.Drawing.Point(0, 0);
             this.txtPassport.Name = "txtPassport";
-            this.txtPassport.Size = new System.Drawing.Size(492, 281);
+            this.txtPassport.Size = new System.Drawing.Size(492, 284);
             this.txtPassport.TabIndex = 2;
             // 
             // ContractTestForm

@@ -99,20 +99,20 @@
             // 
             // txtProvider
             // 
-            this.txtProvider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtProvider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtProvider.Enabled = false;
             this.txtProvider.Location = new System.Drawing.Point(86, 119);
             this.txtProvider.Name = "txtProvider";
             this.txtProvider.Size = new System.Drawing.Size(253, 23);
             this.txtProvider.TabIndex = 4;
-            this.txtProvider.Text = "http://new.iteacher.tw/service/shared/user";
+            this.txtProvider.Text = "https://auth.ischool.com.tw/dsa/greening";
             this.txtProvider.TextChanged += new System.EventHandler(this.txtProvider_TextChanged);
             // 
             // txtPwd
             // 
-            this.txtPwd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPwd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPwd.Location = new System.Drawing.Point(86, 88);
             this.txtPwd.Name = "txtPwd";
             this.txtPwd.PasswordChar = '●';
@@ -122,8 +122,8 @@
             // 
             // txtUser
             // 
-            this.txtUser.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUser.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUser.Location = new System.Drawing.Point(86, 55);
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(253, 23);

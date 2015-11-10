@@ -107,6 +107,7 @@
             this.cboContract.Name = "cboContract";
             this.cboContract.Size = new System.Drawing.Size(306, 24);
             this.cboContract.TabIndex = 1;
+            this.cboContract.Text = "admin";
             // 
             // label6
             // 

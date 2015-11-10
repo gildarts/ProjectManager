@@ -181,7 +181,7 @@
             this.cboContract.Name = "cboContract";
             this.cboContract.Size = new System.Drawing.Size(244, 24);
             this.cboContract.TabIndex = 20;
-            this.cboContract.Text = "_dev";
+            this.cboContract.Text = "admin";
             // 
             // DevSiteForm
             // 

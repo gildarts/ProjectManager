@@ -63,7 +63,7 @@
             this.txtGreening.Name = "txtGreening";
             this.txtGreening.Size = new System.Drawing.Size(369, 23);
             this.txtGreening.TabIndex = 0;
-            this.txtGreening.Text = "https://auth.ischool.com.tw:8443/dsa/greening";
+            this.txtGreening.Text = "https://auth.ischool.com.tw/dsa/greening";
             // 
             // txtModule
             // 

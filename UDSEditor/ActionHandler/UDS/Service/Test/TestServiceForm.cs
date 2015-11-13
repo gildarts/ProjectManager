@@ -17,7 +17,7 @@ using System.Security.Cryptography;
 namespace ProjectManager.ActionHandler.UDS.Service.Test
 {
     public partial class TestServiceForm : Form
-    {        
+    {
         private SecurityTokenForm _sttForm;
         internal string ServiceName { get; private set; }
         internal string PackageName { get; private set; }
@@ -28,7 +28,7 @@ namespace ProjectManager.ActionHandler.UDS.Service.Test
 
         internal TestServiceForm(string contractName, string packageName, string serviceName, XmlElement definition)
         {
-            InitializeComponent();            
+            InitializeComponent();
             ActiproSoftware.SyntaxEditor.SemanticParserService.Start();
 
             this.ServiceName = serviceName;
@@ -103,9 +103,15 @@ namespace ProjectManager.ActionHandler.UDS.Service.Test
             {
                 Envelope re = new Envelope(req);
                 Envelope env = con.SendRequest(txtService.Text, re);
-                h = new XmlHelper(env.Body);
-                txtResponse.Text = h.XmlString;
-                txtRequest.FormatXml();
+                txtResponse.Text = env.Body.XmlString;
+
+                try
+                {
+                    h = new XmlHelper(env.Body);
+                    txtResponse.Text = h.XmlString;
+                    txtRequest.FormatXml();
+                }
+                catch { }
 
                 txtHeader.Text = env.Headers.XmlString;
                 txtHeader.FormatXml();
@@ -120,7 +126,7 @@ namespace ProjectManager.ActionHandler.UDS.Service.Test
                 txtResponse.Text = ex.Message;
             }
             w.Stop();
-            tsTime.Text = w.ElapsedMilliseconds.ToString();
+            tsLabelTime.Text = w.ElapsedMilliseconds.ToString();
 
             try
             {
@@ -158,7 +164,7 @@ namespace ProjectManager.ActionHandler.UDS.Service.Test
         {
             txtRequest.Text = TempGenProvider.GenerateTemp(this.ServiceDefinition);
         }
-        
+
         internal string ContractUniqName
         {
             get

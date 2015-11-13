@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.ComponentModel;
+using ProjectManager.ActionHandler.Files;
+using System.IO;
 
 namespace ProjectManager.Downloader
 {

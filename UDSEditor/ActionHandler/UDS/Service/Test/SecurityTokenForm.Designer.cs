@@ -44,13 +44,11 @@
             // rbBasic
             // 
             this.rbBasic.AutoSize = true;
-            this.rbBasic.Checked = true;
             this.rbBasic.Location = new System.Drawing.Point(90, 13);
             this.rbBasic.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.rbBasic.Name = "rbBasic";
             this.rbBasic.Size = new System.Drawing.Size(74, 20);
             this.rbBasic.TabIndex = 0;
-            this.rbBasic.TabStop = true;
             this.rbBasic.Text = "基本登入";
             this.rbBasic.UseVisualStyleBackColor = true;
             this.rbBasic.CheckedChanged += new System.EventHandler(this.rbBasic_CheckedChanged);
@@ -58,11 +56,13 @@
             // rbPassport
             // 
             this.rbPassport.AutoSize = true;
+            this.rbPassport.Checked = true;
             this.rbPassport.Location = new System.Drawing.Point(170, 13);
             this.rbPassport.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.rbPassport.Name = "rbPassport";
             this.rbPassport.Size = new System.Drawing.Size(74, 20);
             this.rbPassport.TabIndex = 1;
+            this.rbPassport.TabStop = true;
             this.rbPassport.Text = "Passport";
             this.rbPassport.UseVisualStyleBackColor = true;
             this.rbPassport.CheckedChanged += new System.EventHandler(this.rbPassport_CheckedChanged);

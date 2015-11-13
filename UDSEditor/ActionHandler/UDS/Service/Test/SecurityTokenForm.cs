@@ -49,10 +49,10 @@ namespace ProjectManager.ActionHandler.UDS.Service.Test
             XmlHelper xml = MainForm.Storage.GetPropertyXml("ServiceTestTemp", _contractUniqName);
             if (xml == null)
             {
-                rbBasic.Checked = true;
+                rbPassport.Checked = true;
                 txtUser.Text = MainForm.CurrentProject.DevSite.User;
                 txtPwd.Text = MainForm.CurrentProject.DevSite.Password;
-                txtProvider.Enabled = false;
+                txtProvider.Enabled = true;
             }
             else
             {

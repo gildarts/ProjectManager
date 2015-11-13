@@ -63,7 +63,7 @@ namespace ProjectManager.ActionHandler.Files
 
                 string err = "檔案管理服務無法使用({0})";
                 if (!ProjectHandler.ValidName(ProjectName))
-                    this.Node.Text = string.Format(err, "專案名稱含有不合法字元");          
+                    this.Node.Text = string.Format(err, "專案名稱含有不合法字元");
                 else
                 {
                     Regex reg = new Regex("ischool.dsa.exception.DSAServiceException: (.*)\n");
@@ -132,6 +132,11 @@ namespace ProjectManager.ActionHandler.Files
 
         public void Upload()
         {
+            string msg = "確定要「上傳」差異檔案到主機？這會覆蓋主機的檔案。";
+            if (MessageBox.Show(msg, "檔案同步", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+
             if (!ModuleHandler.LocalPathExists) return;
 
             string moduleName = ModuleHandler.Name;
@@ -186,6 +191,10 @@ namespace ProjectManager.ActionHandler.Files
         public void Download()
         {
             if (!ModuleHandler.LocalPathExists) return;
+
+            string msg = "確定要「下載」差異檔案到本機？這會覆蓋本機的檔案。";
+            if (MessageBox.Show(msg, "檔案同步", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
 
             string moduleName = ModuleHandler.Name;
             List<DownloadFile> list = ModuleHandler.CheckDownloadFile();

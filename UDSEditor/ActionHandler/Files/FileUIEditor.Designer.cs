@@ -47,12 +47,14 @@
             // treeDir
             // 
             this.treeDir.AllowDrop = true;
-            this.treeDir.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeDir.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.treeDir.ContextMenuStrip = this.menuDir;
             this.treeDir.ImageIndex = 0;
             this.treeDir.ImageList = this.imgs;
+            this.treeDir.Indent = 17;
+            this.treeDir.ItemHeight = 18;
             this.treeDir.Location = new System.Drawing.Point(19, 116);
             this.treeDir.Margin = new System.Windows.Forms.Padding(12, 13, 12, 13);
             this.treeDir.Name = "treeDir";
@@ -73,27 +75,27 @@
             this.cmShowDir,
             this.cmOpenFile});
             this.menuDir.Name = "menuDir";
-            this.menuDir.Size = new System.Drawing.Size(175, 92);
+            this.menuDir.Size = new System.Drawing.Size(173, 70);
             this.menuDir.Opening += new System.ComponentModel.CancelEventHandler(this.menuDir_Opening);
             // 
             // cmDeleteFile
             // 
             this.cmDeleteFile.Name = "cmDeleteFile";
-            this.cmDeleteFile.Size = new System.Drawing.Size(174, 22);
+            this.cmDeleteFile.Size = new System.Drawing.Size(172, 22);
             this.cmDeleteFile.Text = "刪除檔案(&D)";
             this.cmDeleteFile.Click += new System.EventHandler(this.cmDeleteFile_Click);
             // 
             // cmShowDir
             // 
             this.cmShowDir.Name = "cmShowDir";
-            this.cmShowDir.Size = new System.Drawing.Size(174, 22);
+            this.cmShowDir.Size = new System.Drawing.Size(172, 22);
             this.cmShowDir.Text = "在資料夾中顯示(&F)";
             this.cmShowDir.Click += new System.EventHandler(this.cmShowDir_Click);
             // 
             // cmOpenFile
             // 
             this.cmOpenFile.Name = "cmOpenFile";
-            this.cmOpenFile.Size = new System.Drawing.Size(174, 22);
+            this.cmOpenFile.Size = new System.Drawing.Size(172, 22);
             this.cmOpenFile.Text = "開啟檔案(&O)";
             this.cmOpenFile.Click += new System.EventHandler(this.cmOpenFile_Click);
             // 
@@ -165,8 +167,8 @@
             // 
             // txtLocalPath
             // 
-            this.txtLocalPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLocalPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLocalPath.Location = new System.Drawing.Point(71, 52);
             this.txtLocalPath.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.txtLocalPath.Name = "txtLocalPath";
@@ -176,8 +178,8 @@
             // 
             // txtHttp
             // 
-            this.txtHttp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtHttp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtHttp.Location = new System.Drawing.Point(71, 19);
             this.txtHttp.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.txtHttp.Name = "txtHttp";

@@ -79,13 +79,13 @@
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tvProjects = new System.Windows.Forms.TreeView();
+            this.tsEditMode = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.cmUpload = new System.Windows.Forms.ToolStripButton();
             this.cmDownload = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.cmSetup = new System.Windows.Forms.ToolStripButton();
-            this.tsEditMode = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -94,8 +94,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
             this.tsEditMode.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -108,7 +108,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
-            this.menuStrip1.Size = new System.Drawing.Size(1029, 26);
+            this.menuStrip1.Size = new System.Drawing.Size(1029, 25);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -119,28 +119,28 @@
             this.cmSite,
             this.cmQuit});
             this.帳號AToolStripMenuItem.Name = "帳號AToolStripMenuItem";
-            this.帳號AToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
+            this.帳號AToolStripMenuItem.Size = new System.Drawing.Size(59, 19);
             this.帳號AToolStripMenuItem.Text = "帳號(&A)";
             // 
             // cmLogin
             // 
             this.cmLogin.Image = ((System.Drawing.Image)(resources.GetObject("cmLogin.Image")));
             this.cmLogin.Name = "cmLogin";
-            this.cmLogin.Size = new System.Drawing.Size(189, 22);
+            this.cmLogin.Size = new System.Drawing.Size(187, 22);
             this.cmLogin.Text = "重新登入(&L)";
             this.cmLogin.Click += new System.EventHandler(this.cmLogin_Click);
             // 
             // cmSite
             // 
             this.cmSite.Name = "cmSite";
-            this.cmSite.Size = new System.Drawing.Size(189, 22);
+            this.cmSite.Size = new System.Drawing.Size(187, 22);
             this.cmSite.Text = "設定預設開發站台(&D)";
             this.cmSite.Click += new System.EventHandler(this.cmSite_Click);
             // 
             // cmQuit
             // 
             this.cmQuit.Name = "cmQuit";
-            this.cmQuit.Size = new System.Drawing.Size(189, 22);
+            this.cmQuit.Size = new System.Drawing.Size(187, 22);
             this.cmQuit.Text = "關閉(&Q)";
             this.cmQuit.Click += new System.EventHandler(this.cmQuit_Click);
             // 
@@ -152,14 +152,14 @@
             this.cmLoadProjectFromFile,
             this.cmProxyDeploy});
             this.專案ToolStripMenuItem.Name = "專案ToolStripMenuItem";
-            this.專案ToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.專案ToolStripMenuItem.Size = new System.Drawing.Size(63, 19);
             this.專案ToolStripMenuItem.Text = "專案(&M)";
             // 
             // cmAddProject
             // 
             this.cmAddProject.Image = ((System.Drawing.Image)(resources.GetObject("cmAddProject.Image")));
             this.cmAddProject.Name = "cmAddProject";
-            this.cmAddProject.Size = new System.Drawing.Size(160, 22);
+            this.cmAddProject.Size = new System.Drawing.Size(158, 22);
             this.cmAddProject.Text = "新增專案(&A)";
             this.cmAddProject.Click += new System.EventHandler(this.cmAddProject_Click);
             // 
@@ -167,14 +167,14 @@
             // 
             this.cmOpenProject.Image = ((System.Drawing.Image)(resources.GetObject("cmOpenProject.Image")));
             this.cmOpenProject.Name = "cmOpenProject";
-            this.cmOpenProject.Size = new System.Drawing.Size(160, 22);
+            this.cmOpenProject.Size = new System.Drawing.Size(158, 22);
             this.cmOpenProject.Text = "開啟專案(&O)";
             // 
             // cmLoadProjectFromFile
             // 
             this.cmLoadProjectFromFile.Image = ((System.Drawing.Image)(resources.GetObject("cmLoadProjectFromFile.Image")));
             this.cmLoadProjectFromFile.Name = "cmLoadProjectFromFile";
-            this.cmLoadProjectFromFile.Size = new System.Drawing.Size(160, 22);
+            this.cmLoadProjectFromFile.Size = new System.Drawing.Size(158, 22);
             this.cmLoadProjectFromFile.Text = "從檔案載入專案";
             this.cmLoadProjectFromFile.Click += new System.EventHandler(this.cmLoadProjectFromFile_Click);
             // 
@@ -182,7 +182,7 @@
             // 
             this.cmProxyDeploy.Image = ((System.Drawing.Image)(resources.GetObject("cmProxyDeploy.Image")));
             this.cmProxyDeploy.Name = "cmProxyDeploy";
-            this.cmProxyDeploy.Size = new System.Drawing.Size(160, 22);
+            this.cmProxyDeploy.Size = new System.Drawing.Size(158, 22);
             this.cmProxyDeploy.Text = "代理部署(&P)";
             this.cmProxyDeploy.Click += new System.EventHandler(this.cmProxyDeploy_Click);
             // 
@@ -194,34 +194,34 @@
             this.cmServiceConvert,
             this.cmToUDSService});
             this.工具TToolStripMenuItem.Name = "工具TToolStripMenuItem";
-            this.工具TToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.工具TToolStripMenuItem.Size = new System.Drawing.Size(58, 19);
             this.工具TToolStripMenuItem.Text = "工具(&T)";
             // 
             // cmSetupConfig
             // 
             this.cmSetupConfig.Name = "cmSetupConfig";
-            this.cmSetupConfig.Size = new System.Drawing.Size(228, 22);
+            this.cmSetupConfig.Size = new System.Drawing.Size(226, 22);
             this.cmSetupConfig.Text = "設定(&S)";
             this.cmSetupConfig.Click += new System.EventHandler(this.cmSetupConfig_Click);
             // 
             // cmProjectEditor
             // 
             this.cmProjectEditor.Name = "cmProjectEditor";
-            this.cmProjectEditor.Size = new System.Drawing.Size(228, 22);
+            this.cmProjectEditor.Size = new System.Drawing.Size(226, 22);
             this.cmProjectEditor.Text = "專案編輯器(&E)";
             this.cmProjectEditor.Click += new System.EventHandler(this.cmProjectEditor_Click);
             // 
             // cmServiceConvert
             // 
             this.cmServiceConvert.Name = "cmServiceConvert";
-            this.cmServiceConvert.Size = new System.Drawing.Size(228, 22);
+            this.cmServiceConvert.Size = new System.Drawing.Size(226, 22);
             this.cmServiceConvert.Text = "UDS 轉實體 Service (&U)";
             this.cmServiceConvert.Click += new System.EventHandler(this.cmServiceConvert_Click);
             // 
             // cmToUDSService
             // 
             this.cmToUDSService.Name = "cmToUDSService";
-            this.cmToUDSService.Size = new System.Drawing.Size(228, 22);
+            this.cmToUDSService.Size = new System.Drawing.Size(226, 22);
             this.cmToUDSService.Text = "實體 Service 轉換成 UDS (&P)";
             this.cmToUDSService.Click += new System.EventHandler(this.cmToUDSService_Click);
             // 
@@ -231,14 +231,14 @@
             this.cmAbout,
             this.cmCheckVersion});
             this.說明HToolStripMenuItem.Name = "說明HToolStripMenuItem";
-            this.說明HToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.說明HToolStripMenuItem.Size = new System.Drawing.Size(60, 19);
             this.說明HToolStripMenuItem.Text = "說明(&H)";
             // 
             // cmAbout
             // 
             this.cmAbout.Image = ((System.Drawing.Image)(resources.GetObject("cmAbout.Image")));
             this.cmAbout.Name = "cmAbout";
-            this.cmAbout.Size = new System.Drawing.Size(215, 22);
+            this.cmAbout.Size = new System.Drawing.Size(213, 22);
             this.cmAbout.Text = "關於 模組開發管理工具(&A)";
             this.cmAbout.Click += new System.EventHandler(this.cmAbout_Click);
             // 
@@ -246,7 +246,7 @@
             // 
             this.cmCheckVersion.Image = ((System.Drawing.Image)(resources.GetObject("cmCheckVersion.Image")));
             this.cmCheckVersion.Name = "cmCheckVersion";
-            this.cmCheckVersion.Size = new System.Drawing.Size(215, 22);
+            this.cmCheckVersion.Size = new System.Drawing.Size(213, 22);
             this.cmCheckVersion.Text = "版本資訊(&V)";
             this.cmCheckVersion.Click += new System.EventHandler(this.cmCheckVersion_Click);
             // 
@@ -349,7 +349,7 @@
             this.tsVersionLabel,
             this.tsbtnDeployToPhysical,
             this.tsbtnImportFromPhysical});
-            this.toolStrip1.Location = new System.Drawing.Point(90, 25);
+            this.toolStrip1.Location = new System.Drawing.Point(90, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(335, 25);
             this.toolStrip1.TabIndex = 0;
@@ -492,7 +492,7 @@
             this.tsVersionLabel.ForeColor = System.Drawing.Color.Red;
             this.tsVersionLabel.Image = ((System.Drawing.Image)(resources.GetObject("tsVersionLabel.Image")));
             this.tsVersionLabel.Name = "tsVersionLabel";
-            this.tsVersionLabel.Size = new System.Drawing.Size(84, 22);
+            this.tsVersionLabel.Size = new System.Drawing.Size(83, 22);
             this.tsVersionLabel.Text = "已有更新版";
             this.tsVersionLabel.Visible = false;
             this.tsVersionLabel.Click += new System.EventHandler(this.tsVersionLabel_Click);
@@ -543,17 +543,16 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1029, 594);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1029, 620);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolStripContainer1.Location = new System.Drawing.Point(0, 26);
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 25);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(1029, 644);
+            this.toolStripContainer1.Size = new System.Drawing.Size(1029, 645);
             this.toolStripContainer1.TabIndex = 2;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
             // toolStripContainer1.TopToolStripPanel
             // 
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.tsEditMode);
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
@@ -567,7 +566,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.tvProjects);
-            this.splitContainer1.Size = new System.Drawing.Size(1029, 594);
+            this.splitContainer1.Size = new System.Drawing.Size(1029, 620);
             this.splitContainer1.SplitterDistance = 314;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 2;
@@ -579,6 +578,8 @@
             this.tvProjects.HideSelection = false;
             this.tvProjects.ImageKey = "projects";
             this.tvProjects.ImageList = this.imgs;
+            this.tvProjects.Indent = 17;
+            this.tvProjects.ItemHeight = 18;
             this.tvProjects.Location = new System.Drawing.Point(0, 0);
             this.tvProjects.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tvProjects.Name = "tvProjects";
@@ -589,12 +590,29 @@
             treeNode1});
             this.tvProjects.SelectedImageIndex = 0;
             this.tvProjects.ShowNodeToolTips = true;
-            this.tvProjects.Size = new System.Drawing.Size(314, 594);
+            this.tvProjects.Size = new System.Drawing.Size(314, 620);
             this.tvProjects.TabIndex = 0;
             this.tvProjects.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvProjects_BeforeSelect);
             this.tvProjects.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvProjects_AfterSelect);
             this.tvProjects.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvProjects_NodeMouseClick);
             this.tvProjects.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tvProjects_MouseDoubleClick);
+            // 
+            // tsEditMode
+            // 
+            this.tsEditMode.CanOverflow = false;
+            this.tsEditMode.Dock = System.Windows.Forms.DockStyle.None;
+            this.tsEditMode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel2});
+            this.tsEditMode.Location = new System.Drawing.Point(467, 25);
+            this.tsEditMode.Name = "tsEditMode";
+            this.tsEditMode.Size = new System.Drawing.Size(67, 25);
+            this.tsEditMode.TabIndex = 2;
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(55, 22);
+            this.toolStripLabel2.Text = "編輯模式";
             // 
             // toolStrip2
             // 
@@ -604,7 +622,7 @@
             this.cmDownload,
             this.toolStripSeparator5,
             this.cmSetup});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 25);
+            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(87, 25);
             this.toolStrip2.TabIndex = 1;
@@ -644,27 +662,11 @@
             this.cmSetup.Text = "設定";
             this.cmSetup.Click += new System.EventHandler(this.cmSetup_Click);
             // 
-            // tsEditMode
-            // 
-            this.tsEditMode.CanOverflow = false;
-            this.tsEditMode.Dock = System.Windows.Forms.DockStyle.None;
-            this.tsEditMode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel2});
-            this.tsEditMode.Location = new System.Drawing.Point(82, 0);
-            this.tsEditMode.Name = "tsEditMode";
-            this.tsEditMode.Size = new System.Drawing.Size(68, 25);
-            this.tsEditMode.TabIndex = 2;
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(56, 22);
-            this.toolStripLabel2.Text = "編輯模式";
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1029, 670);
+            this.Controls.Add(this.tsEditMode);
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
@@ -688,10 +690,10 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
             this.tsEditMode.ResumeLayout(false);
             this.tsEditMode.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

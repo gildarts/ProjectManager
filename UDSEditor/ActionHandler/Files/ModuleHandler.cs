@@ -11,7 +11,6 @@ using System.Windows.Forms;
 using ProjectManager.Downloader;
 using ProjectManager.Util;
 
-
 namespace ProjectManager.ActionHandler.Files
 {
     class ModuleHandler
@@ -26,14 +25,16 @@ namespace ProjectManager.ActionHandler.Files
         internal TreeNode Node { get; private set; }
         internal string FtpURL { get; private set; }
         internal string HttpURL { get; private set; }
-      
+
+        public static List<FileSystemWatcher> Watchers = new List<FileSystemWatcher>();
+
         public ModuleHandler(TreeNode Node, string moduleName)
         {
-            this.Name = moduleName;            
+            this.Name = moduleName;
             this.Node = Node;
             this.Reload();
 
-           StartWatch();
+            StartWatch();
             this.Status = this.CheckItemStatus();
         }
 
@@ -41,7 +42,7 @@ namespace ProjectManager.ActionHandler.Files
         {
             this.LocalPath = MainForm.CurrentProject.TryGetLocalPath();
 
-            FileSystemWatcher w = new FileSystemWatcher(this.LocalPath);            
+            FileSystemWatcher w = new FileSystemWatcher(this.LocalPath);
             w.IncludeSubdirectories = true;
             w.SynchronizingObject = Node.TreeView;
 
@@ -52,16 +53,20 @@ namespace ProjectManager.ActionHandler.Files
             w.EnableRaisingEvents = true;
 
             this.Watcher = w;
+
+            Watchers.Add(w);
         }
 
         void w_Renamed(object sender, RenamedEventArgs e)
         {
+            Console.WriteLine("OnRenamed");
             FileSystemWatcher w = sender as FileSystemWatcher;
             this.OnModuleFileChanged(w);
         }
 
         void w_OnChanged(object sender, FileSystemEventArgs e)
         {
+            Console.WriteLine("OnChanged");
             FileSystemWatcher w = sender as FileSystemWatcher;
             this.OnModuleFileChanged(w);
         }
@@ -69,7 +74,7 @@ namespace ProjectManager.ActionHandler.Files
         private void OnModuleFileChanged(FileSystemWatcher w)
         {
             this.Status = this.CheckItemStatus();
-            if(StatusChanged != null)
+            if (StatusChanged != null)
                 StatusChanged.Invoke(this, new ModuleStatusEventArgs(this.Status));
         }
 
@@ -120,6 +125,7 @@ namespace ProjectManager.ActionHandler.Files
         {
             if (Watcher != null)
             {
+                Watchers.Remove(Watcher);
                 Watcher.EnableRaisingEvents = false;
                 Watcher.Dispose();
             }
@@ -148,7 +154,7 @@ namespace ProjectManager.ActionHandler.Files
 
         public void RemoveItem()
         {
-            this.Dispose();        
+            this.Dispose();
         }
 
         public void Remove()
@@ -387,17 +393,26 @@ namespace ProjectManager.ActionHandler.Files
         {
             if (!file.Exists) return string.Empty;
 
-            FileStream myIFS = file.OpenRead();
-            MD5 md5 = MD5.Create();
-            byte[] hash = md5.ComputeHash(myIFS);
-            myIFS.Close();
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hash.Length; i++)
+            try
             {
-                sb.Append(hash[i].ToString("X2"));
+                byte[] hash = null;
+                using (FileStream myIFS = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    MD5 md5 = MD5.Create();
+                    hash = md5.ComputeHash(myIFS);
+                }
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hash.Length; i++)
+                {
+                    sb.Append(hash[i].ToString("X2"));
+                }
+                return sb.ToString().ToLower();
             }
-            return sb.ToString().ToLower();
+            catch
+            {
+                return "";
+            }
         }
 
         public bool LocalPathExists
@@ -423,7 +438,7 @@ namespace ProjectManager.ActionHandler.Files
 
             Envelope env = new Envelope(h);
             env = MainForm.LoginArgs.SendModuleRequest("AddModule", env);
-                        
+
             h = new XmlHelper(env.Body);
             return new ModuleHandler(node, projectName);
         }
@@ -438,9 +453,9 @@ namespace ProjectManager.ActionHandler.Files
             h = new XmlHelper(rsp.Body);
             XmlElement moduleElement = h.GetElement("Module");
 
-            if (moduleElement != null)            
+            if (moduleElement != null)
                 return true;
-            
+
             return false;
         }
 
@@ -483,7 +498,7 @@ namespace ProjectManager.ActionHandler.Files
 
     class ModuleStatusEventArgs : EventArgs
     {
-        internal ModuleStatus Status {get; private set;}
+        internal ModuleStatus Status { get; private set; }
         internal ModuleStatusEventArgs(ModuleStatus status)
         {
             this.Status = status;

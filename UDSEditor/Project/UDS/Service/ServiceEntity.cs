@@ -9,6 +9,7 @@ using FISCA.DSAClient;
 using ProjectManager.Util;
 using ProjectManager.ActionHandler.UDS.Service.Editable.Set;
 using ProjectManager.Project.UDS.Service.Converter;
+using ProjectManager.ActionHandler.UDS.Service.Editable.Javascript;
 
 namespace ProjectManager.Project.UDS.Service
 {
@@ -158,6 +159,9 @@ namespace ProjectManager.Project.UDS.Service
         {
             if (action == ServiceAction.Set)
                 return new SetServiceEntity(name, targetTable);
+            else if (action == ServiceAction.Javascript)
+                return new JSServiceEntity(name);
+
             return new ServiceEntity(name, targetTable, action);
         }
 

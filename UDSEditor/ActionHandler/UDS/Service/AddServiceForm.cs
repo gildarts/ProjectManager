@@ -21,7 +21,7 @@ namespace ProjectManager.ActionHandler.UDS.Service
         {
             InitializeComponent();
             _package = package;
-            _tables =  MainForm.CurrentUDT.ListAllTables();
+            _tables = MainForm.CurrentUDT.ListAllTables();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -34,16 +34,19 @@ namespace ProjectManager.ActionHandler.UDS.Service
                 valid = false;
             }
 
-            if (string.IsNullOrWhiteSpace(cboTable.Text))
+            if (!rbJavascript.Checked)
             {
-                err.SetError(cboTable, "不可空白");
-                valid = false;
-            }
+                if (string.IsNullOrWhiteSpace(cboTable.Text))
+                {
+                    err.SetError(cboTable, "不可空白");
+                    valid = false;
+                }
 
-            if (!_tables.Contains(cboTable.Text))
-            {
-                err.SetError(cboTable, "資料表不存在");
-                valid = false;
+                if (!_tables.Contains(cboTable.Text))
+                {
+                    err.SetError(cboTable, "資料表不存在");
+                    valid = false;
+                }
             }
 
             if (_package.Contains(txtServiceName.Text))
@@ -66,6 +69,8 @@ namespace ProjectManager.ActionHandler.UDS.Service
                     action = ServiceAction.Insert;
                 else if (rbSet.Checked)
                     action = ServiceAction.Set;
+                else if (rbJavascript.Checked)
+                    action = ServiceAction.Javascript;
                 else
                     action = ServiceAction.Select;
 
@@ -82,6 +87,11 @@ namespace ProjectManager.ActionHandler.UDS.Service
             {
                 cboTable.Items.Add(table);
             }
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            cboTable.Enabled = !rbJavascript.Checked;
         }
     }
 
@@ -101,6 +111,6 @@ namespace ProjectManager.ActionHandler.UDS.Service
 
     public enum ServiceAction
     {
-        Insert, Select, Update, Delete, Set
+        Insert, Select, Update, Delete, Set, Javascript
     }
 }

@@ -269,6 +269,7 @@
       <DependentUpon>InsertServiceEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="ActionHandler\UDS\Service\Editable\IServiceUI.cs" />
+    <Compile Include="ActionHandler\UDS\Service\Editable\Javascript\JSServiceEntity.cs" />
     <Compile Include="ActionHandler\UDS\Service\Editable\Select\SelectServiceEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

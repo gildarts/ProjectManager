@@ -42,33 +42,34 @@
             this.button1 = new System.Windows.Forms.Button();
             this.err = new System.Windows.Forms.ErrorProvider(this.components);
             this.rbSet = new System.Windows.Forms.RadioButton();
+            this.rbJavascript = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.err)).BeginInit();
             this.SuspendLayout();
             // 
             // txtServiceName
             // 
-            this.txtServiceName.Location = new System.Drawing.Point(99, 8);
+            this.txtServiceName.Location = new System.Drawing.Point(95, 16);
             this.txtServiceName.Name = "txtServiceName";
-            this.txtServiceName.Size = new System.Drawing.Size(271, 23);
-            this.txtServiceName.TabIndex = 0;
+            this.txtServiceName.Size = new System.Drawing.Size(259, 23);
+            this.txtServiceName.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 15);
+            this.label1.Location = new System.Drawing.Point(13, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(75, 16);
-            this.label1.TabIndex = 1;
+            this.label1.TabIndex = 0;
             this.label1.Text = "Service 名稱";
             // 
             // rbInsert
             // 
             this.rbInsert.AutoSize = true;
             this.rbInsert.Checked = true;
-            this.rbInsert.Location = new System.Drawing.Point(99, 41);
+            this.rbInsert.Location = new System.Drawing.Point(95, 47);
             this.rbInsert.Name = "rbInsert";
             this.rbInsert.Size = new System.Drawing.Size(50, 20);
-            this.rbInsert.TabIndex = 2;
+            this.rbInsert.TabIndex = 3;
             this.rbInsert.TabStop = true;
             this.rbInsert.Text = "新增";
             this.rbInsert.UseVisualStyleBackColor = true;
@@ -76,65 +77,65 @@
             // rbUpdate
             // 
             this.rbUpdate.AutoSize = true;
-            this.rbUpdate.Location = new System.Drawing.Point(155, 41);
+            this.rbUpdate.Location = new System.Drawing.Point(156, 47);
             this.rbUpdate.Name = "rbUpdate";
             this.rbUpdate.Size = new System.Drawing.Size(50, 20);
-            this.rbUpdate.TabIndex = 3;
+            this.rbUpdate.TabIndex = 4;
             this.rbUpdate.Text = "修改";
             this.rbUpdate.UseVisualStyleBackColor = true;
             // 
             // rbDelete
             // 
             this.rbDelete.AutoSize = true;
-            this.rbDelete.Location = new System.Drawing.Point(211, 41);
+            this.rbDelete.Location = new System.Drawing.Point(209, 47);
             this.rbDelete.Name = "rbDelete";
             this.rbDelete.Size = new System.Drawing.Size(50, 20);
-            this.rbDelete.TabIndex = 4;
+            this.rbDelete.TabIndex = 5;
             this.rbDelete.Text = "刪除";
             this.rbDelete.UseVisualStyleBackColor = true;
             // 
             // rbSelect
             // 
             this.rbSelect.AutoSize = true;
-            this.rbSelect.Location = new System.Drawing.Point(267, 41);
+            this.rbSelect.Location = new System.Drawing.Point(95, 71);
             this.rbSelect.Name = "rbSelect";
             this.rbSelect.Size = new System.Drawing.Size(50, 20);
-            this.rbSelect.TabIndex = 5;
+            this.rbSelect.TabIndex = 6;
             this.rbSelect.Text = "查詢";
             this.rbSelect.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(37, 41);
+            this.label2.Location = new System.Drawing.Point(32, 47);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(56, 16);
-            this.label2.TabIndex = 1;
+            this.label2.TabIndex = 2;
             this.label2.Text = "執行類型";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(25, 67);
+            this.label3.Location = new System.Drawing.Point(20, 101);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 16);
-            this.label3.TabIndex = 1;
+            this.label3.TabIndex = 9;
             this.label3.Text = "主要資料表";
             // 
             // cboTable
             // 
             this.cboTable.FormattingEnabled = true;
-            this.cboTable.Location = new System.Drawing.Point(100, 68);
+            this.cboTable.Location = new System.Drawing.Point(95, 97);
             this.cboTable.Name = "cboTable";
-            this.cboTable.Size = new System.Drawing.Size(270, 24);
-            this.cboTable.TabIndex = 6;
+            this.cboTable.Size = new System.Drawing.Size(258, 24);
+            this.cboTable.TabIndex = 10;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(295, 108);
+            this.button1.Location = new System.Drawing.Point(279, 136);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 7;
+            this.button1.TabIndex = 11;
             this.button1.Text = "確定";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -146,17 +147,29 @@
             // rbSet
             // 
             this.rbSet.AutoSize = true;
-            this.rbSet.Location = new System.Drawing.Point(323, 41);
+            this.rbSet.Location = new System.Drawing.Point(156, 71);
             this.rbSet.Name = "rbSet";
             this.rbSet.Size = new System.Drawing.Size(47, 20);
-            this.rbSet.TabIndex = 5;
+            this.rbSet.TabIndex = 7;
             this.rbSet.Text = "SET";
             this.rbSet.UseVisualStyleBackColor = true;
+            // 
+            // rbJavascript
+            // 
+            this.rbJavascript.AutoSize = true;
+            this.rbJavascript.Location = new System.Drawing.Point(209, 71);
+            this.rbJavascript.Name = "rbJavascript";
+            this.rbJavascript.Size = new System.Drawing.Size(81, 20);
+            this.rbJavascript.TabIndex = 8;
+            this.rbJavascript.Text = "Javascript";
+            this.rbJavascript.UseVisualStyleBackColor = true;
+            this.rbJavascript.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // AddServiceForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(386, 143);
+            this.ClientSize = new System.Drawing.Size(372, 175);
+            this.Controls.Add(this.rbJavascript);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.cboTable);
             this.Controls.Add(this.rbSet);
@@ -196,5 +209,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ErrorProvider err;
         private System.Windows.Forms.RadioButton rbSet;
+        private System.Windows.Forms.RadioButton rbJavascript;
     }
 }

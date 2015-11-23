@@ -184,5 +184,39 @@ namespace ProjectManager.ActionHandler.UDS.Service.Test
                 return BitConverter.ToString(Change).Replace("-", string.Empty) + ".xml";
             }
         }
+
+        private void growRequest_Click(object sender, EventArgs e)
+        {
+            var style = mainLayout.RowStyles[0];
+
+            mainLayout.RowStyles.Clear();
+
+            float reqSize = style.Height + 20;
+
+            if (reqSize >= 100)
+                reqSize = 100;
+
+            float rspSize = 100 - reqSize;
+
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, reqSize > 0 ? reqSize : 0));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, rspSize > 0 ? rspSize : 0));
+        }
+
+        private void growResponse_Click(object sender, EventArgs e)
+        {
+            var style = mainLayout.RowStyles[0];
+
+            mainLayout.RowStyles.Clear();
+
+            float reqSize = style.Height - 20;
+
+            if (reqSize <= 0)
+                reqSize = 0;
+
+            float rspSize = 100 - reqSize;
+
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, reqSize > 0 ? reqSize : 0));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, rspSize > 0 ? rspSize : 0));
+        }
     }
 }

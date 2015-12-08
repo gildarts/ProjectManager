@@ -22,6 +22,7 @@ namespace ProjectManager.Login
             {
                 //if (string.IsNullOrWhiteSpace(_contractName))
                 //    return DEFAULT_CONTRACT_NAME;
+
                 return _contractName;
             }
             set { _contractName = value; }
@@ -62,7 +63,7 @@ namespace ProjectManager.Login
             info.User = h.GetText("User");
             info.Password = h.GetText("Password");
 
-            if (h.GetElement("ContractName") == null)
+            if (string.IsNullOrWhiteSpace(h.GetText("ContractName")))
                 info.ContractName = DEFAULT_CONTRACT_NAME;
             else
                 info.ContractName = h.GetText("ContractName");

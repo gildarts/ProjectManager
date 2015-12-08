@@ -1023,6 +1023,8 @@ namespace ProjectManager
             DoImportFromPhysical();
         }
 
-
+        private void tsitemSearch_TextChanged(object sender, EventArgs e)
+        {
+        }
     }
 }

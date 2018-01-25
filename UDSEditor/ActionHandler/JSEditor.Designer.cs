@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ActiproSoftware.SyntaxEditor.Document document2 = new ActiproSoftware.SyntaxEditor.Document();
+            ActiproSoftware.SyntaxEditor.Document document1 = new ActiproSoftware.SyntaxEditor.Document();
             this.jsEditor1 = new ActiproSoftware.SyntaxEditor.SyntaxEditor();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -40,8 +40,8 @@
             // jsEditor1
             // 
             this.jsEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
-            document2.Text = "JavaScript";
-            this.jsEditor1.Document = document2;
+            document1.Text = "JavaScript";
+            this.jsEditor1.Document = document1;
             this.jsEditor1.Font = new System.Drawing.Font("微軟正黑體", 11F);
             this.jsEditor1.LineNumberMarginVisible = true;
             this.jsEditor1.Location = new System.Drawing.Point(3, 46);
@@ -79,9 +79,9 @@
             // 
             this.btnExtEditor.Location = new System.Drawing.Point(7, 7);
             this.btnExtEditor.Name = "btnExtEditor";
-            this.btnExtEditor.Size = new System.Drawing.Size(88, 23);
+            this.btnExtEditor.Size = new System.Drawing.Size(73, 23);
             this.btnExtEditor.TabIndex = 0;
-            this.btnExtEditor.Text = "Sublime";
+            this.btnExtEditor.Text = "VSCode";
             this.btnExtEditor.UseVisualStyleBackColor = true;
             this.btnExtEditor.Click += new System.EventHandler(this.btnExtEditor_Click);
             // 

@@ -82,9 +82,9 @@ namespace ProjectManager.ActionHandler
         {
             try
             {
-                string sublime = GetExecutablePath();
+                string vscode = GetExecutablePath();
 
-                if (string.IsNullOrWhiteSpace(sublime))
+                if (string.IsNullOrWhiteSpace(vscode))
                     return;
 
                 string path = Application.StartupPath;
@@ -92,16 +92,21 @@ namespace ProjectManager.ActionHandler
 
                 File.WriteAllText(file, jsEditor1.Text, Encoding.UTF8);
 
-                ProcessStartInfo psi = new ProcessStartInfo(sublime);
-                psi.Arguments = "-w \"" + file + "\"";
+                ProcessStartInfo psi = new ProcessStartInfo(vscode);
+                psi.CreateNoWindow = true;
+                psi.WindowStyle = ProcessWindowStyle.Hidden;
+                psi.Arguments = $"-w \"{file}\"";
 
                 Process pro = new Process();
                 pro.StartInfo = psi;
 
                 pro.Start();
-
                 pro.WaitForExit();
-                jsEditor1.Text = File.ReadAllText(file, Encoding.UTF8);
+
+                if (pro.ExitCode == 0)
+                    jsEditor1.Text = File.ReadAllText(file, Encoding.UTF8);
+                else
+                    MessageBox.Show("外部編輯器錯誤。");
             }
             catch (Exception ex)
             {
@@ -112,22 +117,22 @@ namespace ProjectManager.ActionHandler
 
         private string GetExecutablePath()
         {
-            string path = Application.UserAppDataRegistry.GetValue("Sublime", @"C:\Program Files\Sublime Text 2\sublime_text.exe").ToString();
+            string path = Application.UserAppDataRegistry.GetValue("vscode", @"code").ToString();
 
-            if (!File.Exists(path))
-            {
-                MessageBox.Show("請選擇 Sublime 的執行檔。");
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Filter = "*.exe|*.exe";
+            //if (!File.Exists(path))
+            //{
+            //    MessageBox.Show("請選擇 Sublime 的執行檔。");
+            //    OpenFileDialog dialog = new OpenFileDialog();
+            //    dialog.Filter = "*.exe|*.exe";
 
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    Application.UserAppDataRegistry.SetValue("Sublime", dialog.FileName);
-                    return dialog.FileName;
-                }
-                else
-                    return string.Empty;
-            }
+            //    if (dialog.ShowDialog() == DialogResult.OK)
+            //    {
+            //        Application.UserAppDataRegistry.SetValue("Sublime", dialog.FileName);
+            //        return dialog.FileName;
+            //    }
+            //    else
+            //        return string.Empty;
+            //}
 
             return path;
         }

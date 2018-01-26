@@ -60,15 +60,11 @@
       <HintPath>C:\Program Files (x86)\Common Files\Actipro Software\WindowsForms\WinUICore\v1.0.0093\ActiproSoftware.WinUICore.Net20.dll</HintPath>
     </Reference>
     <Reference Include="FISCA.Core">
-      <HintPath>C:\Tools\ProjectManager\FISCA.Core.dll</HintPath>
+      <HintPath>..\lib\FISCA.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FISCA.DSAClient">
-      <HintPath>C:\Tools\ProjectManager\FISCA.DSAClient.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Script">
-      <HintPath>C:\Tools\ProjectManager\Script.exe</HintPath>
+      <HintPath>..\lib\FISCA.DSAClient.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -941,6 +937,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="typescript\template\tsconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ActiproSoftware.SQL.xml" />
@@ -950,6 +949,11 @@
     <EmbeddedResource Include="SyntaxLanguage\ActiproSoftware.JScript.xml" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="typescript\template\types.d.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -170,7 +170,10 @@ namespace ProjectManager.ActionHandler
             _fs_lock.WaitOne();
             _fs_lock.Reset();
             ReadSourceFromWorkingFolder();
+
             RaiseUISourceUpdate();
+            _previous_js_code = JSCode;
+
             _fs_lock.Set();
         }
 
@@ -189,7 +192,8 @@ namespace ProjectManager.ActionHandler
             foreach (var file in Directory.EnumerateFiles(_working_dir, "*.rc.xml"))
                 File.Delete(file);
 
-            Folder.Copy(_template_dir, _working_dir);
+            if (Directory.Exists(_template_dir))
+                Folder.Copy(_template_dir, _working_dir);
         }
 
         private void CopySourceToWorkingFolder()

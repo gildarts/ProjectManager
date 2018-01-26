@@ -948,9 +948,13 @@
     <Content Include="applescript_utility.ico" />
     <EmbeddedResource Include="SyntaxLanguage\ActiproSoftware.JScript.xml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <None Include="typescript\template\types.d.ts">
+    <None Include="typescript\template\service.d.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="typescript\template\dsa.d.ts">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

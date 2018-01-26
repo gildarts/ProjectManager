@@ -121,7 +121,14 @@ namespace ProjectManager.ActionHandler
             get
             {
                 EnsureTSNode();
-                return GetCDATAText(_source.SelectSingleNode(TSXPath));
+                string ts = GetCDATAText(_source.SelectSingleNode(TSXPath));
+
+                // 如果沒有 TypeScript 程式碼就用 JavaScript 程式碼。
+                // 免得被蓋掉。
+                if (string.IsNullOrWhiteSpace(ts))
+                    return JSCode;
+                else
+                    return ts;
             }
             set
             {
@@ -315,7 +322,7 @@ namespace ProjectManager.ActionHandler
                 }
             }
 
-            return string.Empty;
+            return node.InnerText;
         }
     }
 }

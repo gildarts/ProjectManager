@@ -28,12 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             ActiproSoftware.SyntaxEditor.Document document1 = new ActiproSoftware.SyntaxEditor.Document();
             this.jsEditor1 = new ActiproSoftware.SyntaxEditor.SyntaxEditor();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnStopSyncSave = new System.Windows.Forms.Button();
+            this.lblMessage = new System.Windows.Forms.Label();
+            this.btnTypeScript = new System.Windows.Forms.Button();
             this.btnExtEditor = new System.Windows.Forms.Button();
-            this.lblMsg = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -69,13 +73,49 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.lblMsg);
+            this.panel1.Controls.Add(this.btnStopSyncSave);
+            this.panel1.Controls.Add(this.lblMessage);
+            this.panel1.Controls.Add(this.btnTypeScript);
             this.panel1.Controls.Add(this.btnExtEditor);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(731, 37);
             this.panel1.TabIndex = 3;
+            // 
+            // btnStopSyncSave
+            // 
+            this.btnStopSyncSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnStopSyncSave.Enabled = false;
+            this.btnStopSyncSave.ForeColor = System.Drawing.Color.Red;
+            this.btnStopSyncSave.Location = new System.Drawing.Point(626, 7);
+            this.btnStopSyncSave.Name = "btnStopSyncSave";
+            this.btnStopSyncSave.Size = new System.Drawing.Size(102, 23);
+            this.btnStopSyncSave.TabIndex = 4;
+            this.btnStopSyncSave.Text = "停止同步儲存";
+            this.btnStopSyncSave.UseVisualStyleBackColor = true;
+            this.btnStopSyncSave.Click += new System.EventHandler(this.btnStopSyncSave_Click);
+            // 
+            // lblMessage
+            // 
+            this.lblMessage.AutoSize = true;
+            this.lblMessage.ForeColor = System.Drawing.Color.Red;
+            this.lblMessage.Location = new System.Drawing.Point(180, 10);
+            this.lblMessage.Name = "lblMessage";
+            this.lblMessage.Size = new System.Drawing.Size(59, 16);
+            this.lblMessage.TabIndex = 3;
+            this.lblMessage.Text = "Message";
+            // 
+            // btnTypeScript
+            // 
+            this.btnTypeScript.Location = new System.Drawing.Point(86, 7);
+            this.btnTypeScript.Name = "btnTypeScript";
+            this.btnTypeScript.Size = new System.Drawing.Size(88, 23);
+            this.btnTypeScript.TabIndex = 2;
+            this.btnTypeScript.Text = "TypeScript";
+            this.btnTypeScript.UseVisualStyleBackColor = true;
+            this.btnTypeScript.Click += new System.EventHandler(this.btnTypeScript_Click);
             // 
             // btnExtEditor
             // 
@@ -86,18 +126,6 @@
             this.btnExtEditor.Text = "VSCode";
             this.btnExtEditor.UseVisualStyleBackColor = true;
             this.btnExtEditor.Click += new System.EventHandler(this.btnExtEditor_Click);
-            // 
-            // lblMsg
-            // 
-            this.lblMsg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblMsg.AutoSize = true;
-            this.lblMsg.ForeColor = System.Drawing.Color.Red;
-            this.lblMsg.Location = new System.Drawing.Point(86, 10);
-            this.lblMsg.Name = "lblMsg";
-            this.lblMsg.Size = new System.Drawing.Size(384, 16);
-            this.lblMsg.TabIndex = 1;
-            this.lblMsg.Text = "使用外部編輯器，記得 Project Manager 也需存檔，否則資料會遺失。";
             // 
             // JSEditor
             // 
@@ -120,6 +148,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnExtEditor;
-        private System.Windows.Forms.Label lblMsg;
+        private System.Windows.Forms.Button btnTypeScript;
+        private System.Windows.Forms.Label lblMessage;
+        private System.Windows.Forms.Button btnStopSyncSave;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

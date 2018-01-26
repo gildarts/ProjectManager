@@ -55,7 +55,7 @@ namespace ProjectManager.ActionHandler.UDS.Service
             {
                 if (_js_editor == null)
                 {
-                    _js_editor = new JSEditor();
+                    _js_editor = new JSEditor(this);
                     _js_editor.DataChanged += new EventHandler(_js_editor_DataChanged);
                     _js_editor.ChangeRecovered += new EventHandler(_js_editor_ChangeRecovered);
                 }
@@ -90,7 +90,7 @@ namespace ProjectManager.ActionHandler.UDS.Service
 
             if (Source.SelectSingleNode("Code") != null)
             {
-                ((JSEditor)Editor).JavaScriptCode = Source.SelectSingleNode("Code").InnerText;
+                ((JSEditor)Editor).JavaScriptCode = GetSourceText();
                 ((JSEditor)Editor).Unlocked();
             }
             else
@@ -102,6 +102,18 @@ namespace ProjectManager.ActionHandler.UDS.Service
 
             if (ChangeRecovered != null)
                 ChangeRecovered(this, EventArgs.Empty);
+        }
+
+        private string GetSourceText()
+        {
+            var codeNode = Source.SelectSingleNode("Code");
+            foreach (XmlNode n in codeNode.ChildNodes)
+            {
+                if (n is XmlCDataSection)
+                    return n.InnerText;
+            }
+
+            return codeNode.InnerText;
         }
 
         public void Save()

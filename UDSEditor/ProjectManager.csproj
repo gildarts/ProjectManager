@@ -169,6 +169,7 @@
       <DependentUpon>JSEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="ActionHandler\ProjectNodeHandler.cs" />
+    <Compile Include="ActionHandler\TypeScriptHandler.cs" />
     <Compile Include="ActionHandler\UDS\Contract\AddContractForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -688,6 +689,7 @@
     <Compile Include="Util\Converter\UI\ConvertToUDSForm.Designer.cs">
       <DependentUpon>ConvertToUDSForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Util\Folder.cs" />
     <Compile Include="Util\PathHelper.cs" />
     <Compile Include="Util\StringUtil.cs" />
     <EmbeddedResource Include="AboutForm.resx">

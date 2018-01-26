@@ -28,6 +28,7 @@ namespace ProjectManager.ActionHandler
                 string langname = "ProjectManager.SyntaxLanguage.ActiproSoftware.JScript.xml";
                 Stream lang = Assembly.GetExecutingAssembly().GetManifestResourceStream(langname);
                 jsEditor1.Document.LoadLanguageFromXml(lang, 0);
+                lblMsg.Visible = false;
             }
             catch (Exception ex)
             {
@@ -87,15 +88,17 @@ namespace ProjectManager.ActionHandler
                 if (string.IsNullOrWhiteSpace(vscode))
                     return;
 
-                string path = Application.StartupPath;
+                string path = Path.Combine(Application.StartupPath, "vscode");
                 string file = Path.Combine(path, "service.js");
+
+                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
                 File.WriteAllText(file, jsEditor1.Text, Encoding.UTF8);
 
                 ProcessStartInfo psi = new ProcessStartInfo(vscode);
                 psi.CreateNoWindow = true;
                 psi.WindowStyle = ProcessWindowStyle.Hidden;
-                psi.Arguments = $"-w \"{file}\"";
+                psi.Arguments = $"-w \"{path}\"";
 
                 Process pro = new Process();
                 pro.StartInfo = psi;
@@ -104,7 +107,10 @@ namespace ProjectManager.ActionHandler
                 pro.WaitForExit();
 
                 if (pro.ExitCode == 0)
+                {
                     jsEditor1.Text = File.ReadAllText(file, Encoding.UTF8);
+                    lblMsg.Visible = true;
+                }
                 else
                     MessageBox.Show("外部編輯器錯誤。");
             }

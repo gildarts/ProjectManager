@@ -33,6 +33,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnExtEditor = new System.Windows.Forms.Button();
+            this.lblMsg = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -68,6 +69,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.lblMsg);
             this.panel1.Controls.Add(this.btnExtEditor);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
@@ -85,6 +87,18 @@
             this.btnExtEditor.UseVisualStyleBackColor = true;
             this.btnExtEditor.Click += new System.EventHandler(this.btnExtEditor_Click);
             // 
+            // lblMsg
+            // 
+            this.lblMsg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblMsg.AutoSize = true;
+            this.lblMsg.ForeColor = System.Drawing.Color.Red;
+            this.lblMsg.Location = new System.Drawing.Point(86, 10);
+            this.lblMsg.Name = "lblMsg";
+            this.lblMsg.Size = new System.Drawing.Size(384, 16);
+            this.lblMsg.TabIndex = 1;
+            this.lblMsg.Text = "使用外部編輯器，記得 Project Manager 也需存檔，否則資料會遺失。";
+            // 
             // JSEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -95,6 +109,7 @@
             this.Load += new System.EventHandler(this.XmlEditor_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -105,5 +120,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnExtEditor;
+        private System.Windows.Forms.Label lblMsg;
     }
 }

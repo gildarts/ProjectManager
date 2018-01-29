@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            ActiproSoftware.SyntaxEditor.Document document1 = new ActiproSoftware.SyntaxEditor.Document();
+            ActiproSoftware.SyntaxEditor.Document document3 = new ActiproSoftware.SyntaxEditor.Document();
             this.jsEditor1 = new ActiproSoftware.SyntaxEditor.SyntaxEditor();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnJS = new System.Windows.Forms.Button();
             this.btnStopSyncSave = new System.Windows.Forms.Button();
             this.lblMessage = new System.Windows.Forms.Label();
             this.btnTypeScript = new System.Windows.Forms.Button();
-            this.btnExtEditor = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -45,8 +45,8 @@
             // jsEditor1
             // 
             this.jsEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
-            document1.Text = "JavaScript";
-            this.jsEditor1.Document = document1;
+            document3.Text = "JavaScript";
+            this.jsEditor1.Document = document3;
             this.jsEditor1.Font = new System.Drawing.Font("微軟正黑體", 11F);
             this.jsEditor1.LineNumberMarginVisible = true;
             this.jsEditor1.Location = new System.Drawing.Point(3, 46);
@@ -73,15 +73,25 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnJS);
             this.panel1.Controls.Add(this.btnStopSyncSave);
             this.panel1.Controls.Add(this.lblMessage);
             this.panel1.Controls.Add(this.btnTypeScript);
-            this.panel1.Controls.Add(this.btnExtEditor);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(731, 37);
             this.panel1.TabIndex = 3;
+            // 
+            // btnJS
+            // 
+            this.btnJS.Location = new System.Drawing.Point(3, 7);
+            this.btnJS.Name = "btnJS";
+            this.btnJS.Size = new System.Drawing.Size(88, 23);
+            this.btnJS.TabIndex = 5;
+            this.btnJS.Text = "JavaScript";
+            this.btnJS.UseVisualStyleBackColor = true;
+            this.btnJS.Click += new System.EventHandler(this.btnJS_Click);
             // 
             // btnStopSyncSave
             // 
@@ -89,11 +99,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnStopSyncSave.Enabled = false;
             this.btnStopSyncSave.ForeColor = System.Drawing.Color.Red;
-            this.btnStopSyncSave.Location = new System.Drawing.Point(626, 7);
+            this.btnStopSyncSave.Location = new System.Drawing.Point(631, 7);
             this.btnStopSyncSave.Name = "btnStopSyncSave";
-            this.btnStopSyncSave.Size = new System.Drawing.Size(102, 23);
+            this.btnStopSyncSave.Size = new System.Drawing.Size(97, 23);
             this.btnStopSyncSave.TabIndex = 4;
-            this.btnStopSyncSave.Text = "停止同步儲存";
+            this.btnStopSyncSave.Text = "斷開 VSCode";
+            this.toolTip1.SetToolTip(this.btnStopSyncSave, "停止同步儲存");
             this.btnStopSyncSave.UseVisualStyleBackColor = true;
             this.btnStopSyncSave.Click += new System.EventHandler(this.btnStopSyncSave_Click);
             // 
@@ -101,7 +112,7 @@
             // 
             this.lblMessage.AutoSize = true;
             this.lblMessage.ForeColor = System.Drawing.Color.Red;
-            this.lblMessage.Location = new System.Drawing.Point(180, 10);
+            this.lblMessage.Location = new System.Drawing.Point(191, 10);
             this.lblMessage.Name = "lblMessage";
             this.lblMessage.Size = new System.Drawing.Size(59, 16);
             this.lblMessage.TabIndex = 3;
@@ -109,23 +120,13 @@
             // 
             // btnTypeScript
             // 
-            this.btnTypeScript.Location = new System.Drawing.Point(86, 7);
+            this.btnTypeScript.Location = new System.Drawing.Point(97, 7);
             this.btnTypeScript.Name = "btnTypeScript";
             this.btnTypeScript.Size = new System.Drawing.Size(88, 23);
             this.btnTypeScript.TabIndex = 2;
             this.btnTypeScript.Text = "TypeScript";
             this.btnTypeScript.UseVisualStyleBackColor = true;
             this.btnTypeScript.Click += new System.EventHandler(this.btnTypeScript_Click);
-            // 
-            // btnExtEditor
-            // 
-            this.btnExtEditor.Location = new System.Drawing.Point(7, 7);
-            this.btnExtEditor.Name = "btnExtEditor";
-            this.btnExtEditor.Size = new System.Drawing.Size(73, 23);
-            this.btnExtEditor.TabIndex = 0;
-            this.btnExtEditor.Text = "VSCode";
-            this.btnExtEditor.UseVisualStyleBackColor = true;
-            this.btnExtEditor.Click += new System.EventHandler(this.btnExtEditor_Click);
             // 
             // JSEditor
             // 
@@ -147,10 +148,10 @@
         private ActiproSoftware.SyntaxEditor.SyntaxEditor jsEditor1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnExtEditor;
         private System.Windows.Forms.Button btnTypeScript;
         private System.Windows.Forms.Label lblMessage;
         private System.Windows.Forms.Button btnStopSyncSave;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btnJS;
     }
 }

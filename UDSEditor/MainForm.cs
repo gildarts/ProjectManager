@@ -18,6 +18,8 @@ using ProjectManager.Project.Proxy;
 using ProjectManager.Project.UDS;
 using ProjectManager.Project.UDT;
 using ProjectManager.Util.Converter.UI;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ProjectManager
 {
@@ -40,6 +42,9 @@ namespace ProjectManager
         private bool _currentDataChanged;
         private IEditable _currentEditable;
         private UpdateHelper _updateHelper;
+
+        internal static bool VSCodeInstalled = false;
+        internal static bool TSCInstalled = false;
 
         static MainForm()
         {
@@ -383,6 +388,39 @@ namespace ProjectManager
 
             MainForm.Projects.ProjectRemoved += new EventHandler(Projects_ProjectRemoved);
             MainForm.Projects.ProjectAdded += new EventHandler<ProjectEventArgs>(Projects_ProjectAdded);
+
+            CheckCLIInstall();
+        }
+
+        private void CheckCLIInstall()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                VSCodeInstalled = CMDExists("code");
+                TSCInstalled = CMDExists("tsc");
+            });
+        }
+
+        private static bool CMDExists(string cmd)
+        {
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo(cmd);
+                psi.CreateNoWindow = true;
+                psi.WindowStyle = ProcessWindowStyle.Hidden;
+                psi.Arguments = "-v";
+
+                Process pro = new Process();
+                pro.StartInfo = psi;
+                pro.Start();
+                pro.WaitForExit();
+
+                return pro.ExitCode == 0;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         void Projects_ProjectAdded(object sender, ProjectEventArgs e)
@@ -434,7 +472,7 @@ namespace ProjectManager
             foreach (string projectName in MainForm.Projects.ListProjects())
             {
                 ToolStripItem projectItem = cmOpenProject.DropDownItems.Add(projectName);
-                projectItem.Click += delegate(object sender, EventArgs e)
+                projectItem.Click += delegate (object sender, EventArgs e)
                 {
                     ToolStripItem item = sender as ToolStripItem;
                     this.LoadDevProject(item.Text);
@@ -855,16 +893,16 @@ namespace ProjectManager
                 rsbtnSave.Enabled = false;
                 this.SetEditor(editor.Editor);
 
-                editor.EditorChanged += delegate(object s, EventArgs arg)
+                editor.EditorChanged += delegate (object s, EventArgs arg)
                 {
                     this.SetEditor(editor.Editor);
                 };
-                editor.DataChanged += delegate(object s, EventArgs arg)
+                editor.DataChanged += delegate (object s, EventArgs arg)
                 {
                     _currentDataChanged = true;
                     rsbtnSave.Enabled = true;
                 };
-                editor.ChangeRecovered += delegate(object s, EventArgs arg)
+                editor.ChangeRecovered += delegate (object s, EventArgs arg)
                 {
                     _currentDataChanged = false;
                     rsbtnSave.Enabled = false;
@@ -967,7 +1005,7 @@ namespace ProjectManager
         {
             SetupConfigForm setupForm = new SetupConfigForm();
             setupForm.StartPosition = FormStartPosition.CenterParent;
-            setupForm.SetupChanged += delegate(object s, EventArgs arg)
+            setupForm.SetupChanged += delegate (object s, EventArgs arg)
             {
                 MessageBox.Show("設定已變更, 請重啟本程式!", "通知", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 this.Close();
@@ -979,7 +1017,7 @@ namespace ProjectManager
         {
             ProjectPreferenceForm form = new ProjectPreferenceForm();
             form.StartPosition = FormStartPosition.CenterParent;
-            form.Saved += delegate(object s, EventArgs arg)
+            form.Saved += delegate (object s, EventArgs arg)
             {
                 ProjectPreferenceForm f = s as ProjectPreferenceForm;
                 if (MainForm.CurrentProject != null)

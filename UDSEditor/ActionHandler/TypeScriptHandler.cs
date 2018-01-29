@@ -12,13 +12,14 @@ using System.Xml;
 
 namespace ProjectManager.ActionHandler
 {
-    class TypeScriptHandler
+    class JavaScriptTranspilerHandler
     {
         public const string TSXPath = "Resources/Resource[@Name = 'TypeScript']";
 
         private FileSystemWatcher _fs_js_watch = new FileSystemWatcher();
         private FileSystemWatcher _fs_rc_watch = new FileSystemWatcher();
-        private ManualResetEvent _fs_lock = new ManualResetEvent(true);
+        private AutoResetEvent _save_required = new AutoResetEvent(false);
+        private CancellationTokenSource _auto_save_token = new CancellationTokenSource();
 
         private Process _ts_compiler;
 
@@ -28,12 +29,17 @@ namespace ProjectManager.ActionHandler
         private string _ts_name = "service.ts";
         private string _previous_js_code = ""; // 用於判斷是否要存檔的內容。
 
+        private bool _use_typescript = false;
+
         internal XmlElement _source { get; set; }
 
         private TaskScheduler _ui_context;
 
-        public TypeScriptHandler(ServiceNodeHandler srvNode, XmlElement source)
+        public JavaScriptTranspilerHandler(ServiceNodeHandler srvNode,
+            XmlElement source,
+            bool useTypeScript)
         {
+            _use_typescript = useTypeScript;
             _ui_context = TaskScheduler.FromCurrentSynchronizationContext();
             _source = source;
             EnsureWorkingFolder(srvNode); //確保工作目錄存在。
@@ -53,20 +59,23 @@ namespace ProjectManager.ActionHandler
             pro.StartInfo = psi;
             pro.Start();
 
-            Task.Factory.StartNew(() =>
+            if (_use_typescript)
             {
-                ProcessStartInfo ts_psi = new ProcessStartInfo("tsc");
-                ts_psi.CreateNoWindow = true;
-                ts_psi.WindowStyle = ProcessWindowStyle.Hidden;
-                ts_psi.Arguments = $"-w -p \"{Path.Combine(_working_dir, "tsconfig.json")}\"";
+                Task.Factory.StartNew(() =>
+                {
+                    ProcessStartInfo ts_psi = new ProcessStartInfo("tsc");
+                    ts_psi.CreateNoWindow = true;
+                    ts_psi.WindowStyle = ProcessWindowStyle.Hidden;
+                    ts_psi.Arguments = $"-w -p \"{Path.Combine(_working_dir, "tsconfig.json")}\"";
 
-                _ts_compiler = new Process();
-                _ts_compiler.StartInfo = ts_psi;
-                _ts_compiler.Start();
-                _ts_compiler.WaitForExit();
+                    _ts_compiler = new Process();
+                    _ts_compiler.StartInfo = ts_psi;
+                    _ts_compiler.Start();
+                    _ts_compiler.WaitForExit();
 
-                Console.WriteLine(_ts_compiler.ExitCode);
-            });
+                    Console.WriteLine(_ts_compiler.ExitCode);
+                });
+            }
         }
 
 
@@ -170,18 +179,27 @@ namespace ProjectManager.ActionHandler
             _fs_rc_watch.Changed += JS_Changed;
             _fs_rc_watch.EnableRaisingEvents = true;
 
+            Task.Factory.StartNew(() =>
+            {
+                while (!_auto_save_token.IsCancellationRequested)
+                {
+                    _save_required.WaitOne();
+                    //如果取消代表不在自動儲存。
+                    if (_auto_save_token.IsCancellationRequested) break;
+                    // 讓執行緒停住一下，防止連續儲存。
+                    Thread.Sleep(250);
+                    _save_required.Reset(); //防止未儲存又放行，自已先行封鎖。
+
+                    ReadSourceFromWorkingFolder();
+                    RaiseUISourceUpdate();
+                    _previous_js_code = JSCode;
+                }
+            }, _auto_save_token.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 
         private void JS_Changed(object sender, FileSystemEventArgs e)
         {
-            _fs_lock.WaitOne();
-            _fs_lock.Reset();
-            ReadSourceFromWorkingFolder();
-
-            RaiseUISourceUpdate();
-            _previous_js_code = JSCode;
-
-            _fs_lock.Set();
+            _save_required.Set();
         }
 
         private void RaiseUISourceUpdate()
@@ -199,6 +217,9 @@ namespace ProjectManager.ActionHandler
             foreach (var file in Directory.EnumerateFiles(_working_dir, "*.rc.xml"))
                 File.Delete(file);
 
+            var ts = Path.Combine(_working_dir, "service.ts");
+            if (File.Exists(ts)) File.Delete(ts);
+
             if (Directory.Exists(_template_dir))
                 Folder.Copy(_template_dir, _working_dir);
         }
@@ -206,7 +227,9 @@ namespace ProjectManager.ActionHandler
         private void CopySourceToWorkingFolder()
         {
             File.WriteAllText(Path.Combine(_working_dir, _js_name), JSCode, Encoding.UTF8);
-            File.WriteAllText(Path.Combine(_working_dir, _ts_name), TSCode, Encoding.UTF8);
+
+            if (_use_typescript)
+                File.WriteAllText(Path.Combine(_working_dir, _ts_name), TSCode, Encoding.UTF8);
 
             foreach (XmlNode rc in Source.SelectNodes("Resources/Resource"))
             {
@@ -265,8 +288,11 @@ namespace ProjectManager.ActionHandler
             _fs_rc_watch.Dispose();
             _fs_rc_watch = null;
 
-            if (!_ts_compiler.HasExited)
+            if (_ts_compiler != null && !_ts_compiler.HasExited)
                 _ts_compiler.Kill();
+
+            _auto_save_token.Cancel(); //先取消。
+            _save_required.Set(); //再放行。
         }
 
         private string ReadAllTextWait(string fileName)

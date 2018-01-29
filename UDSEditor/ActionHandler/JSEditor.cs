@@ -18,7 +18,7 @@ namespace ProjectManager.ActionHandler
         private bool _changed = false;
 
         private ServiceJSEditable _editor_owner;
-        private TypeScriptHandler _typescript;
+        private JavaScriptTranspilerHandler _transpilerHandler;
 
         private bool _isTypeScript = false;
 
@@ -37,13 +37,7 @@ namespace ProjectManager.ActionHandler
                 Stream lang = Assembly.GetExecutingAssembly().GetManifestResourceStream(langname);
                 jsEditor1.Document.LoadLanguageFromXml(lang, 0);
 
-                if (_editor_owner.Source != null && IsTypeScript())
-                {
-                    _isTypeScript = true;
-                    jsEditor1.Enabled = false;
-                    btnExtEditor.Enabled = false;
-                    ShowInfo("此 Service 已經使用 TypeScript 不能直接編輯 JavaScript。");
-                }
+                Unlocked();
             }
             catch (Exception ex)
             {
@@ -53,7 +47,7 @@ namespace ProjectManager.ActionHandler
 
         private bool IsTypeScript()
         {
-            return _editor_owner.Source.SelectSingleNode(TypeScriptHandler.TSXPath) != null;
+            return _editor_owner.Source.SelectSingleNode(JavaScriptTranspilerHandler.TSXPath) != null;
         }
 
         private void jsEditor1_KeyTyped(object sender, KeyTypedEventArgs e)
@@ -99,54 +93,61 @@ namespace ProjectManager.ActionHandler
 
         public event EventHandler ChangeRecovered;
 
-        private void btnExtEditor_Click(object sender, EventArgs e)
+        // 不在使用，有新的可以用。
+        //private void btnExtEditor_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        string vscode = GetExecutablePath();
+
+        //        if (string.IsNullOrWhiteSpace(vscode))
+        //            return;
+
+        //        string path = Path.Combine(Application.StartupPath, "vscode");
+        //        string file = Path.Combine(path, "service.js");
+
+        //        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
+        //        File.WriteAllText(file, jsEditor1.Text, Encoding.UTF8);
+
+        //        ProcessStartInfo psi = new ProcessStartInfo(vscode);
+        //        psi.CreateNoWindow = true;
+        //        psi.WindowStyle = ProcessWindowStyle.Hidden;
+        //        psi.Arguments = $"-w \"{path}\"";
+
+        //        Process pro = new Process();
+        //        pro.StartInfo = psi;
+
+        //        pro.Start();
+        //        pro.WaitForExit();
+
+        //        if (pro.ExitCode == 0)
+        //        {
+        //            jsEditor1.Text = File.ReadAllText(file, Encoding.UTF8);
+        //            _editor_owner.Save();
+        //            //lblMsg.Visible = true;
+        //        }
+        //        else
+        //            MessageBox.Show("外部編輯器錯誤。");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //        throw;
+        //    }
+        //}
+
+        private void btnJS_Click(object sender, EventArgs e)
         {
             try
             {
-                string vscode = GetExecutablePath();
-
-                if (string.IsNullOrWhiteSpace(vscode))
-                    return;
-
-                string path = Path.Combine(Application.StartupPath, "vscode");
-                string file = Path.Combine(path, "service.js");
-
-                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-
-                File.WriteAllText(file, jsEditor1.Text, Encoding.UTF8);
-
-                ProcessStartInfo psi = new ProcessStartInfo(vscode);
-                psi.CreateNoWindow = true;
-                psi.WindowStyle = ProcessWindowStyle.Hidden;
-                psi.Arguments = $"-w \"{path}\"";
-
-                Process pro = new Process();
-                pro.StartInfo = psi;
-
-                pro.Start();
-                pro.WaitForExit();
-
-                if (pro.ExitCode == 0)
-                {
-                    jsEditor1.Text = File.ReadAllText(file, Encoding.UTF8);
-                    _editor_owner.Save();
-                    //lblMsg.Visible = true;
-                }
+                if (MainForm.VSCodeInstalled)
+                    StartScriptEditor("JavaScript");
                 else
-                    MessageBox.Show("外部編輯器錯誤。");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                throw;
-            }
-        }
-
-        private void btnTypeScript_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                StartTypeScriptEditor();
+                {
+                    var msg = "您必須安裝 VSCode 才可使用此功能。";
+                    MessageBox.Show(msg);
+                }
             }
             catch (Exception ex)
             {
@@ -154,27 +155,58 @@ namespace ProjectManager.ActionHandler
             }
         }
 
-        private void StartTypeScriptEditor()
+        private void btnTypeScript_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!_isTypeScript)
+                {
+                    var msg = "這將使用目前程式碼直接轉為 TypeScript，確定要使用 TypeScript？";
+                    DialogResult dr = MessageBox.Show(msg, "使用 TypeScript？", MessageBoxButtons.OKCancel);
+                    if (dr == DialogResult.Cancel)
+                        return;
+                }
+
+                if (MainForm.VSCodeInstalled && MainForm.TSCInstalled)
+                {
+                    StartScriptEditor("TypeScript");
+                    _isTypeScript = true;
+                }
+                else
+                {
+                    var msg = "您必須安裝 VSCode、TypeScript 才可使用此功能。";
+                    MessageBox.Show(msg);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"編輯器錯誤：{ex.Message}");
+            }
+        }
+
+        private void StartScriptEditor(string transpiler = "JavaScript")
         {
             HideInof();
-            LockEditor(true);
+            Locked();
 
-            _typescript = new TypeScriptHandler(
+            _transpilerHandler = new JavaScriptTranspilerHandler(
                 _editor_owner.ServiceNodeHandler,
-                _editor_owner.Source);
+                _editor_owner.Source,
+                transpiler == "TypeScript");
 
-            _typescript.SourceUpdate += delegate
+            _transpilerHandler.SourceUpdate += delegate
             {
                 try
                 {
-                    ShowInfo("資料存儲中...");
+                    ShowInfo("資料儲存中...");
                     Application.DoEvents();
-                    jsEditor1.Text = _typescript.GetJavaScript();
+                    jsEditor1.Text = _transpilerHandler.GetJavaScript();
                     // Source 可能會整個被調整過。
-                    _editor_owner.Source = _typescript._source;
+                    _editor_owner.Source = _transpilerHandler._source;
                     // Save 會把 jsEditor1.Text 寫入 _editor_owner.Soure 屬性。
                     // 這是原來的邏輯，未修改，需要呼叫是因為要儲存到 Server。
                     _editor_owner.Save();
+                    ShowInfo("儲存完成...");
                     lblMessage.Visible = false;
                 }
                 catch (Exception ex)
@@ -182,21 +214,8 @@ namespace ProjectManager.ActionHandler
                     MessageBox.Show("error: " + ex.Message);
                 }
             };
-            _typescript.StartEditor();
+            _transpilerHandler.StartEditor();
             btnStopSyncSave.Enabled = true;
-        }
-
-        private void LockEditor(bool disable)
-        {
-            if (!_isTypeScript)
-                btnExtEditor.Enabled = !disable;
-
-            btnTypeScript.Enabled = !disable;
-
-            if (disable)
-                Locked();
-            else
-                Unlocked();
         }
 
         private string GetExecutablePath()
@@ -208,15 +227,34 @@ namespace ProjectManager.ActionHandler
 
         public void Locked()
         {
-            jsEditor1.Enabled = false;
+            if (_editor_owner.Source != null && IsTypeScript())
+                _isTypeScript = true;
+
+            btnTypeScript.Enabled = false;
+            btnJS.Enabled = false;
+
+            jsEditor1.Document.ReadOnly = true;
         }
 
         public void Unlocked()
         {
-            jsEditor1.Enabled = true;
+            if (_editor_owner.Source != null && IsTypeScript())
+                _isTypeScript = true;
+
+            btnTypeScript.Enabled = true;
+            btnJS.Enabled = true;
 
             if (_isTypeScript)
-                jsEditor1.Enabled = false;
+            {
+                btnJS.Enabled = false;
+                ShowInfo("注意！已經使用 TypeScript ，如果直接編輯 JavaScript 會有被覆蓋危險。");
+            }
+            else
+            {
+                HideInof();
+            }
+
+            jsEditor1.Document.ReadOnly = false;
         }
 
         private void ShowInfo(string msg)
@@ -232,14 +270,14 @@ namespace ProjectManager.ActionHandler
 
         private void btnStopSyncSave_Click(object sender, EventArgs e)
         {
-            if (_typescript != null)
+            if (_transpilerHandler != null)
             {
-                _typescript.DisconnectEditor();
-                _typescript = null;
-                LockEditor(false);
+                _transpilerHandler.DisconnectEditor();
+                _transpilerHandler = null;
+                Unlocked();
             }
 
-            btnStopSyncSave.Enabled = _typescript != null;
+            btnStopSyncSave.Enabled = _transpilerHandler != null;
         }
     }
 }

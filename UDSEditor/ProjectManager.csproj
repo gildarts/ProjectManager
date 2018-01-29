@@ -946,6 +946,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="applescript_utility.ico" />
+    <Content Include="typescript\template\rc\README.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="SyntaxLanguage\ActiproSoftware.JScript.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -958,6 +961,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

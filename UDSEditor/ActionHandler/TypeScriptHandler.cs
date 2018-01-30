@@ -26,6 +26,7 @@ namespace ProjectManager.ActionHandler
 
         private string _working_dir;
         private string _rc_dir;
+        private string _src_dir;
         private string _template_dir; // TypeScript 樣版目錄
         private string _js_name = "service.js";
         private string _ts_name = "service.ts";
@@ -75,7 +76,7 @@ namespace ProjectManager.ActionHandler
                     _ts_compiler.Start();
                     _ts_compiler.WaitForExit();
 
-                    Console.WriteLine(_ts_compiler.ExitCode);
+                    Console.WriteLine($"TSC Exit Code: {_ts_compiler.ExitCode}");
                 });
             }
         }
@@ -335,6 +336,7 @@ namespace ProjectManager.ActionHandler
 
             _working_dir = Path.Combine(baseUrl, accessPoint, contractName, packageName, serviceName);
             _rc_dir = Path.Combine(_working_dir, "rc");
+            _src_dir = Path.Combine(_working_dir, "src");
             _template_dir = Path.Combine(baseUrl, "template");
 
             if (!Directory.Exists(_working_dir))
@@ -342,6 +344,9 @@ namespace ProjectManager.ActionHandler
 
             if (!Directory.Exists(_rc_dir))
                 Directory.CreateDirectory(_rc_dir);
+
+            if (!Directory.Exists(_src_dir))
+                Directory.CreateDirectory(_src_dir);
         }
 
         private string EnsureValidName(string name)

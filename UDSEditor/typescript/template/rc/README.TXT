@@ -18,5 +18,5 @@ rc1.rc.xml
 getStudent.sql
 moduleA.js
 
-
 主檔名即是 Resource 名稱，此例中是「getStudent、moduleA」。
+主檔名請勿再使用「.」(例: student.get.sql)，否則可能產生覆蓋、錯誤、遺失等問題。

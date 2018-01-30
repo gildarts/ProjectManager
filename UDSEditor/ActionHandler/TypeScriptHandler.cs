@@ -2,6 +2,7 @@
 using ProjectManager.ActionHandler.UDS.Service;
 using ProjectManager.Util;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -24,6 +25,7 @@ namespace ProjectManager.ActionHandler
         private Process _ts_compiler;
 
         private string _working_dir;
+        private string _rc_dir;
         private string _template_dir; // TypeScript 樣版目錄
         private string _js_name = "service.js";
         private string _ts_name = "service.ts";
@@ -214,9 +216,6 @@ namespace ProjectManager.ActionHandler
 
         private void PrepareWorkingFolder()
         {
-            foreach (var file in Directory.EnumerateFiles(_working_dir, "*.rc.xml"))
-                File.Delete(file);
-
             var ts = Path.Combine(_working_dir, "service.ts");
             if (File.Exists(ts)) File.Delete(ts);
 
@@ -242,7 +241,20 @@ namespace ProjectManager.ActionHandler
                     string name = EnsureValidName(attValue);
                     string fn = $"{name}.rc.xml";
 
-                    File.WriteAllText(Path.Combine(_working_dir, fn), rc.OuterXml);
+                    string fileName = Path.Combine(_rc_dir, fn);
+
+                    FileInfo file = new FileInfo(name);
+                    if (!string.IsNullOrWhiteSpace(file.Extension))
+                    {
+                        var support = IsSupportExt(file.Extension);
+
+                        if (support)
+                            File.WriteAllText(Path.Combine(_rc_dir, name), GetCDATAText(rc));
+                        else
+                            File.WriteAllText(fileName, rc.OuterXml);
+                    }
+                    else
+                        File.WriteAllText(fileName, rc.OuterXml);
                 }
             }
         }
@@ -322,10 +334,14 @@ namespace ProjectManager.ActionHandler
             var serviceName = EnsureValidName(srvNode.ServiceName);
 
             _working_dir = Path.Combine(baseUrl, accessPoint, contractName, packageName, serviceName);
+            _rc_dir = Path.Combine(_working_dir, "rc");
             _template_dir = Path.Combine(baseUrl, "template");
 
             if (!Directory.Exists(_working_dir))
                 Directory.CreateDirectory(_working_dir);
+
+            if (!Directory.Exists(_rc_dir))
+                Directory.CreateDirectory(_rc_dir);
         }
 
         private string EnsureValidName(string name)
@@ -349,6 +365,12 @@ namespace ProjectManager.ActionHandler
             }
 
             return node.InnerText;
+        }
+
+        private bool IsSupportExt(string extension)
+        {
+            var supports = new List<string>(new string[] { ".sql", ".txt", ".json", ".js", ".pgsql" });
+            return supports.FindIndex((v) => v == extension) >= 0;
         }
     }
 }

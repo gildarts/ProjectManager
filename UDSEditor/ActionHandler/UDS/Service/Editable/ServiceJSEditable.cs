@@ -91,7 +91,7 @@ namespace ProjectManager.ActionHandler.UDS.Service
             if(Source.SelectSingleNode("Resources/Resource[@Name='TypeScript']") != null)
             {
                 ((JSEditor)Editor).JavaScriptCode = GetTSSourceText();
-                ((JSEditor)Editor).Locked();
+                //((JSEditor)Editor).Locked();
             }
             else if (Source.SelectSingleNode("Code") != null)
             {

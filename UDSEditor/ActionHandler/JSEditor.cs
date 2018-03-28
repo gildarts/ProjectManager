@@ -186,13 +186,22 @@ namespace ProjectManager.ActionHandler
 
         private void StartScriptEditor(string transpiler = "JavaScript")
         {
+
+            try
+            {
+                _transpilerHandler = new JavaScriptTranspilerHandler(
+                    _editor_owner.ServiceNodeHandler,
+                    _editor_owner.Source,
+                    transpiler == "TypeScript");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+
             HideInof();
             Locked();
-
-            _transpilerHandler = new JavaScriptTranspilerHandler(
-                _editor_owner.ServiceNodeHandler,
-                _editor_owner.Source,
-                transpiler == "TypeScript");
 
             _transpilerHandler.SourceUpdate += delegate
             {
@@ -200,7 +209,7 @@ namespace ProjectManager.ActionHandler
                 {
                     ShowInfo("資料儲存中...");
                     Application.DoEvents();
-                    jsEditor1.Text = _transpilerHandler.GetJavaScript();
+                    jsEditor1.Text = _transpilerHandler.GetTypeScript();
                     // Source 可能會整個被調整過。
                     _editor_owner.Source = _transpilerHandler._source;
                     // Save 會把 jsEditor1.Text 寫入 _editor_owner.Soure 屬性。

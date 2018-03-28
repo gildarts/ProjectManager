@@ -87,6 +87,11 @@ namespace ProjectManager.ActionHandler
             return JSCode;
         }
 
+        internal string GetTypeScript()
+        {
+            return TSCode;
+        }
+
         /// <summary>
         /// 當原始程式碼變更時。
         /// </summary>
@@ -170,16 +175,17 @@ namespace ProjectManager.ActionHandler
 
         private void CreateFileSystemWatcher()
         {
-            _fs_js_watch.Path = _working_dir;
+            _fs_js_watch.Path = _src_dir;
             _fs_js_watch.Filter = "service.js";
             _fs_js_watch.NotifyFilter = NotifyFilters.LastWrite;
             _fs_js_watch.Changed += JS_Changed;
             _fs_js_watch.EnableRaisingEvents = true;
 
-            _fs_rc_watch.Path = _working_dir;
-            _fs_rc_watch.Filter = "*.rc.xml";
-            _fs_rc_watch.NotifyFilter = NotifyFilters.LastWrite;
+            _fs_rc_watch.Path = _rc_dir;
+            _fs_rc_watch.Filter = "*.*";
+            //_fs_rc_watch.NotifyFilter = NotifyFilters.LastWrite;
             _fs_rc_watch.Changed += JS_Changed;
+            _fs_rc_watch.Deleted += JS_Changed;
             _fs_rc_watch.EnableRaisingEvents = true;
 
             Task.Factory.StartNew(() =>
@@ -217,8 +223,11 @@ namespace ProjectManager.ActionHandler
 
         private void PrepareWorkingFolder()
         {
-            var ts = Path.Combine(_working_dir, "service.ts");
-            if (File.Exists(ts)) File.Delete(ts);
+            if (Directory.Exists(_working_dir))
+                Directory.Delete(_working_dir, true);
+
+            Directory.CreateDirectory(_src_dir);
+            Directory.CreateDirectory(_rc_dir);
 
             if (Directory.Exists(_template_dir))
                 Folder.Copy(_template_dir, _working_dir);
@@ -226,10 +235,10 @@ namespace ProjectManager.ActionHandler
 
         private void CopySourceToWorkingFolder()
         {
-            File.WriteAllText(Path.Combine(_working_dir, _js_name), JSCode, Encoding.UTF8);
+            File.WriteAllText(Path.Combine(_src_dir, _js_name), JSCode, Encoding.UTF8);
 
             if (_use_typescript)
-                File.WriteAllText(Path.Combine(_working_dir, _ts_name), TSCode, Encoding.UTF8);
+                File.WriteAllText(Path.Combine(_src_dir, _ts_name), TSCode, Encoding.UTF8);
 
             foreach (XmlNode rc in Source.SelectNodes("Resources/Resource"))
             {
@@ -237,33 +246,35 @@ namespace ProjectManager.ActionHandler
                 {
                     string attValue = rc.Attributes["Name"].InnerText;
 
-                    if (attValue == "TypeScript") continue;
+                    if (attValue == "TypeScript") continue; // TypeScript 不出輸。
+
+                    string typeString = "";
+                    var typeAtt = rc.Attributes["Type"]; //檔案類型。
+
+                    if (typeAtt != null) typeString = typeAtt.Value.ToLower();
 
                     string name = EnsureValidName(attValue);
-                    string fn = $"{name}.rc.xml";
 
-                    string fileName = Path.Combine(_rc_dir, fn);
-
-                    FileInfo file = new FileInfo(name);
-                    if (!string.IsNullOrWhiteSpace(file.Extension))
+                    if (!string.IsNullOrWhiteSpace(typeString)) //有指定類型
                     {
-                        var support = IsSupportExt(file.Extension);
-
-                        if (support)
-                            File.WriteAllText(Path.Combine(_rc_dir, name), GetCDATAText(rc));
-                        else
-                            File.WriteAllText(fileName, rc.OuterXml);
+                        string fn = $"{name}{typeString}";
+                        string fileName = Path.Combine(_rc_dir, fn);
+                        File.WriteAllText(fileName, GetCDATAText(rc));
                     }
-                    else
+                    else //沒有指定類型。
+                    {
+                        string fn = $"{name}.rc.xml";
+                        string fileName = Path.Combine(_rc_dir, fn);
                         File.WriteAllText(fileName, rc.OuterXml);
+                    }
                 }
             }
         }
 
         private void ReadSourceFromWorkingFolder()
         {
-            var jsfile = Path.Combine(_working_dir, _js_name);
-            var tsfile = Path.Combine(_working_dir, _ts_name);
+            var jsfile = Path.Combine(_src_dir, _js_name);
+            var tsfile = Path.Combine(_src_dir, _ts_name);
 
             if (File.Exists(jsfile)) JSCode = ReadAllTextWait(jsfile);
             if (File.Exists(tsfile)) TSCode = ReadAllTextWait(tsfile);
@@ -271,21 +282,41 @@ namespace ProjectManager.ActionHandler
             foreach (XmlNode n in Source.SelectNodes("Resources/Resource"))
             {
                 var name = n.Attributes["Name"].InnerText;
-                if (name == "TypeScript") continue;
+                if (name == "TypeScript") continue; //ts 的不要動，其他的都移掉。
 
                 n.ParentNode.RemoveChild(n);
             }
 
+            //*.rc.xml、*.txt、*.sql、*.js、*.json
+
             var rcs = Source.SelectSingleNode("Resources");
-            foreach (var file in Directory.EnumerateFiles(_working_dir, "*.rc.xml"))
+            foreach (var file in Directory.EnumerateFiles(_rc_dir, "*.*"))
             {
                 try
                 {
-                    var xmldoc = new XmlDocument();
-                    xmldoc.Load(file);
+                    var fileInfo = new FileInfo(file);
 
-                    var newrc = rcs.OwnerDocument.ImportNode(xmldoc.DocumentElement, true);
-                    rcs.AppendChild(newrc);
+                    if (fileInfo.Name.ToLower() == "README.TXT".ToLower()) continue;
+                    
+                    if(fileInfo.Name.EndsWith(".rc.xml"))
+                    {
+                        var xmldoc = new XmlDocument();
+                        xmldoc.Load(file);
+
+                        var newrc = rcs.OwnerDocument.ImportNode(xmldoc.DocumentElement, true);
+                        rcs.AppendChild(newrc);
+                    } else
+                    {
+                        var xmldoc = new XmlDocument();
+                        xmldoc.LoadXml("<Resource/>");
+                        xmldoc.DocumentElement.SetAttribute("Name", fileInfo.Name.Replace(fileInfo.Extension, ""));
+                        xmldoc.DocumentElement.SetAttribute("Type", fileInfo.Extension);
+                        var cdata = xmldoc.CreateCDataSection(File.ReadAllText(file));
+                        xmldoc.DocumentElement.AppendChild(cdata);
+
+                        var newrc = rcs.OwnerDocument.ImportNode(xmldoc.DocumentElement, true);
+                        rcs.AppendChild(newrc);
+                    }
                 }
                 catch { }
             }

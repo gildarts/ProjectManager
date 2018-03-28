@@ -12,8 +12,10 @@ rc1.rc.xml
 	select * from student limit 10;
 ]]></Resource>
 
+使用這種通用格式要特別小心，如果格式不正確將不會被儲存，也不會有錯誤訊息。
 
-2. 專用格式，支援下列「*.txt、*.sql、*.js、*.json」，例：
+2. 專用格式「*.txt、*.sql、*.js、*.json ...任何文字格式」
+例：
 
 getStudent.sql
 moduleA.js

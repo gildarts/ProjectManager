@@ -88,7 +88,12 @@ namespace ProjectManager.ActionHandler.UDS.Service
                 ServiceNodeHandler.PackageName,
                 ServiceNodeHandler.ServiceName);
 
-            if (Source.SelectSingleNode("Code") != null)
+            if(Source.SelectSingleNode("Resources/Resource[@Name='TypeScript']") != null)
+            {
+                ((JSEditor)Editor).JavaScriptCode = GetTSSourceText();
+                ((JSEditor)Editor).Locked();
+            }
+            else if (Source.SelectSingleNode("Code") != null)
             {
                 ((JSEditor)Editor).JavaScriptCode = GetSourceText();
                 ((JSEditor)Editor).Unlocked();
@@ -107,6 +112,18 @@ namespace ProjectManager.ActionHandler.UDS.Service
         private string GetSourceText()
         {
             var codeNode = Source.SelectSingleNode("Code");
+            foreach (XmlNode n in codeNode.ChildNodes)
+            {
+                if (n is XmlCDataSection)
+                    return n.InnerText;
+            }
+
+            return codeNode.InnerText;
+        }
+
+        private string GetTSSourceText()
+        {
+            var codeNode = Source.SelectSingleNode("Resources/Resource[@Name='TypeScript']");
             foreach (XmlNode n in codeNode.ChildNodes)
             {
                 if (n is XmlCDataSection)

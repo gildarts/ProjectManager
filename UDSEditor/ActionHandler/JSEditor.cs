@@ -247,14 +247,15 @@ namespace ProjectManager.ActionHandler
             if (_isTypeScript)
             {
                 btnJS.Enabled = false;
-                ShowInfo("注意！已經使用 TypeScript ，如果直接編輯 JavaScript 會有被覆蓋危險。");
+                ShowInfo("注意！已經使用 TypeScript ，請使用 VSCode 編輯程式碼。");
             }
             else
             {
                 HideInof();
             }
 
-            jsEditor1.Document.ReadOnly = false;
+            // 如果是 TypeScript 不允許直接修改。
+            jsEditor1.Document.ReadOnly = _isTypeScript;
         }
 
         private void ShowInfo(string msg)

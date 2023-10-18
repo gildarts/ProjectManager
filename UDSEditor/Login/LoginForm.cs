@@ -102,9 +102,9 @@ namespace ProjectManager.Login
                     ftpUrl = TripleDESHelper.Decrypt(h.GetText("FTP"), USE_KEY);
                     succeedLoginModuleService = true;
                 }
-                catch
+                catch(Exception ex )
                 {
-                    this.ShowMessage("載入失敗！");
+                    this.ShowMessage("載入失敗！" + ex.Message);
                     succeedLoginModuleService = false;
                 }
                 string pwd = string.Empty;

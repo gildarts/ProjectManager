@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ProjectManager</RootNamespace>
     <AssemblyName>ProjectManager</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -32,6 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -41,6 +42,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>applescript_utility.ico</ApplicationIcon>
@@ -59,7 +61,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Common Files\Actipro Software\WindowsForms\WinUICore\v1.0.0093\ActiproSoftware.WinUICore.Net20.dll</HintPath>
     </Reference>
-    <Reference Include="FISCA.Core">
+    <Reference Include="FISCA.Core, Version=1.0.1.1, Culture=neutral, PublicKeyToken=a269f410f9e2a287, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\FISCA.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -738,6 +741,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ActionHandler\UDS\Contract\ContractTestForm.resx">
       <DependentUpon>ContractTestForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ActionHandler\UDS\DeployToPhysicalForm.resx">
       <DependentUpon>DeployToPhysicalForm.cs</DependentUpon>

@@ -155,7 +155,7 @@ namespace ProjectManager.ActionHandler.UDS.Service
                 xh.AddElement("Code");
             }
 
-            var code = ((JSEditor)Editor).JavaScriptCode;
+            var code = GetSourceText();
             var section = Source.OwnerDocument.CreateCDataSection(code);
             Source.SelectSingleNode("Code").InnerText = "";
             Source.SelectSingleNode("Code").AppendChild(section);

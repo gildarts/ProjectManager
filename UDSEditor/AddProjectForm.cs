@@ -53,12 +53,6 @@ namespace ProjectManager
             {
                 if (string.IsNullOrWhiteSpace(txtAP.Text))
                     err.SetError(txtAP, "開發站不可空白");
-
-                if (string.IsNullOrWhiteSpace(txtUser.Text) && cboContract.Text != "_dev")
-                    err.SetError(txtUser, "帳號不可空白");
-
-                if (string.IsNullOrWhiteSpace(txtPwd.Text) && cboContract.Text != "_dev")
-                    err.SetError(txtPwd, "密碼不可空白");
             }
 
             if (string.IsNullOrWhiteSpace(txtProjectPath.Text))

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FISCA.DSAClient;
 using System.Xml;
+using ProjectManager.Login.Security;
 
 namespace ProjectManager.Login
 {
@@ -28,12 +29,62 @@ namespace ProjectManager.Login
             set { _contractName = value; }
         }
 
+        /// <summary>
+        /// 先用目前登入的 ischool 帳號（Passport）連線，失敗且有設定帳密時改用 Basic。
+        /// 帳密空白則只走 Passport。
+        /// </summary>
         internal Connection TryConnect()
+        {
+            Exception passportError;
+            try
+            {
+                return ConnectByPassport();
+            }
+            catch (Exception ex)
+            {
+                passportError = ex;
+            }
+
+            if (string.IsNullOrWhiteSpace(User))
+                throw new Exception("Passport 連線失敗：" + passportError.Message, passportError);
+
+            try
+            {
+                return ConnectByBasic();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Passport 連線失敗：" + passportError.Message
+                    + "\n帳密連線失敗：" + ex.Message, ex);
+            }
+        }
+
+        private Connection ConnectByPassport()
+        {
+            if (MainForm.LoginArgs == null || MainForm.LoginArgs.GreeningConnection == null)
+                throw new Exception("尚未登入 ischool 帳號。");
+
+            // 每次都重新取得，避免 passport 過期
+            Envelope rsp = MainForm.LoginArgs.GreeningConnection.SendRequest("DS.Base.GetPassportToken", new Envelope());
+            PassportSecurityToken token = new PassportSecurityToken(rsp.Body.XmlString);
+
+            Connection connection = NewConnection();
+            connection.Connect(AccessPoint, ContractName, token);
+            return connection;
+        }
+
+        private Connection ConnectByBasic()
+        {
+            Connection connection = NewConnection();
+            connection.Connect(AccessPoint, ContractName, User, Password);
+            return connection;
+        }
+
+        private static Connection NewConnection()
         {
             Connection connection = new Connection();
             connection.EnableSession = false;
             connection.EnableSecureTunnel = true;
-            connection.Connect(AccessPoint, ContractName, User, Password);
             return connection;
         }
 

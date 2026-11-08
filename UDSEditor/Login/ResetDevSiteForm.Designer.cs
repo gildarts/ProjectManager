@@ -43,6 +43,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.cboContract = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtProjectName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -166,6 +167,15 @@
             this.label6.TabIndex = 27;
             this.label6.Text = "此專案開發站台目前無法正確連線，請確定此站台可正常連線後重新載入專案，或重新設定開發站台資訊";
             // 
+            // label7
+            // 
+            this.label7.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label7.Location = new System.Drawing.Point(8, 289);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(230, 34);
+            this.label7.TabIndex = 28;
+            this.label7.Text = "優先使用目前登入的 ischool 帳號（Passport），帳號空白則只用 Passport";
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -192,6 +202,7 @@
             this.ClientSize = new System.Drawing.Size(333, 330);
             this.Controls.Add(this.cboContract);
             this.Controls.Add(this.label5);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.button1);
@@ -235,6 +246,7 @@
         private System.Windows.Forms.ComboBox cboContract;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtProjectName;
     }

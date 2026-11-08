@@ -117,7 +117,7 @@ namespace ProjectManager.Project
             dsf.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             dsf.Completed += delegate(object sender, EventArgs arg)
             {
-                SetDevSite(dsf.GetDevSite());
+                SetDevSite(dsf.GetDevSite(), dsf.Connection);
             };
             dsf.ShowDialog();
         }
@@ -135,15 +135,29 @@ namespace ProjectManager.Project
 
         private void SetDevSite(DevSiteLoginInfo devSite)
         {
+            SetDevSite(devSite, null);
+        }
+
+        /// <summary>connection 為已連好的連線時直接沿用，不再連第二次</summary>
+        private void SetDevSite(DevSiteLoginInfo devSite, Connection connection)
+        {
             this.DevSite = devSite;
-            try
+            if (connection != null)
             {
-                DevConnection = this.DevSite.TryConnect();
+                DevConnection = connection;
                 Status = ProjectStatus.Succeed;
             }
-            catch
+            else
             {
-                Status = ProjectStatus.LoadFail;
+                try
+                {
+                    DevConnection = this.DevSite.TryConnect();
+                    Status = ProjectStatus.Succeed;
+                }
+                catch
+                {
+                    Status = ProjectStatus.LoadFail;
+                }
             }
 
             XmlHelper h = new XmlHelper(this.Preference);

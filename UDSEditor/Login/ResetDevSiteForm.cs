@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading.Tasks;
+using FISCA.DSAClient;
 
 namespace ProjectManager.Login
 {
@@ -16,6 +18,9 @@ namespace ProjectManager.Login
         private DevSiteLoginInfo _devSite;
 
         private string _projectName;
+
+        /// <summary>儲存設定時已連好的連線</summary>
+        internal Connection Connection { get; private set; }
 
         internal ResetDevSiteForm(string projectName, DevSiteLoginInfo devSite)
         {            
@@ -38,13 +43,20 @@ namespace ProjectManager.Login
             err.Clear();
 
             DevSiteLoginInfo dev = GetDevSite();
-            
+
+            // 連線在背景跑，避免站台連不到時畫面 hang 住；取消就回到本畫面
+            Task<Connection> connect = Task.Run(() => dev.TryConnect());
+            ConnectingForm waitForm = new ConnectingForm("正在連線開發站台...", connect);
+            if (waitForm.ShowDialog(this) != DialogResult.OK)
+                return;
+
             try
             {
-                dev.TryConnect();
+                Connection = connect.Result;
             }
-            catch (Exception ex)
+            catch (AggregateException aex)
             {
+                Exception ex = aex.InnerException ?? aex;
                 StringBuilder sb = new StringBuilder(ex.Message);
                 if (ex.InnerException != null)
                 {

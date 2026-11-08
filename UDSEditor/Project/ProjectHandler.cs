@@ -50,40 +50,61 @@ namespace ProjectManager.Project
 
         internal void Init(bool warring)
         {
+            HandleConnectResult(Connect(), warring);
+        }
+
+        /// <summary>取得專案設定並連線開發站台；不碰 UI，可在背景執行緒呼叫</summary>
+        internal ConnectResult Connect()
+        {
             Status = ProjectStatus.Unload;
 
-            Preference = GetProjectPreference();
+            try
+            {
+                Preference = GetProjectPreference();
+            }
+            catch
+            {
+                Preference = null;
+            }
 
             if (Preference == null)
-            {
-                if (warring)
-                    MessageBox.Show("無法取得專案設定檔!", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                return;
-            }
+                return ConnectResult.NoPreference;
 
             XmlHelper pref = new XmlHelper(Preference);
             XmlElement devSiteElement = pref.GetElement("Property[@Name='DevSite']/DevSite");
 
             if (devSiteElement == null)
-            {
-                string msg = "無法取得專案『" + this.Name + "』開發站台連線設定, 是否重新設定開發站台位置?";
-                ShowResetMessage(this.Name, msg);
-            }
-            else
-            {
-                DevSite = DevSiteLoginInfo.Load(devSiteElement);
+                return ConnectResult.NoDevSite;
 
-                try
-                {
-                    DevConnection = DevSite.TryConnect();
-                    Status = ProjectStatus.Succeed;
-                }
-                catch
-                {
-                    string msg = "專案『" + this.Name + "』開發站台連線失敗, 是否重新設定開發站台位置?";
-                    ShowResetMessage(this.Name, msg);
-                }
+            DevSite = DevSiteLoginInfo.Load(devSiteElement);
+
+            try
+            {
+                DevConnection = DevSite.TryConnect();
+                Status = ProjectStatus.Succeed;
+                return ConnectResult.Succeed;
+            }
+            catch
+            {
+                return ConnectResult.ConnectFail;
+            }
+        }
+
+        /// <summary>依 Connect 的結果提示使用者；要在 UI 執行緒呼叫</summary>
+        internal void HandleConnectResult(ConnectResult result, bool warring)
+        {
+            switch (result)
+            {
+                case ConnectResult.NoPreference:
+                    if (warring)
+                        MessageBox.Show("無法取得專案設定檔!", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case ConnectResult.NoDevSite:
+                    ShowResetMessage(this.Name, "無法取得專案『" + this.Name + "』開發站台連線設定, 是否重新設定開發站台位置?");
+                    break;
+                case ConnectResult.ConnectFail:
+                    ShowResetMessage(this.Name, "專案『" + this.Name + "』開發站台連線失敗, 是否重新設定開發站台位置?");
+                    break;
             }
         }
 
@@ -331,5 +352,10 @@ namespace ProjectManager.Project
     internal enum ProjectStatus
     {
         Succeed, Unload, LoadFail
+    }
+
+    internal enum ConnectResult
+    {
+        Succeed, NoPreference, NoDevSite, ConnectFail
     }
 }

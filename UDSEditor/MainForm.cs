@@ -95,7 +95,26 @@ namespace ProjectManager
             foreach (ToolStripMenuItem item in cmOpenProject.DropDownItems)
                 item.Checked = item.Text == projectName;
 
-            MainForm.CurrentProject = Projects.LoadProjectHandler(projectName);
+            ProjectHandler loading = Projects.LoadUnloadProjectHandler(projectName);
+            if (loading.Status == ProjectStatus.Unload)
+            {
+                // 連線開發站台放到背景，畫面不卡住，並可取消
+                Task<ConnectResult> connect = Task.Run(() => loading.Connect());
+                ConnectingForm waitForm = new ConnectingForm("正在連線專案『" + projectName + "』的開發站台...", connect);
+                if (waitForm.ShowDialog(this) != DialogResult.OK)
+                {
+                    // 取消：不載入，並清掉上次專案，下次啟動不會再自動連線
+                    MainForm.Storage.SetProperty("LastestProject", string.Empty);
+                    foreach (ToolStripMenuItem item in cmOpenProject.DropDownItems)
+                        item.Checked = false;
+                    MainForm.CurrentProject = null;
+                    tvProjects.Nodes.Clear();
+                    tvProjects.Nodes.Add("尚無載入專案");
+                    return;
+                }
+                loading.HandleConnectResult(connect.IsFaulted ? ConnectResult.ConnectFail : connect.Result, true);
+            }
+            MainForm.CurrentProject = loading;
 
             if (CurrentProject == null)
                 return;

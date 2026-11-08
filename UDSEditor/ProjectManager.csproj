@@ -463,6 +463,9 @@
     <Compile Include="ActionHandler\XmlEditor.Designer.cs">
       <DependentUpon>XmlEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConnectingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="CheckVersionForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -5,7 +5,6 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml;
-using FISCA.Deployment;
 using FISCA.DSAClient;
 using ModuleFileManager.Utils;
 using ProjectManager.ActionHandler;
@@ -41,7 +40,6 @@ namespace ProjectManager
         private DevSiteLoginInfo DevSite { get; set; }
         private bool _currentDataChanged;
         private IEditable _currentEditable;
-        private UpdateHelper _updateHelper;
 
         internal static bool VSCodeInstalled = false;
         internal static bool TSCInstalled = false;
@@ -371,11 +369,6 @@ namespace ProjectManager
             string title = this.Text + "( 版本 : " + MainForm.Version.ToString() + ")";
             this.Text = title;
 
-            ManifestResolver resolver = new ManifestResolver(Program.UpdateURL, VersionOption.Stable);
-            _updateHelper = new UpdateHelper(resolver, new InstallDescriptor(Application.StartupPath));
-
-            System.Threading.Timer timer = new System.Threading.Timer(timer_Tick, null, new TimeSpan(0), new TimeSpan(1, 0, 0));
-
             LoginGreening();
 
             XmlHelper xml = MainForm.Storage.GetPropertyXml(toolStrip1.Name, "Location");
@@ -434,30 +427,6 @@ namespace ProjectManager
             ReloadProjectList();
             MainForm.CurrentProject = null;
             tvProjects.Nodes.Add("尚無載入專案");
-        }
-
-        void timer_Tick(object state)
-        {
-            try
-            {
-                if (_updateHelper.CheckUpdate())
-                {
-                    PaddingScript script = new PaddingScript();
-
-                    script.WaitRelease(Application.ExecutablePath);
-                    _updateHelper.Update(script);
-                    script.Delete(Path.Combine(Application.StartupPath, "_update_padding.xml"));
-                    script.Delete(Path.Combine(Application.StartupPath, _updateHelper.Install.TemporalFolder));
-                    script.StartProcess(Application.ExecutablePath);
-                    script.Save(Path.Combine(Application.StartupPath, "_update_padding.xml"));
-
-                    Invoke(new Action(() =>
-                    {
-                        tsVersionLabel.Visible = true;
-                    }));
-                }
-            }
-            catch { }
         }
 
         private void cmSite_Click(object sender, EventArgs e)
@@ -937,13 +906,6 @@ namespace ProjectManager
             DialogResult dr = MessageBox.Show("是否關閉此工具?", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dr == System.Windows.Forms.DialogResult.Yes)
                 this.Close();
-        }
-
-        private void tsVersionLabel_Click(object sender, EventArgs e)
-        {
-            DialogResult dr = MessageBox.Show("必須重新啟動以套用新版, 是否現在重新啟動?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dr == System.Windows.Forms.DialogResult.Yes)
-                Application.Restart();
         }
 
         private void toolStrip1_EndDrag(object sender, EventArgs e)

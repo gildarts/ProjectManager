@@ -12,7 +12,6 @@ using System.IO;
 using System.Diagnostics;
 using System.Threading;
 using ProjectManager.Downloader;
-using FISCA.Deployment;
 
 namespace ProjectManager
 {
@@ -25,31 +24,9 @@ namespace ProjectManager
 
         private void CheckVersionForm_Load(object sender, EventArgs e)
         {
-            Version serverVer = new Version(1, 0, 0, 0);
-            ManifestResolver r = new ManifestResolver(Program.UpdateURL, VersionOption.Stable);
-            try
-            {
-                r.Resolve();
-                serverVer = r.ReleaseManifest.Version;
-            }
-            catch
-            {
-            }
-
-            lblLastest.Text = "最新版本 : " + serverVer;
-
-            Version localVersion = new Version("1.0.0.0");
-            try
-            {
-                ReleaseManifest rm = new ReleaseManifest();
-                rm.Load(Path.Combine(Application.StartupPath, "release.xml"));
-                localVersion = rm.Version;
-            }
-            catch
-            {
-                localVersion = MainForm.Version;
-            }
-            lblCurrent.Text = "目前版本 : " + localVersion.ToString();
+            // 已停用自動更新，只顯示目前版本
+            lblLastest.Visible = false;
+            lblCurrent.Text = "目前版本 : " + MainForm.Version.ToString();
         }
     }
 }

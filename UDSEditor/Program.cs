@@ -5,31 +5,22 @@ using System.Windows.Forms;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
-using System.IO;
-using FISCA.Deployment;
 
 namespace ProjectManager
 {
     static class Program
     {
-        public static string UpdateURL = "http://module.ischool.com.tw/module/148/ProjectManager/app.xml";
         /// <summary>
         /// 應用程式的主要進入點。
         /// </summary>
         [STAThread]
         static void Main()
         {
+            // 注意：全域關閉 TLS 憑證驗證（Greening / Module / DSA 連線都不驗），為了相容自簽憑證的主機而保留
             ServicePointManager.ServerCertificateValidationCallback = delegate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
             {
                 return true;
             };
-
-            string script = Path.Combine(Application.StartupPath, "_update_padding.xml");
-            if (File.Exists(script))
-            {
-                UpdateHelper.ExecuteScript(script, true);
-                return;
-            }
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

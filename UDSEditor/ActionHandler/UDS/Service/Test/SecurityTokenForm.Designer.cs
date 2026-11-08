@@ -106,7 +106,7 @@
             this.txtProvider.Name = "txtProvider";
             this.txtProvider.Size = new System.Drawing.Size(253, 23);
             this.txtProvider.TabIndex = 4;
-            this.txtProvider.Text = "https://auth.ischool.com.tw/dsa/greening";
+            this.txtProvider.Text = "https://greening.ischool.com.tw/dsa/greening";
             this.txtProvider.TextChanged += new System.EventHandler(this.txtProvider_TextChanged);
             // 
             // txtPwd

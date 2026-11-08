@@ -97,7 +97,7 @@
             this.txtProvider.Name = "txtProvider";
             this.txtProvider.Size = new System.Drawing.Size(402, 23);
             this.txtProvider.TabIndex = 5;
-            this.txtProvider.Text = "https://auth.ischool.com.tw/dsa/greening";
+            this.txtProvider.Text = "https://greening.ischool.com.tw/dsa/greening";
             // 
             // label3
             // 

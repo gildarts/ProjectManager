@@ -44,8 +44,8 @@ namespace ProjectManager.Login
 
         private void Login()
         {
-            string greeningURL = "http://10.1.1.163/greening2/shared";
-            string moduleURL = "http://10.1.1.163/modules/shared";
+            string greeningURL = SetupConfigForm.DefaultGreeningURL;
+            string moduleURL = SetupConfigForm.DefaultModuleURL;
 
             XmlDocument doc = new XmlDocument();
             string filename = Path.Combine(Environment.CurrentDirectory, "Setup.config");
@@ -55,8 +55,8 @@ namespace ProjectManager.Login
             {
                 doc.Load(filename);
                 XmlHelper config = new XmlHelper(doc.DocumentElement);
-                greeningURL = config.GetText("GreeningAccessPoint");
-                moduleURL = config.GetText("ModuleAccessPoint");
+                greeningURL = SetupConfigForm.OrDefault(config.GetText("GreeningAccessPoint"), SetupConfigForm.DefaultGreeningURL);
+                moduleURL = SetupConfigForm.OrDefault(config.GetText("ModuleAccessPoint"), SetupConfigForm.DefaultModuleURL);
             }
 
             try

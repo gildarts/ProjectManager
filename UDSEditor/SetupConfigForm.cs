@@ -14,8 +14,17 @@ namespace ProjectManager
 {
     public partial class SetupConfigForm : Form
     {
+        internal const string DefaultGreeningURL = "https://greening.ischool.com.tw/dsa/greening";
+        internal const string DefaultModuleURL = "https://module.ischool.com.tw/is4/shared";
+
         private string _greeningURL;
         private string _moduleURL;
+
+        /// <summary>設定值是空的就用預設值</summary>
+        internal static string OrDefault(string value, string defaultValue)
+        {
+            return string.IsNullOrWhiteSpace(value) ? defaultValue : value.Trim();
+        }
 
         internal event EventHandler SetupChanged;
 
@@ -38,14 +47,17 @@ namespace ProjectManager
 
         private void SetupConfigForm_Load(object sender, EventArgs e)
         {
+            txtGreening.Text = DefaultGreeningURL;
+            txtModule.Text = DefaultModuleURL;
+
             string path = Path.Combine(Environment.CurrentDirectory, "Setup.config");
             if (File.Exists(path))
             {
                 XmlDocument doc = new XmlDocument();
                 doc.Load(path);
                 XmlHelper h = new XmlHelper(doc.DocumentElement);
-                txtGreening.Text = h.GetText("GreeningAccessPoint");
-                txtModule.Text = h.GetText("ModuleAccessPoint");          
+                txtGreening.Text = OrDefault(h.GetText("GreeningAccessPoint"), DefaultGreeningURL);
+                txtModule.Text = OrDefault(h.GetText("ModuleAccessPoint"), DefaultModuleURL);
             }
 
             _greeningURL = txtGreening.Text;

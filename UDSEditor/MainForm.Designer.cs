@@ -70,7 +70,6 @@
             this.cmDeploy = new System.Windows.Forms.ToolStripButton();
             this.tsbtnTest = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsVersionLabel = new System.Windows.Forms.ToolStripLabel();
             this.tsbtnDeployToPhysical = new System.Windows.Forms.ToolStripButton();
             this.tsbtnImportFromPhysical = new System.Windows.Forms.ToolStripButton();
             this.RightToolStripPanel = new System.Windows.Forms.ToolStripPanel();
@@ -346,7 +345,6 @@
             this.cmDeploy,
             this.tsbtnTest,
             this.toolStripSeparator3,
-            this.tsVersionLabel,
             this.tsbtnDeployToPhysical,
             this.tsbtnImportFromPhysical});
             this.toolStrip1.Location = new System.Drawing.Point(90, 0);
@@ -486,16 +484,6 @@
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tsVersionLabel
-            // 
-            this.tsVersionLabel.ForeColor = System.Drawing.Color.Red;
-            this.tsVersionLabel.Image = ((System.Drawing.Image)(resources.GetObject("tsVersionLabel.Image")));
-            this.tsVersionLabel.Name = "tsVersionLabel";
-            this.tsVersionLabel.Size = new System.Drawing.Size(83, 22);
-            this.tsVersionLabel.Text = "已有更新版";
-            this.tsVersionLabel.Visible = false;
-            this.tsVersionLabel.Click += new System.EventHandler(this.tsVersionLabel_Click);
             // 
             // tsbtnDeployToPhysical
             // 
@@ -729,7 +717,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton tsbtnTest;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripLabel tsVersionLabel;
         private System.Windows.Forms.ToolStripPanel RightToolStripPanel;
         private System.Windows.Forms.ToolStripPanel LeftToolStripPanel;
         private System.Windows.Forms.ToolStripContentPanel ContentPanel;

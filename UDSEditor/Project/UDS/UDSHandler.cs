@@ -36,8 +36,13 @@ namespace ProjectManager.Project.UDS
             {
                 ContractHandler ch = new ContractHandler(contractElement);
 
+                // 只有專案內的 Contract 先載入（匯出、部署會用到）；
+                // 專案外的等使用者點到才載入，避免一開專案就下載整站 UDS。
                 if (list.Contains(ch.Name))
+                {
                     Contracts.Add(ch);
+                    ch.EnsureLoaded();
+                }
 
                 AllContracts.Add(ch);
             }
@@ -125,6 +130,8 @@ namespace ProjectManager.Project.UDS
                     XmlElement udt = pref.AddElement("Property[@Name='UDS']", "Contract");
                     udt.SetAttribute("Name", contract.Name);
                     this.Contracts.Add(contract);
+                    // 加入專案的 Contract 可能還沒載入過，匯出、部署會檢查 Ready
+                    contract.EnsureLoaded();
                 }
             }
 

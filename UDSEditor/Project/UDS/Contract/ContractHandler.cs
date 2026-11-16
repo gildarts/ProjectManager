@@ -19,6 +19,8 @@ namespace ProjectManager.Project.UDS.Contract
         internal event EventHandler Reloaded;
 
         internal bool Ready { get; private set; }
+        // 是否正在向開發站台下載 Package / Service 清單
+        internal bool Loading { get; private set; }
         public string Name { get; private set; }
         internal bool Enabled { get; set; }
         internal ExtendType ExtendType { get; private set; }
@@ -58,6 +60,16 @@ namespace ProjectManager.Project.UDS.Contract
             XmlHelper h = new XmlHelper(contractElement);
             Enabled = h.TryGetBoolean("@Enabled", true);
             this.InitDefinition(h.GetElement("Definition"));
+
+            // 不在這裡下載內容：整站 Contract 很多，改成用到才載入（見 EnsureLoaded）
+        }
+
+        /// <summary>
+        /// 還沒載入過才向開發站台下載 Package / Service 清單；已載入或載入中則不重複下載。
+        /// </summary>
+        internal void EnsureLoaded()
+        {
+            if (Ready || Loading) return;
 
             init();
         }
@@ -136,6 +148,7 @@ namespace ProjectManager.Project.UDS.Contract
         private void init()
         {
             Ready = false;
+            Loading = true;
             BackgroundWorker w = new BackgroundWorker();
             w.DoWork += new DoWorkEventHandler(w_DoWork);
             w.RunWorkerCompleted += new RunWorkerCompletedEventHandler(w_RunWorkerCompleted);
@@ -160,6 +173,8 @@ namespace ProjectManager.Project.UDS.Contract
         void w_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (MainForm.IsClosing) return;
+
+            Loading = false;
 
             //Application.DoEvents();
 

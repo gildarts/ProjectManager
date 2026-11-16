@@ -42,7 +42,22 @@ namespace ProjectManager.ActionHandler.UDS.Contract
             this.Editors.Add(xeditor);
             this.CurrentEditor = editor;
             this.Contract.Reloaded += new EventHandler(Contract_Reloaded);
-            this.Reload();
+
+            if (this.Contract.Ready)
+            {
+                // 已經載入過（專案內的 Contract），直接畫出 Package，不重複下載
+                Contract_Reloaded(this.Contract, EventArgs.Empty);
+            }
+            else if (this.Contract.Loading)
+            {
+                // 下載中，等 Reloaded 事件回來再畫
+                Ready = false;
+                this.Node.Text = this.Contract.Name + "(資料準備中...)";
+            }
+            else
+            {
+                this.Reload();
+            }
 
             this.IsFirstClick = false;
         }
@@ -164,6 +179,8 @@ namespace ProjectManager.ActionHandler.UDS.Contract
         {
             if (!this.Contract.Ready)
             {
+                // 還沒點開過的 Contract 先開始載入，稍後再匯出即可
+                this.Contract.EnsureLoaded();
                 MessageBox.Show("Contract 尚未準備完成, 請稍侯再試!", "資訊", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }

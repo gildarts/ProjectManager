@@ -55,6 +55,53 @@ namespace ProjectManager
         public MainForm()
         {
             InitializeComponent();
+            SetupProjectTreeStyle();
+            SetupSignKeyMenu();
+        }
+
+        /// <summary>
+        /// 「工具」選單加上設定 UDS 簽章 key 的項目。
+        /// </summary>
+        private void SetupSignKeyMenu()
+        {
+            ToolStripMenuItem cmSignKey = new ToolStripMenuItem("設定 UDS 簽章 key(&K)");
+            cmSignKey.Click += delegate
+            {
+                ProjectManager.Project.UDS.Sign.UDSSignKeyForm.Prompt("儲存 UDS Service 時會自動送金鑰中心簽章，請貼上簽章 key。");
+            };
+            工具TToolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
+            工具TToolStripMenuItem.DropDownItems.Add(cmSignKey);
+        }
+
+        [System.Runtime.InteropServices.DllImport("uxtheme.dll", CharSet = System.Runtime.InteropServices.CharSet.Unicode)]
+        private static extern int SetWindowTheme(IntPtr hWnd, string pszSubAppName, string pszSubIdList);
+
+        /// <summary>
+        /// 專案樹的外觀：加大列高與縮排、拿掉虛線，並套用檔案總管樣式。
+        /// </summary>
+        private void SetupProjectTreeStyle()
+        {
+            tvProjects.Font = new Font("微軟正黑體", 10F);
+            tvProjects.ItemHeight = 26;
+            tvProjects.Indent = 22;
+            tvProjects.ShowLines = false;       // FullRowSelect 需要關掉連接線才有作用
+            tvProjects.FullRowSelect = true;
+            tvProjects.HotTracking = true;
+            tvProjects.BorderStyle = BorderStyle.None;
+
+            // 檔案總管樣式（箭頭展開鈕、整列反白）；控制代碼重建時要重新套用
+            tvProjects.HandleCreated += delegate { ApplyExplorerTheme(); };
+            if (tvProjects.IsHandleCreated)
+                ApplyExplorerTheme();
+        }
+
+        private void ApplyExplorerTheme()
+        {
+            try
+            {
+                SetWindowTheme(tvProjects.Handle, "explorer", null);
+            }
+            catch { }   // 樣式套不上不影響功能
         }
 
         private void cmServiceConvert_Click(object sender, EventArgs e)

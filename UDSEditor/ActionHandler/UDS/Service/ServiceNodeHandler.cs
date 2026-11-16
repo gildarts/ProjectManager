@@ -95,6 +95,13 @@ namespace ProjectManager.ActionHandler.UDS.Service
             Node.TreeView.AfterLabelEdit -= new NodeLabelEditEventHandler(TreeView_AfterLabelEdit);
             Node.TreeView.LabelEdit = false;
 
+            // 沒輸入或名稱沒變就不用改名（也不必重簽）
+            if (string.IsNullOrWhiteSpace(e.Label) || e.Label == this.ServiceName)
+            {
+                e.CancelEdit = true;
+                return;
+            }
+
             try
             {
                 ServiceDAL.Rename(this.ContractName, this.PackageName, this.ServiceName, e.Label);

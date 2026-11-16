@@ -319,8 +319,12 @@ namespace ProjectManager
             LoginGreening();
         }
 
+        // 本次登入視窗是否真的登入成功（取消或直接關閉視窗則為 false）
+        private bool loginSucceeded;
+
         private void LoginGreening()
         {
+            loginSucceeded = false;
             LoginForm loginForm = new LoginForm();
             loginForm.StartPosition = FormStartPosition.CenterParent;
             loginForm.Logined += new EventHandler<LoginEventArgs>(loginForm_Logined);
@@ -335,6 +339,10 @@ namespace ProjectManager
                 this.Close();
                 return;
             }
+
+            // 重新登入時按取消：維持原本的登入狀態，不重跑登入後流程
+            if (!loginSucceeded)
+                return;
 
             ReloadProjectList();
 
@@ -374,6 +382,7 @@ namespace ProjectManager
         void loginForm_Logined(object sender, LoginEventArgs e)
         {
             MainForm.LoginArgs = e;
+            loginSucceeded = true;
         }
 
         private void LoginDevSite()
@@ -415,24 +424,32 @@ namespace ProjectManager
 
         private static bool CMDExists(string cmd)
         {
-            try
-            {
-                ProcessStartInfo psi = new ProcessStartInfo(cmd);
-                psi.CreateNoWindow = true;
-                psi.WindowStyle = ProcessWindowStyle.Hidden;
-                psi.Arguments = "-v";
+            // 只在 PATH 裡找執行檔，不實際執行。
+            // 以前用 Process.Start(cmd + " -v") 偵測，會把 VSCode 視窗叫出來。
+            char[] sep = new char[] { ';' };
+            string[] exts = (Environment.GetEnvironmentVariable("PATHEXT") ?? ".COM;.EXE;.BAT;.CMD")
+                .Split(sep, StringSplitOptions.RemoveEmptyEntries);
+            string[] dirs = (Environment.GetEnvironmentVariable("PATH") ?? string.Empty)
+                .Split(sep, StringSplitOptions.RemoveEmptyEntries);
 
-                Process pro = new Process();
-                pro.StartInfo = psi;
-                pro.Start();
-                pro.WaitForExit();
-
-                return pro.ExitCode == 0;
-            }
-            catch
+            foreach (string dir in dirs)
             {
-                return false;
+                try
+                {
+                    string folder = dir.Trim().Trim('"');
+                    foreach (string ext in exts)
+                    {
+                        if (System.IO.File.Exists(System.IO.Path.Combine(folder, cmd + ext.Trim())))
+                            return true;
+                    }
+                }
+                catch
+                {
+                    // PATH 裡有不合法的路徑就跳過
+                }
             }
+
+            return false;
         }
 
         void Projects_ProjectAdded(object sender, ProjectEventArgs e)

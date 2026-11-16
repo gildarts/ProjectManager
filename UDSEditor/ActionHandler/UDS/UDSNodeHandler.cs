@@ -67,6 +67,23 @@ namespace ProjectManager.ActionHandler.UDS
 
             this.UDSHandler.ProjectContractChanged += new EventHandler(UDSHandler_ProjectContractChanged);
 
+            TreeView tree = this.Node.TreeView;
+            // 一次加幾百個節點，先暫停重畫，全部加完再畫一次
+            if (tree != null) tree.BeginUpdate();
+            try
+            {
+                BuildContractNodes();
+            }
+            finally
+            {
+                if (tree != null) tree.EndUpdate();
+            }
+
+            this.Node.TreeView.SelectedNode = this.Node;
+        }
+
+        private void BuildContractNodes()
+        {
             foreach (ContractHandler contract in UDSHandler.Contracts)
             {
                 TreeNode node = this.Node.Nodes.Add(contract.Name);
@@ -93,7 +110,6 @@ namespace ProjectManager.ActionHandler.UDS
             OutProjectUDSNode.Text = "專案外 Contract ( 共 " + count + " 個 )";
 
             this.Node.ExpandAll();
-            this.Node.TreeView.SelectedNode = this.Node;
             CollapseOutsideProject();
         }
 

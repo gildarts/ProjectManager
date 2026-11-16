@@ -57,6 +57,76 @@ namespace ProjectManager
             InitializeComponent();
             SetupProjectTreeStyle();
             SetupSignKeyMenu();
+            RestoreWindowPlacement();
+        }
+
+        private const string WindowPlacementName = "MainWindowPlacement";
+
+        /// <summary>
+        /// 還原上次關閉時的視窗位置、大小、是否最大化，以及左右分隔線的位置。
+        /// 沒有紀錄、紀錄壞掉，或上次的位置已經不在任何螢幕上（例如拔掉外接螢幕）就維持預設。
+        /// </summary>
+        private void RestoreWindowPlacement()
+        {
+            try
+            {
+                string saved = MainForm.Storage.GetProperty(WindowPlacementName);
+                if (string.IsNullOrWhiteSpace(saved)) return;
+
+                // 格式：X,Y,寬,高,是否最大化(1/0),分隔線位置
+                string[] parts = saved.Split(',');
+                if (parts.Length < 6) return;
+
+                Rectangle bounds = new Rectangle(int.Parse(parts[0]), int.Parse(parts[1]), int.Parse(parts[2]), int.Parse(parts[3]));
+                bool maximized = parts[4] == "1";
+                int splitter = int.Parse(parts[5]);
+
+                if (bounds.Width < 400 || bounds.Height < 300) return;
+
+                bool visible = false;
+                foreach (Screen screen in Screen.AllScreens)
+                {
+                    Rectangle overlap = Rectangle.Intersect(screen.WorkingArea, bounds);
+                    if (overlap.Width >= 100 && overlap.Height >= 100)
+                    {
+                        visible = true;
+                        break;
+                    }
+                }
+                if (!visible) return;
+
+                this.StartPosition = FormStartPosition.Manual;
+                this.Bounds = bounds;
+                if (maximized)
+                    this.WindowState = FormWindowState.Maximized;
+
+                if (splitter >= 100 && splitter <= bounds.Width - 200)
+                    splitContainer1.SplitterDistance = splitter;
+            }
+            catch
+            {
+                // 紀錄讀不出來就用預設位置，不影響啟動
+            }
+        }
+
+        /// <summary>
+        /// 記下目前的視窗位置；最大化或最小化時記的是還原後的大小。
+        /// </summary>
+        private void SaveWindowPlacement()
+        {
+            try
+            {
+                Rectangle bounds = this.WindowState == FormWindowState.Normal ? this.Bounds : this.RestoreBounds;
+                bool maximized = this.WindowState == FormWindowState.Maximized;
+
+                string value = bounds.X + "," + bounds.Y + "," + bounds.Width + "," + bounds.Height + ","
+                    + (maximized ? "1" : "0") + "," + splitContainer1.SplitterDistance;
+                MainForm.Storage.SetProperty(WindowPlacementName, value);
+            }
+            catch
+            {
+                // 存不了就算了，不擋關閉
+            }
         }
 
         /// <summary>
@@ -253,7 +323,6 @@ namespace ProjectManager
             {
                 tsbtnDelete.Enabled = true;
                 tsbtnDelete.ToolTipText = del.TitleOfDelete;
-                menuProject.Items.Add(del.TitleOfDelete, actImgs.Images["delete"], cmDelete_Click);
             }
 
             IAddable add = handler as IAddable;
@@ -262,7 +331,6 @@ namespace ProjectManager
             {
                 tsbtnAdd.Enabled = true;
                 tsbtnAdd.ToolTipText = add.TitleOfAdd;
-                menuProject.Items.Add(add.TitleOfAdd, actImgs.Images["add"], cmAdd_Click);
             }
 
             IReloadable reload = handler as IReloadable;
@@ -1073,6 +1141,7 @@ namespace ProjectManager
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            SaveWindowPlacement();
             IsClosing = true;
         }
 

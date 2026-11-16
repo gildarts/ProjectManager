@@ -24,6 +24,22 @@ namespace ProjectManager.ActionHandler.UDS.Contract
 
             Node = node;
             Contract = contract;
+
+            // 停用的 Contract 連不上也不能呼叫，在樹上用灰字標出來
+            if (!contract.Enabled)
+            {
+                node.ForeColor = System.Drawing.Color.Gray;
+                node.ToolTipText = "此 Contract 已停用，無法連線或呼叫其中的 Service";
+            }
+            node.Text = this.DisplayName;
+        }
+
+        /// <summary>
+        /// 樹上顯示的文字：停用的 Contract 在名稱後面加上「(停用)」。
+        /// </summary>
+        private string DisplayName
+        {
+            get { return Contract.Enabled ? Contract.Name : Contract.Name + " (停用)"; }
         }
 
         #region INodeHandler 成員
@@ -52,7 +68,7 @@ namespace ProjectManager.ActionHandler.UDS.Contract
             {
                 // 下載中，等 Reloaded 事件回來再畫
                 Ready = false;
-                this.Node.Text = this.Contract.Name + "(資料準備中...)";
+                this.Node.Text = this.DisplayName + "(資料準備中...)";
             }
             else
             {
@@ -97,7 +113,7 @@ namespace ProjectManager.ActionHandler.UDS.Contract
         public void Reload()
         {
             Ready = false;
-            this.Node.Text = this.Contract.Name + "(資料準備中...)";
+            this.Node.Text = this.DisplayName + "(資料準備中...)";
             this.Contract.Reload();
         }
 
@@ -117,7 +133,7 @@ namespace ProjectManager.ActionHandler.UDS.Contract
             }
 
             this.Node.ExpandAll();
-            this.Node.Text = this.Contract.Name;
+            this.Node.Text = this.DisplayName;
             Ready = true;
         }
 
@@ -129,6 +145,8 @@ namespace ProjectManager.ActionHandler.UDS.Contract
         {
             Node.TreeView.AfterLabelEdit += new NodeLabelEditEventHandler(TreeView_AfterLabelEdit);
             Node.TreeView.LabelEdit = true;
+            // 編輯時只顯示純名稱，避免「(停用)」被當成名稱的一部分
+            Node.Text = this.Contract.Name;
             Node.BeginEdit();
         }
 
@@ -145,8 +163,11 @@ namespace ProjectManager.ActionHandler.UDS.Contract
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "重新命名失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                e.CancelEdit = true;
             }
+
+            // 節點文字一律自己設定（含「(停用)」），不讓 TreeView 套用編輯框的內容
+            e.CancelEdit = true;
+            Node.Text = this.DisplayName;
         }
 
         #endregion

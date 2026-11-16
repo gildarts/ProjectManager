@@ -134,15 +134,56 @@ namespace ProjectManager.ActionHandler.UDS.Service.Test
             Connection con = new Connection();
             con.EnableSecureTunnel = true;
             SecurityToken stt = null;
+            string accessPoint = MainForm.CurrentProject.DevSite.AccessPoint;
+            // 目前做到哪一步，失敗時用來判斷卡在哪裡
+            string step = "取得 SecurityToken";
             try
             {
+                Console.WriteLine("[測試登入] 開始：contract=" + _contractName
+                    + "，開發站台=" + accessPoint
+                    + "，方式=" + (rbBasic.Checked ? "基本登入" : "Passport（" + txtProvider.Text + "）"));
+
                 stt = this.GetSecurityToken();
-                con.Connect(MainForm.CurrentProject.DevSite.AccessPoint, _contractName, stt);
+                Console.WriteLine("[測試登入] 已取得 SecurityToken：" + stt.GetType().Name);
+
+                step = "連線開發站台";
+                con.Connect(accessPoint, _contractName, stt);
+                Console.WriteLine("[測試登入] 連線開發站台成功");
+
                 MessageBox.Show("測試成功",  "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);         
             }
             catch(Exception ex)
             {
-                MessageBox.Show("無法登入 :  \n" + ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);                
+                // 完整例外（含型別、內層例外、呼叫堆疊），用來找出實際出錯的位置
+                Console.WriteLine("[測試登入] 失敗於「" + step + "」");
+                Console.WriteLine(ex.ToString());
+
+                string detail = ex.Message;
+                // 這個例外代表站台回了沒加密的錯誤、被連線函式庫蓋掉，要靠下面的重試才知道真正原因
+                bool hidden = ex is KeyNotFoundException;
+
+                // 加密通道會把伺服器的明文錯誤蓋掉；有拿到 token 的話改用不加密再試一次，印出站台真正的回應
+                if (stt != null)
+                {
+                    try
+                    {
+                        Connection plain = new Connection();
+                        plain.EnableSecureTunnel = false;
+                        plain.Connect(accessPoint, _contractName, stt);
+                        Console.WriteLine("[測試登入] 不加密重試：連線成功（問題只發生在加密通道）");
+                        if (hidden)
+                            detail = "加密連線的回應格式不正確（不加密可以連線）。";
+                    }
+                    catch (Exception pex)
+                    {
+                        Console.WriteLine("[測試登入] 不加密重試也失敗：");
+                        Console.WriteLine(pex.ToString());
+                        if (hidden)
+                            detail = pex.Message == "Contract Disabled" ? "這個 Contract 已停用（Contract Disabled）。" : pex.Message;
+                    }
+                }
+
+                MessageBox.Show("無法登入（" + step + "） :  \n" + detail, "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);                
                 return;
             }
         }

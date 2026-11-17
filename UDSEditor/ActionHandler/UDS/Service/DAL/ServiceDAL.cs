@@ -11,6 +11,17 @@ namespace ProjectManager.ActionHandler.UDS.Service.DAL
 {
     class ServiceDAL
     {
+        /// <summary>
+        /// Service 存檔（已簽章）後觸發，參數為 Contract、Package、Service 名稱，樹上的「未簽章」標示據此更新。
+        /// </summary>
+        internal static event Action<string, string, string> ServiceSigned;
+
+        private static void OnServiceSigned(string contractName, string packageName, string serviceName)
+        {
+            if (ServiceSigned != null)
+                ServiceSigned(contractName, packageName, serviceName);
+        }
+
         public static void Rename(string contractName, string packageName, string serviceName, string newName)
         {
             XmlHelper req = new XmlHelper();
@@ -27,7 +38,10 @@ namespace ProjectManager.ActionHandler.UDS.Service.DAL
             MainForm.CurrentProject.SendRequest("UDSManagerService.RenameService", new Envelope(req));
 
             if (signed != null)
+            {
                 SendDefinition(contractName, packageName, newName, signed);
+                OnServiceSigned(contractName, packageName, newName);
+            }
         }
 
         public static XmlElement GetRawService(string contractName, string packageName, string serviceName)
@@ -56,6 +70,7 @@ namespace ProjectManager.ActionHandler.UDS.Service.DAL
         {
             XmlElement signed = UDSSigner.Sign(contractName, packageName, serviceName, definition);
             SendDefinition(contractName, packageName, serviceName, signed);
+            OnServiceSigned(contractName, packageName, serviceName);
         }
 
         private static void SendDefinition(string contractName, string packageName, string serviceName, XmlElement definition)

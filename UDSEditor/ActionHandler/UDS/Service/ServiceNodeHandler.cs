@@ -32,8 +32,19 @@ namespace ProjectManager.ActionHandler.UDS.Service
             this.ContractName = parent.Package.Contract.Name;
             parent.Package.Contract.Renamed += new EventHandler(Contract_Renamed);
 
+            RefreshSignDisplay();
+
             //Service = service;
             //Service.Reloaded += new EventHandler(Service_Reloaded);                       
+        }
+
+        /// <summary>沒簽章的 Service 用紅字並在名稱後面加「（未簽章）」</summary>
+        internal void RefreshSignDisplay()
+        {
+            bool unsigned = this.PackageNodeHandler.Package.IsSigned(this.ServiceName) == false;
+            this.Node.Text = unsigned ? this.ServiceName + "（未簽章）" : this.ServiceName;
+            this.Node.ForeColor = unsigned ? System.Drawing.Color.Firebrick : System.Drawing.Color.Empty;
+            this.Node.ToolTipText = unsigned ? "這個 Service 沒有簽章，DSA 會拒絕執行；重新儲存即可自動簽章" : string.Empty;
         }
 
         void Contract_Renamed(object sender, EventArgs e)
@@ -87,6 +98,8 @@ namespace ProjectManager.ActionHandler.UDS.Service
         {
             Node.TreeView.AfterLabelEdit += new NodeLabelEditEventHandler(TreeView_AfterLabelEdit);
             Node.TreeView.LabelEdit = true;
+            // 編輯時只顯示純名稱，避免「（未簽章）」被當成名稱的一部分
+            Node.Text = this.ServiceName;
             Node.BeginEdit();
         }
 
@@ -96,9 +109,12 @@ namespace ProjectManager.ActionHandler.UDS.Service
             Node.TreeView.LabelEdit = false;
 
             // 沒輸入或名稱沒變就不用改名（也不必重簽）
+            // 節點文字一律自己設定（含「（未簽章）」），不讓 TreeView 套用編輯框的內容
+            e.CancelEdit = true;
+
             if (string.IsNullOrWhiteSpace(e.Label) || e.Label == this.ServiceName)
             {
-                e.CancelEdit = true;
+                RefreshSignDisplay();
                 return;
             }
 
@@ -110,8 +126,8 @@ namespace ProjectManager.ActionHandler.UDS.Service
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "重新命名失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                e.CancelEdit = true;
             }
+            RefreshSignDisplay();
         }
 
         #endregion

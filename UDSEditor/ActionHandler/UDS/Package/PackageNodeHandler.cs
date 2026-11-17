@@ -7,6 +7,7 @@ using ProjectManager.ActionHandler.UDS.Service;
 using ProjectManager.Project.UDS.Package;
 using ProjectManager.Project.UDS.Service;
 using ProjectManager.ActionHandler.UDS.Contract;
+using ProjectManager.ActionHandler.UDS.Service.DAL;
 
 namespace ProjectManager.ActionHandler.UDS.Package
 {
@@ -19,7 +20,41 @@ namespace ProjectManager.ActionHandler.UDS.Package
             this.Package = package;
             this.Node = node;
 
+            ServiceDAL.ServiceSigned += ServiceDAL_ServiceSigned;
             this.Reload();
+        }
+
+        /// <summary>Service 存檔簽章後，更新樹上的「未簽章」標示</summary>
+        void ServiceDAL_ServiceSigned(string contractName, string packageName, string serviceName)
+        {
+            // 節點已經不在樹上（重新整理、換專案）就不再接收
+            if (this.Node.TreeView == null)
+            {
+                ServiceDAL.ServiceSigned -= ServiceDAL_ServiceSigned;
+                return;
+            }
+            if (contractName != this.Package.Contract.Name || packageName != this.Package.Name) return;
+
+            this.Package.SetSigned(serviceName, true);
+            foreach (TreeNode node in this.Node.Nodes)
+            {
+                ServiceNodeHandler sh = node.Tag as ServiceNodeHandler;
+                if (sh != null && sh.ServiceName == serviceName)
+                    sh.RefreshSignDisplay();
+            }
+            RefreshSignDisplay();
+        }
+
+        /// <summary>Package 底下有沒簽章的 Service 就標出數量，並更新上層 Contract</summary>
+        internal void RefreshSignDisplay()
+        {
+            int count = this.Package.UnsignedCount;
+            this.Node.Text = count > 0 ? this.Package.Name + "（" + count + " 個未簽章）" : this.Package.Name;
+            this.Node.ForeColor = count > 0 ? System.Drawing.Color.Firebrick : System.Drawing.Color.Empty;
+
+            ContractNodeHandler contractNode = this.Node.Parent == null ? null : this.Node.Parent.Tag as ContractNodeHandler;
+            if (contractNode != null)
+                contractNode.RefreshDisplay();
         }
 
         #region INodeHandler 成員
@@ -70,6 +105,8 @@ namespace ProjectManager.ActionHandler.UDS.Package
         {
             Node.TreeView.AfterLabelEdit += new NodeLabelEditEventHandler(TreeView_AfterLabelEdit);
             Node.TreeView.LabelEdit = true;
+            // 編輯時只顯示純名稱，避免「（n 個未簽章）」被當成名稱的一部分
+            Node.Text = this.Package.Name;
             Node.BeginEdit();
         }
 
@@ -78,15 +115,18 @@ namespace ProjectManager.ActionHandler.UDS.Package
             Node.TreeView.AfterLabelEdit -= new NodeLabelEditEventHandler(TreeView_AfterLabelEdit);
             Node.TreeView.LabelEdit = false;
 
+            // 節點文字一律自己設定，不讓 TreeView 套用編輯框的內容
+            e.CancelEdit = true;
             try
             {
-                this.Package.Rename(e.Label);
+                if (!string.IsNullOrWhiteSpace(e.Label) && e.Label != this.Package.Name)
+                    this.Package.Rename(e.Label);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "重新命名失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                e.CancelEdit = true;
             }
+            RefreshSignDisplay();
         }
 
         #endregion
@@ -106,6 +146,7 @@ namespace ProjectManager.ActionHandler.UDS.Package
             }
 
             this.Node.ExpandAll();
+            RefreshSignDisplay();
         }
 
         #endregion

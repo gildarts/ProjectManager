@@ -39,7 +39,28 @@ namespace ProjectManager.ActionHandler.UDS.Contract
         /// </summary>
         private string DisplayName
         {
-            get { return Contract.Enabled ? Contract.Name : Contract.Name + " (停用)"; }
+            get
+            {
+                string text = Contract.Enabled ? Contract.Name : Contract.Name + " (停用)";
+
+                // 已載入的 Contract 才知道簽章狀態
+                if (Contract.Ready)
+                {
+                    int unsigned = 0;
+                    foreach (PackageHandler ph in Contract.Packages)
+                        unsigned += ph.UnsignedCount;
+                    if (unsigned > 0)
+                        text += "（" + unsigned + " 個未簽章）";
+                }
+                return text;
+            }
+        }
+
+        /// <summary>重新計算顯示文字（簽章狀態變了時由 Package 節點呼叫）</summary>
+        internal void RefreshDisplay()
+        {
+            if (this.Ready)
+                this.Node.Text = this.DisplayName;
         }
 
         #region INodeHandler 成員

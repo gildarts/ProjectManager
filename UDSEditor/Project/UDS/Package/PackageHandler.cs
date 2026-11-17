@@ -19,6 +19,63 @@ namespace ProjectManager.Project.UDS.Package
         internal ContractHandler Contract { get; private set; }
 
         private List<string> _service;
+
+        /// <summary>各 Service 是否有簽章；沒拿到定義（無法判斷）的不放進來</summary>
+        private readonly Dictionary<string, bool> _signed = new Dictionary<string, bool>();
+
+        /// <summary>有簽章 true、沒簽章 false、無法判斷 null</summary>
+        internal bool? IsSigned(string serviceName)
+        {
+            bool signed;
+            if (_signed.TryGetValue(serviceName, out signed))
+                return signed;
+            return null;
+        }
+
+        internal void SetSigned(string serviceName, bool signed)
+        {
+            _signed[serviceName] = signed;
+        }
+
+        /// <summary>確定沒有簽章的 Service 數量</summary>
+        internal int UnsignedCount
+        {
+            get
+            {
+                int count = 0;
+                if (_service == null) return 0;
+                foreach (string s in _service)
+                    if (IsSigned(s) == false) count++;
+                return count;
+            }
+        }
+
+        /// <summary>
+        /// 從匯出的 &lt;Service&gt; 讀簽章狀態：簽章是 &lt;Definition&gt; 底下的註解 &lt;!--keyhub-sig:...--&gt;。
+        /// 只看有沒有，不驗證簽章是否有效。
+        /// </summary>
+        private void ReadSignState(XmlElement serviceElement)
+        {
+            string name = serviceElement.GetAttribute("Name");
+            XmlElement definition = serviceElement.SelectSingleNode("Definition") as XmlElement;
+            if (definition == null)
+            {
+                _signed.Remove(name);
+                return;
+            }
+
+            bool signed = false;
+            foreach (XmlNode child in definition.ChildNodes)
+            {
+                XmlComment comment = child as XmlComment;
+                if (comment != null && comment.Value.Trim().StartsWith("keyhub-sig:"))
+                {
+                    signed = true;
+                    break;
+                }
+            }
+            _signed[name] = signed;
+        }
         internal List<string> Services
         {
             get
@@ -48,6 +105,7 @@ namespace ProjectManager.Project.UDS.Package
             {
                 string serviceName = each.GetAttribute("Name");
                 _service.Add(serviceName);
+                ReadSignState(each);
             }
         }
 
@@ -90,6 +148,7 @@ namespace ProjectManager.Project.UDS.Package
             {
                 string serviceName = each.GetAttribute("Name");
                 _service.Add(serviceName);
+                ReadSignState(each);
             }
         }
 

@@ -254,16 +254,23 @@ namespace ProjectManager
                 ConnectingForm waitForm = new ConnectingForm("正在連線專案『" + projectName + "』的開發站台...", connect);
                 if (waitForm.ShowDialog(this) != DialogResult.OK)
                 {
-                    // 取消：不載入，並清掉上次專案，下次啟動不會再自動連線
+                    // 取消：一樣先把專案結構畫出來，要用時再按「重新連線」。
+                    // 清掉上次專案，下次啟動不會再自動連線卡住
                     MainForm.Storage.SetProperty("LastestProject", string.Empty);
-                    foreach (ToolStripMenuItem item in cmOpenProject.DropDownItems)
-                        item.Checked = false;
-                    MainForm.CurrentProject = null;
-                    tvProjects.Nodes.Clear();
-                    tvProjects.Nodes.Add("尚無載入專案");
+                    MainForm.CurrentProject = loading;
+                    ShowOfflineProject(loading, ConnectResult.Cancelled);
                     return;
                 }
-                loading.HandleConnectResult(connect.IsFaulted ? ConnectResult.ConnectFail : connect.Result, true);
+                ConnectResult result = connect.IsFaulted ? ConnectResult.ConnectFail : connect.Result;
+                if (result == ConnectResult.NoDevSite || result == ConnectResult.ConnectFail)
+                {
+                    // 連不上開發站台：不跳視窗，先把專案結構畫出來，右邊再讓使用者設定或重連
+                    MainForm.CurrentProject = loading;
+                    ProjectBrowserForm.MarkOpened(projectName);
+                    ShowOfflineProject(loading, result);
+                    return;
+                }
+                loading.HandleConnectResult(result, true);
             }
             MainForm.CurrentProject = loading;
 
@@ -309,7 +316,16 @@ namespace ProjectManager
             udsNodeHandler.Reload();
             MainForm.CurrentUDS = udsNodeHandler.UDSHandler;
 
-            TreeNode fileNode = tn.Nodes.Add("檔案管理");
+            AddFileNode(tn);
+            tvProjects.ExpandAll();
+            udtNodeHandler.CollapseOutsideProject();
+            udsNodeHandler.CollapseOutsideProject();
+        }
+
+        /// <summary>檔案管理節點（不需開發站台，離線時也可以用）</summary>
+        private void AddFileNode(TreeNode projectNode)
+        {
+            TreeNode fileNode = projectNode.Nodes.Add("檔案管理");
             fileNode.SelectedImageKey = "upload";
             fileNode.ImageKey = "upload";
 
@@ -325,9 +341,61 @@ namespace ProjectManager
             {
                 fileNode.ToolTipText = "檔案管理伺服器登入失敗";
             }
+        }
+
+        /// <summary>
+        /// 開發站台連不上時，用專案設定裡記錄的 Contract、資料表名稱畫出灰色的結構。
+        /// 點這些節點右邊會顯示開發站台設定畫面；檔案管理不需開發站台，照常可用。
+        /// </summary>
+        private void ShowOfflineProject(ProjectHandler project, ConnectResult result)
+        {
+            string projectName = project.Name;
+            OfflineProjectState state = new OfflineProjectState(project, result, delegate
+            {
+                // 從右邊畫面的按鈕觸發，等按鈕事件結束再重建整棵樹
+                this.BeginInvoke(new Action(delegate { LoadDevProject(projectName); }));
+            });
+
+            MainForm.CurrentUDT = null;
+            MainForm.CurrentUDS = null;
+
+            tvProjects.Nodes.Clear();
+
+            string reason = result == ConnectResult.NoDevSite ? "尚未設定開發站台"
+                          : result == ConnectResult.Cancelled ? "已取消連線"
+                          : "開發站台未連線";
+            TreeNode tn = tvProjects.Nodes.Add(projectName + " ( " + reason + " )");
+            tn.ImageKey = "project";
+            tn.SelectedImageKey = "project";
+            tn.ForeColor = Color.Gray;
+            tn.ToolTipText = "點選後在右邊設定開發站台或重新連線";
+            tn.Tag = new OfflineProjectNodeHandler(tn, state);
+
+            AddOfflineGroup(tn, state, "UDT", "udts", "udt", "自訂資料表", project.ListPreferenceNames("Property[@Name='UDT']/UDT"));
+            AddOfflineGroup(tn, state, "UDS", "udss", "contracts", "自訂服務", project.ListPreferenceNames("Property[@Name='UDS']/Contract"));
+
+            AddFileNode(tn);
             tvProjects.ExpandAll();
-            udtNodeHandler.CollapseOutsideProject();
-            udsNodeHandler.CollapseOutsideProject();
+            tvProjects.SelectedNode = tn;
+        }
+
+        private void AddOfflineGroup(TreeNode parent, OfflineProjectState state, string text, string imageKey, string childImageKey, string tip, List<string> names)
+        {
+            TreeNode group = parent.Nodes.Add(text);
+            group.ImageKey = imageKey;
+            group.SelectedImageKey = imageKey;
+            group.ForeColor = Color.Gray;
+            group.ToolTipText = tip;
+            group.Tag = new OfflineProjectNodeHandler(group, state);
+
+            foreach (string name in names)
+            {
+                TreeNode child = group.Nodes.Add(name);
+                child.ImageKey = childImageKey;
+                child.SelectedImageKey = childImageKey;
+                child.ForeColor = Color.Gray;
+                child.Tag = new OfflineProjectNodeHandler(child, state);
+            }
         }
 
         void projectNodeHandler_Reloaded(object sender, EventArgs e)
@@ -450,6 +518,13 @@ namespace ProjectManager
                     item.Text = string.Empty;
                     item.Tag = editable;
                 }
+
+                // 需要先設定的節點（離線專案、未設定本機目錄的檔案管理）點一下就顯示設定畫面，不用雙擊
+                FileNodeHandler fileHandler = handler as FileNodeHandler;
+                bool needSetup = handler is OfflineProjectNodeHandler
+                              || (fileHandler != null && fileHandler.ModuleHandler == null);
+                if (needSetup && manager.CurrentEditor != null)
+                    DoEdit(manager.CurrentEditor);
             }
         }
 

@@ -113,7 +113,7 @@ namespace ProjectManager.Project
             DialogResult dr = MessageBox.Show(msg, "無法連線", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
             if (dr == DialogResult.No) return;
 
-            ResetDevSiteForm dsf = new ResetDevSiteForm(name, DevSite);
+            ResetDevSiteForm dsf = new ResetDevSiteForm(name, DevSite ?? new DevSiteLoginInfo());
             dsf.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             dsf.Completed += delegate(object sender, EventArgs arg)
             {
@@ -160,16 +160,46 @@ namespace ProjectManager.Project
                 }
             }
 
-            XmlHelper h = new XmlHelper(this.Preference);
-            XmlElement de = h.GetElement("Property/DevSite");
-            XmlNode dep = de.ParentNode;
-            dep.RemoveChild(de);
-            de = devSite.XmlContent.GetElement(".");
-            XmlNode node = dep.OwnerDocument.ImportNode(de, true);
-            dep.AppendChild(node);
+            SaveDevSite(devSite);
+        }
 
-            if (MainForm.CurrentProject != null)
-                MainForm.CurrentProject.UpdateProjectPreference(this.Preference);
+        /// <summary>
+        /// 把開發站台設定寫回這個專案的設定並存到 Greening。
+        /// 原本是用 MainForm.CurrentProject 存檔：開專案時 CurrentProject 還是「上一個」專案，
+        /// 會把這個專案的設定寫進上一個專案；沒有開過專案時則根本沒存。設定裡沒有 DevSite 時也會當掉。
+        /// </summary>
+        internal void SaveDevSite(DevSiteLoginInfo devSite)
+        {
+            this.DevSite = devSite;
+            if (this.Preference == null) return;
+
+            XmlHelper h = new XmlHelper(this.Preference);
+            XmlElement prop = h.GetElement("Property[@Name='DevSite']");
+            if (prop == null)
+            {
+                prop = h.AddElement(".", "Property");
+                prop.SetAttribute("Name", "DevSite");
+            }
+            prop.InnerXml = string.Empty;
+            prop.AppendChild(prop.OwnerDocument.ImportNode(devSite.XmlContent.GetElement("."), true));
+
+            this.UpdateProjectPreference(this.Preference);
+        }
+
+        /// <summary>
+        /// 從專案設定讀出專案內的名稱清單（不需連線開發站台）。
+        /// xpath 例：Property[@Name='UDS']/Contract、Property[@Name='UDT']/UDT
+        /// </summary>
+        internal List<string> ListPreferenceNames(string xpath)
+        {
+            List<string> names = new List<string>();
+            if (this.Preference == null) return names;
+
+            XmlHelper h = new XmlHelper(this.Preference);
+            foreach (XmlElement e in h.GetElements(xpath))
+                names.Add(e.GetAttribute("Name"));
+            names.Sort(StringComparer.OrdinalIgnoreCase);
+            return names;
         }
 
         internal UDTHandler GetUDT()
@@ -385,6 +415,9 @@ namespace ProjectManager.Project
 
     internal enum ConnectResult
     {
-        Succeed, NoPreference, NoDevSite, ConnectFail
+        Succeed, NoPreference, NoDevSite, ConnectFail,
+
+        /// <summary>使用者在連線等待畫面按了取消（只用於顯示離線結構）</summary>
+        Cancelled
     }
 }

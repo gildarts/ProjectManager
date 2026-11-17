@@ -68,10 +68,10 @@ namespace ProjectManager.Project.UDS.Sign
                 if (key.Length == 0 || prompt != null)
                 {
                     if (prompt == null)
-                        prompt = "儲存 UDS Service 前需要先設定簽章 key。";
+                        prompt = "簽章 UDS Service 前需要先設定簽章 key。";
 
                     if (!UDSSignKeyForm.Prompt(prompt))
-                        throw new UDSSignException("尚未設定有效的 UDS 簽章 key，已取消儲存。");
+                        throw new UDSSignException("尚未設定有效的 UDS 簽章 key，已取消簽章。");
 
                     prompt = null;
                     continue;

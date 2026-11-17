@@ -20,22 +20,22 @@ namespace ProjectManager.ActionHandler.UDS.Package
             this.Package = package;
             this.Node = node;
 
-            ServiceDAL.ServiceSigned += ServiceDAL_ServiceSigned;
+            ServiceDAL.SignStateChanged += ServiceDAL_SignStateChanged;
             this.Reload();
         }
 
-        /// <summary>Service 存檔簽章後，更新樹上的「未簽章」標示</summary>
-        void ServiceDAL_ServiceSigned(string contractName, string packageName, string serviceName)
+        /// <summary>Service 存檔或簽章後，更新樹上的「未簽章」標示</summary>
+        void ServiceDAL_SignStateChanged(string contractName, string packageName, string serviceName, bool signed)
         {
             // 節點已經不在樹上（重新整理、換專案）就不再接收
             if (this.Node.TreeView == null)
             {
-                ServiceDAL.ServiceSigned -= ServiceDAL_ServiceSigned;
+                ServiceDAL.SignStateChanged -= ServiceDAL_SignStateChanged;
                 return;
             }
             if (contractName != this.Package.Contract.Name || packageName != this.Package.Name) return;
 
-            this.Package.SetSigned(serviceName, true);
+            this.Package.SetSigned(serviceName, signed);
             foreach (TreeNode node in this.Node.Nodes)
             {
                 ServiceNodeHandler sh = node.Tag as ServiceNodeHandler;

@@ -171,7 +171,7 @@ namespace ProjectManager
             ToolStripMenuItem cmSignKey = new ToolStripMenuItem("設定 UDS 簽章 key(&K)");
             cmSignKey.Click += delegate
             {
-                ProjectManager.Project.UDS.Sign.UDSSignKeyForm.Prompt("儲存 UDS Service 時會自動送金鑰中心簽章，請貼上簽章 key。");
+                ProjectManager.Project.UDS.Sign.UDSSignKeyForm.Prompt("在 Service 上按右鍵「簽章 Service」時會送金鑰中心簽章，請貼上簽章 key。");
             };
             工具TToolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
             工具TToolStripMenuItem.DropDownItems.Add(cmSignKey);
@@ -765,6 +765,11 @@ namespace ProjectManager
                 if (testable != null)
                     menuProject.Items.Add(testable.TitleOfTest, actImgs.Images[testable.TestImageKey], cmTest_Click);
 
+                //Service 簽章（一次一個，需確認）；已簽章的也能重簽
+                ProjectManager.ActionHandler.UDS.Service.ServiceNodeHandler signService = e.Node.Tag as ProjectManager.ActionHandler.UDS.Service.ServiceNodeHandler;
+                if (signService != null)
+                    menuProject.Items.Add((signService.IsUnsigned ? "簽章" : "重新簽章") + " Service『" + signService.ServiceName + "』(&S)...", null, delegate { SignService(signService); });
+
                 //判斷是否可以匯出
                 ToolStripMenuItem cmExport = new ToolStripMenuItem("匯出(&E)");
                 this.CheckMenuItemVisiable(typeof(IExportable), cmExport);
@@ -1110,7 +1115,8 @@ namespace ProjectManager
             if (editor != null)
             {
                 editor.OnStartEditing();
-                rsbtnSave.Enabled = false;
+                // 儲存一直可以按，不比對內容有沒有改
+                rsbtnSave.Enabled = true;
                 this.SetEditor(editor.Editor);
 
                 editor.EditorChanged += delegate (object s, EventArgs arg)
@@ -1125,7 +1131,6 @@ namespace ProjectManager
                 editor.ChangeRecovered += delegate (object s, EventArgs arg)
                 {
                     _currentDataChanged = false;
-                    rsbtnSave.Enabled = false;
                 };
 
                 if (_currentEditable != null)
@@ -1136,6 +1141,39 @@ namespace ProjectManager
                 _currentEditable = editor;
                 _currentEditable.IsEditing = true;
                 _currentEditable.EditorReloaded += new EventHandler(_currentEditable_EditorReloaded);
+            }
+        }
+
+        /// <summary>
+        /// 簽章一個 Service。正在編輯且有沒存的修改時不簽（簽的是站台上的內容，容易搞混）；
+        /// 簽完重新載入它的編輯器，讓畫面跟站台上的內容一致。
+        /// </summary>
+        private void SignService(ProjectManager.ActionHandler.UDS.Service.ServiceNodeHandler service)
+        {
+            bool editingThis = _currentEditable != null && service.Editors != null && service.Editors.Contains(_currentEditable);
+            if (editingThis && _currentDataChanged)
+            {
+                MessageBox.Show("Service「" + service.ServiceName + "」有尚未儲存的修改，請先儲存或放棄修改再簽章。",
+                    "簽章 Service", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            int modeIndex = editingThis ? service.Editors.IndexOf(_currentEditable) : -1;
+
+            if (!service.SignCurrentDefinition()) return;
+
+            // 下次選到時重新讀取定義；目前就選在它上面的話馬上重載，並回到原本的編輯模式
+            service.ResetEditors();
+            if (tvProjects.SelectedNode == service.Node)
+            {
+                if (editingThis)
+                {
+                    _currentEditable.IsEditing = false;
+                    _currentEditable.EditorReloaded -= new EventHandler(_currentEditable_EditorReloaded);
+                    _currentEditable = null;
+                }
+                tvProjects_AfterSelect(tvProjects, new TreeViewEventArgs(service.Node));
+                if (modeIndex >= 0 && service.Editors != null && modeIndex < service.Editors.Count)
+                    DoEdit(service.Editors[modeIndex]);
             }
         }
 

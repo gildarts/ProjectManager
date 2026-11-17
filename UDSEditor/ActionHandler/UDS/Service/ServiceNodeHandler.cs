@@ -44,7 +44,51 @@ namespace ProjectManager.ActionHandler.UDS.Service
             bool unsigned = this.PackageNodeHandler.Package.IsSigned(this.ServiceName) == false;
             this.Node.Text = unsigned ? this.ServiceName + "（未簽章）" : this.ServiceName;
             this.Node.ForeColor = unsigned ? System.Drawing.Color.Firebrick : System.Drawing.Color.Empty;
-            this.Node.ToolTipText = unsigned ? "這個 Service 沒有簽章，DSA 會拒絕執行；重新儲存即可自動簽章" : string.Empty;
+            this.Node.ToolTipText = unsigned ? "這個 Service 沒有簽章，DSA 會拒絕執行；確認內容後按右鍵「簽章 Service」" : string.Empty;
+        }
+
+        /// <summary>這個 Service 目前被判定為沒有簽章</summary>
+        internal bool IsUnsigned
+        {
+            get { return this.PackageNodeHandler.Package.IsSigned(this.ServiceName) == false; }
+        }
+
+        /// <summary>
+        /// 不改內容，直接把開發站台上目前的定義重新簽章後存回去。
+        /// 簽章代表確認這份內容可以執行，所以一次只簽一個，並先讓使用者確認。
+        /// </summary>
+        /// <returns>簽章成功回傳 true；取消或失敗回傳 false</returns>
+        internal bool SignCurrentDefinition()
+        {
+            DialogResult dr = MessageBox.Show(
+                (this.IsUnsigned ? "" : "這個 Service 已經有簽章，重新簽章會以新的簽章取代。\n\n")
+                + "將以開發站台上目前的內容為 Service「" + this.ServiceName + "」簽章。\n\n"
+                + "簽章代表確認這份內容可以執行，建議先打開檢查過內容再簽。\n"
+                + "\n確定要簽章？",
+                "簽章 Service", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (dr != DialogResult.OK) return false;
+
+            try
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                ServiceDAL.Sign(this.ContractName, this.PackageName, this.ServiceName);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("簽章失敗：\n" + ex.Message, "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        /// <summary>丟掉目前的編輯器，下次選到時重新從站台讀取定義</summary>
+        internal void ResetEditors()
+        {
+            this.IsFirstClick = true;
         }
 
         void Contract_Renamed(object sender, EventArgs e)

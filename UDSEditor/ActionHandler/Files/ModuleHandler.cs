@@ -40,7 +40,10 @@ namespace ProjectManager.ActionHandler.Files
 
         internal void StartWatch()
         {
-            this.LocalPath = MainForm.CurrentProject.TryGetLocalPath();
+            // 沒設定本機目錄就先不監看，等使用者在畫面上設定（不在開專案時跳視窗）
+            this.LocalPath = MainForm.CurrentProject.GetConfiguredLocalPath();
+            if (string.IsNullOrWhiteSpace(this.LocalPath))
+                return;
 
             FileSystemWatcher w = new FileSystemWatcher(this.LocalPath);
             w.IncludeSubdirectories = true;

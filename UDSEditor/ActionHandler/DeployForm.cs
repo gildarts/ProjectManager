@@ -99,6 +99,11 @@ namespace ProjectManager.ActionHandler
             if (!valid) return;
 
             string localPath = MainForm.CurrentProject.TryGetLocalPath();
+            if (string.IsNullOrWhiteSpace(localPath))
+            {
+                MessageBox.Show("尚未設定本機目錄，無法部署。", "部署", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             string path = Path.Combine(localPath, "udm.xml");
             string dirPath = Path.Combine(localPath, "udm");
 

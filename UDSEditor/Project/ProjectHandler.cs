@@ -285,6 +285,20 @@ namespace ProjectManager.Project
             return SetLocalPath();
         }
 
+        /// <summary>
+        /// 取得已設定且存在的本機目錄；沒有設定或資料夾不存在回傳空字串，不會跳出設定畫面。
+        /// </summary>
+        internal string GetConfiguredLocalPath()
+        {
+            string path = LocalPath;
+            if (string.IsNullOrWhiteSpace(path))
+                path = GetStoragePath();
+
+            if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
+                return path;
+            return string.Empty;
+        }
+
         private string GetStoragePath()
         {
             string path = MainForm.Storage.GetPropertyValue(SetLocalPathForm.LOCAL_FILE_PATH, this.Name);
@@ -303,7 +317,8 @@ namespace ProjectManager.Project
             pathForm.ShowDialog();
 
             LocalPath = MainForm.Storage.GetPropertyValue(SetLocalPathForm.LOCAL_FILE_PATH, this.Name);
-            return LocalPath;
+            // 使用者取消、或路徑不存在時回傳空字串，呼叫端據此中止
+            return Directory.Exists(LocalPath) ? LocalPath : string.Empty;
         }
 
         internal static bool ValidName(string p)

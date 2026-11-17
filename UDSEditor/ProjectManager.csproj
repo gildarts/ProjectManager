@@ -126,6 +126,9 @@
       <DependentUpon>DownloadForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ActionHandler\Files\FileEditable.cs" />
+    <Compile Include="ActionHandler\Files\LocalPathSetupPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="ActionHandler\Files\FileNodeHandler.cs" />
     <Compile Include="ActionHandler\Files\FileUIEditor.cs">
       <SubType>UserControl</SubType>

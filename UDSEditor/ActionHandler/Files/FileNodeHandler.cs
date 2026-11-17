@@ -50,6 +50,32 @@ namespace ProjectManager.ActionHandler.Files
         {
             this.ProjectName = MainForm.CurrentProject.Name;
 
+            // 重新載入前先停掉舊的資料夾監看，避免重複監看
+            if (ModuleHandler != null)
+                ModuleHandler.Dispose();
+
+            if (this.Editors == null || this.Editors.Count == 0)
+            {
+                this.Editors = new List<IEditable>();
+                FileEditable edit = new FileEditable(this);
+
+                Editors.Add(edit);
+                this.CurrentEditor = edit;
+            }
+
+            // 還沒設定本機目錄：先不建立檔案管理，點節點時右邊顯示設定畫面
+            if (string.IsNullOrWhiteSpace(MainForm.CurrentProject.GetConfiguredLocalPath()))
+            {
+                ModuleHandler = null;
+                this.Node.Text = "檔案管理 ( 尚未設定本機目錄 )";
+                this.Node.ImageKey = "warning";
+                this.Node.SelectedImageKey = "warning";
+                this.Node.ToolTipText = "點選後在右邊設定本機目錄";
+                RefreshEditor();
+                return;
+            }
+            this.Node.ToolTipText = string.Empty;
+
             try
             {
                 if (!ModuleHandler.Exists(ProjectName))
@@ -75,25 +101,14 @@ namespace ProjectManager.ActionHandler.Files
                     this.Node.ToolTipText = ex.Message;
                 }
 
+                ModuleHandler = null;
                 this.Editors = new List<IEditable>();
+                this.CurrentEditor = null;
                 return;
             }
 
             //ModuleHandler.StatusChanged += new EventHandler<ModuleStatusEventArgs>(ModuleHandler_StatusChanged);
-            if (this.Editors == null)
-            {
-                this.Editors = new List<IEditable>();
-                FileEditable edit = new FileEditable(this);
-
-                Editors.Add(edit);
-                this.CurrentEditor = edit;
-            }
-            else
-            {
-                FileEditable fe = CurrentEditor as FileEditable;
-                FileUIEditor ui = fe.Editor as FileUIEditor;
-                ui.Reload();
-            }
+            RefreshEditor();
 
             if (Directory.Exists(ModuleHandler.LocalPath))
                 this.Node.Text = "檔案管理 ( 本機路徑 : " + ModuleHandler.LocalPath + " )";
@@ -103,12 +118,31 @@ namespace ProjectManager.ActionHandler.Files
             ModuleHandler.CheckItemStatus();
         }
 
+        /// <summary>
+        /// 依目前狀態更新右邊畫面：有本機目錄顯示檔案管理，沒有就顯示設定畫面。
+        /// </summary>
+        private void RefreshEditor()
+        {
+            FileEditable fe = CurrentEditor as FileEditable;
+            if (fe != null)
+                fe.Refresh();
+        }
+
+        /// <summary>沒有本機目錄時，同步、刪除等動作先請使用者設定</summary>
+        private bool EnsureModuleReady()
+        {
+            if (ModuleHandler != null) return true;
+            Setup();
+            return false;
+        }
+
         #endregion
 
         #region IDeleteable 成員
 
         public void Delete()
         {
+            if (!EnsureModuleReady()) return;
             if (MessageBox.Show("確定刪除所有檔案?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes) return;
 
             try
@@ -132,6 +166,8 @@ namespace ProjectManager.ActionHandler.Files
 
         public void Upload()
         {
+            if (!EnsureModuleReady()) return;
+
             string msg = "確定要「上傳」差異檔案到主機？這會覆蓋主機的檔案。";
             if (MessageBox.Show(msg, "檔案同步", MessageBoxButtons.YesNo) == DialogResult.No)
                 return;
@@ -179,9 +215,7 @@ namespace ProjectManager.ActionHandler.Files
             //if (NeedUploadChanged != null)
             //    NeedUploadChanged.Invoke(this, new NeedStatusEventArgs(false));
 
-            FileEditable fe = CurrentEditor as FileEditable;
-            FileUIEditor ui = fe.Editor as FileUIEditor;
-            ui.Reload();
+            RefreshEditor();
         }
 
         #endregion
@@ -190,6 +224,8 @@ namespace ProjectManager.ActionHandler.Files
 
         public void Download()
         {
+            if (!EnsureModuleReady()) return;
+
             if (!ModuleHandler.LocalPathExists) return;
 
             string msg = "確定要「下載」差異檔案到本機？這會覆蓋本機的檔案。";
@@ -209,9 +245,7 @@ namespace ProjectManager.ActionHandler.Files
             //if (NeedDownloadChanged != null)
             //    NeedDownloadChanged.Invoke(this, new NeedStatusEventArgs(false));
 
-            FileEditable fe = CurrentEditor as FileEditable;
-            FileUIEditor ui = fe.Editor as FileUIEditor;
-            ui.Reload();
+            RefreshEditor();
         }
 
         void dlForm_FormClosed(object sender, FormClosedEventArgs e)

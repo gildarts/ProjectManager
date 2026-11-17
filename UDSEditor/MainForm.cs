@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -58,6 +59,39 @@ namespace ProjectManager
             SetupProjectTreeStyle();
             SetupSignKeyMenu();
             RestoreWindowPlacement();
+            SetupOpenProjectMenu();
+        }
+
+        /// <summary>
+        /// 「開啟專案」改成打開專案總覽表單（Ctrl+O），不再用一長串子選單。
+        /// </summary>
+        private void SetupOpenProjectMenu()
+        {
+            cmOpenProject.ShortcutKeys = Keys.Control | Keys.O;
+            cmOpenProject.Click += delegate { ShowProjectBrowser(); };
+        }
+
+        private void ShowProjectBrowser()
+        {
+            if (MainForm.LoginArgs == null) return;
+
+            List<string> names;
+            try
+            {
+                names = MainForm.Projects.ListProjects();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("無法取得專案清單：" + ex.Message, "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string current = MainForm.CurrentProject == null ? null : MainForm.CurrentProject.Name;
+            string selected = ProjectBrowserForm.Prompt(this, names, current);
+            if (string.IsNullOrEmpty(selected)) return;
+
+            this.LoadDevProject(selected);
+            MainForm.Storage.SetProperty("LastestProject", selected);
         }
 
         private const string WindowPlacementName = "MainWindowPlacement";
@@ -238,6 +272,8 @@ namespace ProjectManager
 
             if (CurrentProject.Status == ProjectStatus.LoadFail)
                 return;
+
+            ProjectBrowserForm.MarkOpened(projectName);
 
             //ProjectHandler project = null;
             //if (devSite != null)
@@ -492,6 +528,8 @@ namespace ProjectManager
             string lastLoginProject = MainForm.Storage.GetProperty("LastestProject");
             if (!string.IsNullOrWhiteSpace(lastLoginProject))
                 LoadDevProject(lastLoginProject);
+            else if (MainForm.LoginArgs != null)
+                this.Shown += delegate { ShowProjectBrowser(); }; // 沒有上次的專案，直接讓使用者挑
         }
 
         void loginForm_Logined(object sender, LoginEventArgs e)
@@ -587,24 +625,11 @@ namespace ProjectManager
 
         private void ReloadProjectList()
         {
+            // 專案改由專案總覽表單開啟，選單本身不再列出專案
             cmOpenProject.DropDownItems.Clear();
 
-            foreach (string projectName in MainForm.Projects.ListProjects())
-            {
-                ToolStripItem projectItem = cmOpenProject.DropDownItems.Add(projectName);
-                projectItem.Click += delegate (object sender, EventArgs e)
-                {
-                    ToolStripItem item = sender as ToolStripItem;
-                    this.LoadDevProject(item.Text);
-                    MainForm.Storage.SetProperty("LastestProject", item.Text);
-                };
-            }
-
-            if (cmOpenProject.DropDownItems.Count == 0)
-            {
-                ToolStripItem item = cmOpenProject.DropDownItems.Add("( 無 )");
-                item.Enabled = false;
-            }
+            // 先讀一次專案清單：ProjectCollection 其他方法都假設清單已經載入
+            MainForm.Projects.ListProjects();
         }
 
         private void tvProjects_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

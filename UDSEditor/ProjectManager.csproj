@@ -587,6 +587,9 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="Project\ProjectBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Project\ProjectCollection.cs" />
     <Compile Include="Project\ProjectHandler.cs" />
     <Compile Include="Project\UDS\Contract\ContractHandler.cs" />

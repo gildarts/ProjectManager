@@ -78,7 +78,8 @@ namespace ProjectManager.ActionHandler.UDS.Service.Test
         private void Execute()
         {
             Connection con = new Connection();
-            con.EnableSecureTunnel = cmSSLEnable.Checked;
+            // 一律加密連線（以前可選不加密且預設不加密，部分站台會因此連不上）
+            con.EnableSecureTunnel = true;
             SecurityToken stt = null;
             try
             {
@@ -140,18 +141,6 @@ namespace ProjectManager.ActionHandler.UDS.Service.Test
                 doc.Save(filename);
             }
             catch { }
-        }
-
-        private void cmSSLEnable_Click(object sender, EventArgs e)
-        {
-            this.cmSSLEnable.Checked = true;
-            this.cmSSLDisable.Checked = false;
-        }
-
-        private void cmSSLDisable_Click(object sender, EventArgs e)
-        {
-            this.cmSSLEnable.Checked = false;
-            this.cmSSLDisable.Checked = true;
         }
 
         private void cmAuth_Click(object sender, EventArgs e)

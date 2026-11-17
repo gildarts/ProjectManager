@@ -74,8 +74,13 @@ namespace ProjectManager
                     MainForm.DefaultDevSite.TryConnect();
                 else
                 {
-                    Connection connection = new Connection();
-                    connection.Connect(txtAP.Text, "admin", txtUser.Text, txtPwd.Text);
+                    // 用跟實際開專案完全相同的連線方式測試：先 passport、再帳號密碼，一律加密。
+                    DevSiteLoginInfo test = new DevSiteLoginInfo();
+                    test.AccessPoint = txtAP.Text;
+                    test.ContractName = "admin";
+                    test.User = txtUser.Text;
+                    test.Password = txtPwd.Text;
+                    test.TryConnect();
                 }
             }
             catch (Exception ex)

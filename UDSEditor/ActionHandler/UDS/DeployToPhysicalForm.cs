@@ -96,6 +96,8 @@ namespace ProjectManager.ActionHandler.UDS
             XElement result = GetAppDeployElement();
 
             Connection con = new Connection();
+            // 一律加密連線（沒設定時用的是函式庫預設值）
+            con.EnableSecureTunnel = true;
             try
             {
                 con.Connect(txtAccessPoint.Text, txtContract.Text, txtUserName.Text, txtPassword.Text);

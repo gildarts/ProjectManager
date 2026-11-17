@@ -72,8 +72,14 @@ namespace ProjectManager
                     MainForm.DefaultDevSite.TryConnect();
                 else
                 {
-                    Connection connection = new Connection();
-                    connection.Connect(txtAP.Text, cboContract.Text, txtUser.Text, txtPwd.Text);
+                    // 用跟實際開專案完全相同的連線方式測試：先 passport、再帳號密碼，一律加密。
+                    // 以前這裡自己開連線、只用帳號密碼且沒指定加密，會出現這裡失敗、開專案卻正常（或相反）的情況。
+                    DevSiteLoginInfo test = new DevSiteLoginInfo();
+                    test.AccessPoint = txtAP.Text;
+                    test.ContractName = cboContract.Text;
+                    test.User = txtUser.Text;
+                    test.Password = txtPwd.Text;
+                    test.TryConnect();
                 }
             }
             catch (Exception ex)

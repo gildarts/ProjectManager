@@ -43,9 +43,6 @@
             this.cmTemp = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.cmAuth = new System.Windows.Forms.ToolStripMenuItem();
-            this.passport登入ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmSSLEnable = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmSSLDisable = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.tsLabelTime = new System.Windows.Forms.Label();
@@ -193,8 +190,7 @@
             // 
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmAuth,
-            this.passport登入ToolStripMenuItem});
+            this.cmAuth});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -207,33 +203,6 @@
             this.cmAuth.Size = new System.Drawing.Size(138, 22);
             this.cmAuth.Text = "授權設定(&A)";
             this.cmAuth.Click += new System.EventHandler(this.cmAuth_Click);
-            // 
-            // passport登入ToolStripMenuItem
-            // 
-            this.passport登入ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmSSLEnable,
-            this.cmSSLDisable});
-            this.passport登入ToolStripMenuItem.Name = "passport登入ToolStripMenuItem";
-            this.passport登入ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.passport登入ToolStripMenuItem.Text = "加密傳輸";
-            // 
-            // cmSSLEnable
-            // 
-            this.cmSSLEnable.CheckOnClick = true;
-            this.cmSSLEnable.Name = "cmSSLEnable";
-            this.cmSSLEnable.Size = new System.Drawing.Size(128, 22);
-            this.cmSSLEnable.Text = "使用(&Y)";
-            this.cmSSLEnable.Click += new System.EventHandler(this.cmSSLEnable_Click);
-            // 
-            // cmSSLDisable
-            // 
-            this.cmSSLDisable.Checked = true;
-            this.cmSSLDisable.CheckOnClick = true;
-            this.cmSSLDisable.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cmSSLDisable.Name = "cmSSLDisable";
-            this.cmSSLDisable.Size = new System.Drawing.Size(128, 22);
-            this.cmSSLDisable.Text = "不使用(&N)";
-            this.cmSSLDisable.Click += new System.EventHandler(this.cmSSLDisable_Click);
             // 
             // toolStripButton1
             // 
@@ -365,9 +334,6 @@
         private System.Windows.Forms.TabControl tpHeader;
         private System.Windows.Forms.TabPage tpContent;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.ToolStripMenuItem passport登入ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cmSSLEnable;
-        private System.Windows.Forms.ToolStripMenuItem cmSSLDisable;
         private Editor.XmlEditor txtRequest;
         private Editor.XmlEditor txtResponse;
         private Editor.XmlEditor txtHeader;
